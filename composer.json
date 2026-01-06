@@ -1,0 +1,10 @@
+{
+    "name": "mi-proyecto/edu360-paradigma",
+    "description": "Proyecto PHP",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}
