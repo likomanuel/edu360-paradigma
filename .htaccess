@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Forzar WWW (Opcional, según tu preferencia)
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+    # 2. Servir archivos .php o .html si existen físicamente
+    # Esto permite que /contacto busque /contacto.php o /contacto.html
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^([^.]+)$ $1.php [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^([^.]+)$ $1.html [L]
+
+    # 3. Redirigir todo el tráfico a la carpeta /public
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^((?!public/).*)$ public/$1 [L]
+</IfModule>
+
+# Seguridad: Bloquear archivos sensibles
+<FilesMatch "\.(py|env|log|json)$">
+    Require all denied
+</FilesMatch>

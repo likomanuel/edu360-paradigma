@@ -1,0 +1,30 @@
+[06-Jan-2026 19:02:16 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:16 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php:10
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(20): App\Controllers\HomeController->index()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:18 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:18 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php:10
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(20): App\Controllers\HomeController->index()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:23 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php:10
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(20): App\Controllers\HomeController->index()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:23 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:02:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php:10
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(20): App\Controllers\HomeController->index()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 10
+[06-Jan-2026 19:03:46 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 11
+[06-Jan-2026 19:03:46 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\src\Controllers/../views/home/index.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php:11
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(20): App\Controllers\HomeController->index()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\HomeController.php on line 11
