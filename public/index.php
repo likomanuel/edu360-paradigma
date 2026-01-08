@@ -2,6 +2,9 @@
 // Cargar el autoloader de Composer para que tus clases funcionen
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Cargar funciones auxiliares (como base_url)
+require_once __DIR__ . '/../src/helpers.php';
+
 // 1. Obtenemos la URI
 $request = $_SERVER['REQUEST_URI'];
 

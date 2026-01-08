@@ -2,9 +2,9 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'seramermvc';
+    private $db_name = 'edu360';
     private $username = 'root';
-    private $password = '';
+    private $password = 'a10882990';
     private $charset = 'utf8mb4';
 
     /**
