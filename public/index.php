@@ -23,8 +23,15 @@ switch ($route) {
         $controller->index();        
         break;
 
-    case '/contacto':
-        echo "<h1>Página de Contacto</h1>";
+    case '/staging':
+        $controller = new App\Controllers\StagingController(); 
+        $controller->staging();        
+        break;
+
+    case '/session':
+        echo "Session";
+        $controller = new App\Controllers\SessionController(); 
+        $controller->session();        
         break;
 
     default:

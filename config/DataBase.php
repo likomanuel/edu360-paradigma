@@ -24,6 +24,11 @@ class Database {
      * y la almacena en $this->conn.
      */
     public function __construct() {
+        
+        if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
+            $this->db_name = 'edu360_staging';
+        }
+
         $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset={$this->charset}";
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -165,4 +170,26 @@ class Database {
         $stmt = $this->executeQuery($query, $params);
         return $stmt ? $stmt->fetch() : null;
     }
+
+    public function sqlconector($consulta, $params = []) {
+        return $this->executeQuery($consulta, $params);
+    }
+
+    /**
+     * Equivalente a tu antigua row_sqlconector($consulta)
+     * Retorna una única fila como array asociativo
+     */
+    public function row_sqlconector($consulta, $params = []) {
+        $stmt = $this->sqlconector($consulta, $params);
+        return $stmt ? $stmt->fetch() : null;
+    }
+
+    /**
+     * Equivalente a tu antigua array_sqlconector($consulta)
+     * Retorna un array con todos los resultados
+     */
+    public function array_sqlconector($consulta, $params = []) {
+        $stmt = $this->sqlconector($consulta, $params);
+        return $stmt ? $stmt->fetchAll() : [];
+    }    
 }

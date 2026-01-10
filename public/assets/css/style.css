@@ -172,6 +172,183 @@ nav ul li a:hover {
     color: #666;
 }
 
+/* --- SECCIÓN DE LOGIN ESPECTACULAR --- */
+.login-wrapper {
+    /* Ocupa el espacio restante entre header y footer */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    /* Imagen de fondo tecnológica/neuronal */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
+        url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-box {
+    background: var(--bg-card-dark);
+    /* Efecto de cristal esmerilado (backdrop-filter) */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    /* Borde y sombra brillantes */
+    border: 1px solid rgba(0, 168, 232, 0.2);
+    box-shadow: 0 0 40px var(--primary-blue-glow);
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    margin-bottom: 30px;
+}
+
+.login-header i {
+    font-size: 3rem;
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+}
+
+.login-header h2 {
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Estilos de los inputs */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-blue);
+}
+
+.login-input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    /* Espacio para el icono */
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    /* Importante para el padding */
+    transition: all 0.3s ease;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 15px var(--primary-blue-glow);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Fix para el autocompletado de Chrome que pone el fondo amarillo */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--text-light);
+    -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+
+/* Opciones adicionales (recordar / olvidar) */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+    color: var(--text-muted);
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.remember-me input {
+    accent-color: var(--primary-blue);
+}
+
+.forgot-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.forgot-link:hover {
+    color: var(--primary-blue);
+}
+
+/* Botón principal mejorado */
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--primary-blue), #0077a8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 168, 232, 0.4);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 168, 232, 0.6);
+}
+
+/* Pie del login */
+.login-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.login-footer a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
 /* --- FOOTER (INVENTADO) --- */
 footer {
     background-color: #0a0a0a;

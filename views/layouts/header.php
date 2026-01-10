@@ -1,5 +1,5 @@
 <?php
-// La configuración ahora se maneja vía src/helpers.php cargado en index.php
+setcookie("modulo", "staging", time() + 3600, "/");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,13 +34,23 @@
 <body>
 <header>
         <div class="logo">
-            <img src="<?= base_url('/public/assets/img/logo_paradigma_removebg.png') ?>" alt="Logo" width="50" height="40"> Paradigma EDU360
+            <img src="<?= base_url('/public/assets/img/logo_paradigma_removebg.png') ?>" alt="Logo" width="50" height="40"> 
+            <?php if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') { ?>
+                Paradigma EDU360 Staging
+            <?php } else { ?>
+                Paradigma EDU360
+            <?php } ?>
         </div>
         <nav>
             <ul>
                 <li><a href="#">Programas</a></li>
                 <li><a href="#">IA & Neuroeducación</a></li>
-                <li><a href="#">Blog</a></li>
+                <li><a href="<?php 
+                if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
+                    echo base_url('/staging');
+                } else {
+                    echo base_url('/session');
+                } ?>">Iniciar Sesión</a></li>
                 <li><a href="#">Contacto</a></li>
             </ul>
         </nav>
