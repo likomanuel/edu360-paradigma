@@ -111,9 +111,9 @@ if ($method == "GET") {
     }
 
     if(isset($_GET['getencryptedkey'])){
-        $key = $_GET['Key'];
-        $encryptedKey = $modulo->encryptApiKey($key, Modulo::ENCRYPTION_KEY);
-        echo json_encode(array('result' => true, 'message' => 'Key encrypted', 'key' => $encryptedKey));
+        $key = $_GET['key'];
+        $encryptedKey = $modulo->encryptApiKey(trim($key), Modulo::ENCRYPTION_KEY);
+        echo json_encode(array('result' => true, 'message' => 'Key encrypted', 'key' => $encryptedKey), JSON_UNESCAPED_SLASHES);
     }   
 
 }

@@ -24,10 +24,7 @@ class Database {
      * y la almacena en $this->conn.
      */
     public function __construct() {
-        
-        if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
-            $this->db_name = 'edu360_staging';
-        }
+        $this->db_name = $_ENV['DB_NAME'];
 
         $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset={$this->charset}";
         $options = [

@@ -1,4 +1,4 @@
- <?php
+<?php
 // Cargar el autoloader de Composer para que tus clases funcionen
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -9,12 +9,16 @@ require_once __DIR__ . '/../src/helpers.php';
 $request = $_SERVER['REQUEST_URI'];
 
 // 2. Definimos la carpeta base (donde está tu index.php)
-// Esto elimina "/edu360-paradigma" de la ruta
-$base_path = '/edu360-paradigma';
+// Esto elimina el prefijo de la subcarpeta si el proyecto no está en la raíz
+$base_path = $_ENV['BASE_URL'] ?? '/edu360-paradigma';
 $route = str_replace($base_path, '', $request);
 
 // 3. (Opcional) Eliminar parámetros GET si los hubiera (ej: ?id=1)
 $route = explode('?', $route)[0];
+
+// Asegurarse de que la ruta comience con / y no termine con / si no es la raíz
+if ($route == '') $route = '/';
+if ($route != '/' && str_ends_with($route, '/')) $route = rtrim($route, '/');
 
 switch ($route) {
     case '/':
@@ -32,6 +36,11 @@ switch ($route) {
         echo "Session";
         $controller = new App\Controllers\SessionController(); 
         $controller->session();        
+        break;
+
+    case '/closeSession':
+        $controller = new App\Controllers\SessionController(); 
+        $controller->closeSession();        
         break;
 
     default:

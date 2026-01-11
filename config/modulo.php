@@ -63,82 +63,112 @@ class Modulo
     }
     public function enviarPost($url, $datos)
     {
-    // Inicializar cURL
-    $ch = curl_init($url);
+        // Inicializar cURL
+        $ch = curl_init($url);
 
-    // Convertir los datos a formato JSON
-    $payload = json_encode($datos);
+        // Convertir los datos a formato JSON
+        $payload = json_encode($datos);
 
-    // Configurar las opciones de cURL
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($payload)
-    ]);
+        // Configurar las opciones de cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload)
+        ]);
 
-    // Ejecutar la solicitud y obtener la respuesta
-    $respuesta = curl_exec($ch);
-    if (curl_errno($ch)) {
-        $error_msg = curl_error($ch);
-        error_log("\nError en la solicitud POST a {$url}: {$error_msg}", 3, self::LOG_PATH);
-        return 'Curl error: ' . $error_msg;
-    }
-    return $respuesta;
+        // Ejecutar la solicitud y obtener la respuesta
+        $respuesta = curl_exec($ch);
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+            error_log("\nError en la solicitud POST a {$url}: {$error_msg}", 3, self::LOG_PATH);
+            return 'Curl error: ' . $error_msg;
+        }
+        return $respuesta;
     }
 
     public function enviarGet($baseUrl, $datos)
     {
-    // Convierte el array de datos en una cadena de consulta (ej: "tema=petroleo&limite=5")
-    $queryString = http_build_query($datos);
+        // Convierte el array de datos en una cadena de consulta (ej: "tema=petroleo&limite=5")
+        $queryString = http_build_query($datos);
 
-    // Construye la URL completa con los parámetros
-    $urlCompleta = $baseUrl . '?' . $queryString;
+        // Construye la URL completa con los parámetros
+        $urlCompleta = $baseUrl . '?' . $queryString;
 
-    // Inicializar cURL con la URL completa
-    $ch = curl_init($urlCompleta);
+        // Inicializar cURL con la URL completa
+        $ch = curl_init($urlCompleta);
 
-    // Configurar la opción para que cURL devuelva el resultado como una cadena
-    // en lugar de imprimirlo directamente.
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Configurar la opción para que cURL devuelva el resultado como una cadena
+        // en lugar de imprimirlo directamente.
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    // Ejecutar la solicitud y obtener la respuesta
-    $respuesta = curl_exec($ch);
+        // Ejecutar la solicitud y obtener la respuesta
+        $respuesta = curl_exec($ch);
 
-    return $respuesta;
+        return $respuesta;
     }
 
     public function latinFecha($fecha)
     {
-    $date = date_create($fecha);
-    return date_format($date, "d/M h:ia");
+        $date = date_create($fecha);
+        return date_format($date, "d/M h:ia");
     }
-    public function ifUsuarioExist($usuario)
+    public function ifUsuarioExist($usuario):bool
     {
-    if ($this->db->row_sqlconector("select COUNT(*) AS TOTAL from staging where usuario='$usuario'")['TOTAL'] == 1)
-        return TRUE;
-    return FALSE;
-    }
-
-    public function getPassword($usuario)
-    {
-    return $this->decryptApiKey($this->db->row_sqlconector("select password from staging where usuario='$usuario'")['password'],self::ENCRYPTION_KEY);
+        $result = $this->db->row_sqlconector("select COUNT(*) AS TOTAL from staging where usuario='$usuario'");
+        if (!$result) {
+            error_log("\nError: Fallo en consulta ifUsuarioExist para usuario: " . $usuario, 3, self::LOG_PATH);
+            return false;
+        }
+        return ($result['TOTAL'] == 1);
     }
 
-    public  function encryptApiKey($apiKey, $encryptionKey)
+    public function getPassword($usuario):string
+    {        
+        $row = $this->db->row_sqlconector("select password from staging where usuario='$usuario'");
+        if (!$row || !isset($row['password'])) {
+            error_log("\nError: No se encontró contraseña para el usuario: " . $usuario, 3, self::LOG_PATH);
+            return "";
+        }
+        
+        $encryptedData = trim($row['password']);
+        $decrypted = $this->decryptApiKey($encryptedData, self::ENCRYPTION_KEY);        
+        if ($decrypted === false || $decrypted === null) {
+            error_log("\nError: Fallo la desencriptación para el usuario: " . $usuario . " | Data length: " . strlen($encryptedData), 3, self::LOG_PATH);
+            return "";
+        }
+        
+        return $decrypted;
+    }
+
+    public function encryptApiKey($apiKey, $encryptionKey): string
     {
-    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-    $encrypted = openssl_encrypt($apiKey, 'aes-256-cbc', $encryptionKey, 0, $iv);
-    return base64_encode($iv . $encrypted);
+        $ivLength = openssl_cipher_iv_length('aes-256-cbc');
+        $iv = openssl_random_pseudo_bytes($ivLength);
+        // Usamos OPENSSL_RAW_DATA para obtener binario directamente y evitar el "doble base64"
+        $encrypted = openssl_encrypt($apiKey, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
+        return base64_encode($iv . $encrypted);
     }
 
     public function decryptApiKey($encryptedApiKey, $encryptionKey)
     {
-    $data = base64_decode($encryptedApiKey);
-    $iv = substr($data, 0, openssl_cipher_iv_length('aes-256-cbc'));
-    $encrypted = substr($data, openssl_cipher_iv_length('aes-256-cbc'));
-    return openssl_decrypt($encrypted, 'aes-256-cbc', $encryptionKey, 0, $iv);
+        $data = base64_decode($encryptedApiKey);
+        if ($data === false) {
+            return null;
+        }
+
+        $ivLength = openssl_cipher_iv_length('aes-256-cbc');
+        if (strlen($data) <= $ivLength) {
+            return null;
+        }
+
+        $iv = substr($data, 0, $ivLength);
+        $encrypted = substr($data, $ivLength);
+
+        // Usamos OPENSSL_RAW_DATA porque ahora $encrypted es binario puro
+        $result = openssl_decrypt($encrypted, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
+        return $result;
     }
 
 }

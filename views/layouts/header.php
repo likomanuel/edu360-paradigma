@@ -1,5 +1,6 @@
 <?php
-setcookie("modulo", "staging", time() + 3600, "/");
+setcookie("modulo", $_ENV['MODULO'], time() + 3600, "/");
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,9 +37,9 @@ setcookie("modulo", "staging", time() + 3600, "/");
         <div class="logo">
             <img src="<?= base_url('/public/assets/img/logo_paradigma_removebg.png') ?>" alt="Logo" width="50" height="40"> 
             <?php if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') { ?>
-                Paradigma EDU360 Staging
+                <span style="color: #FF0000;">Paradigma EDU360 Staging</span>
             <?php } else { ?>
-                Paradigma EDU360
+                <span>Paradigma EDU360</span>
             <?php } ?>
         </div>
         <nav>
@@ -46,11 +47,22 @@ setcookie("modulo", "staging", time() + 3600, "/");
                 <li><a href="#">Programas</a></li>
                 <li><a href="#">IA & Neuroeducación</a></li>
                 <li><a href="<?php 
-                if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
-                    echo base_url('/staging');
-                } else {
-                    echo base_url('/session');
-                } ?>">Iniciar Sesión</a></li>
+                if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {
+                    echo base_url('/closeSession');
+                }
+                else{
+                    if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
+                        echo base_url('/staging');
+                    } else {
+                        echo base_url('/session');
+                    }
+                }?>"
+                >
+                <?php if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) { ?>
+                    <i class="fas fa-user-astronaut"></i> Cerrar Sesión
+                <?php } else { ?>
+                    <i class="fas fa-user"></i> Iniciar Sesión
+                <?php } ?></a></li>
                 <li><a href="#">Contacto</a></li>
             </ul>
         </nav>

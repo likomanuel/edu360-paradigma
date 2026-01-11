@@ -1,19 +1,25 @@
 <?php
 require_once __DIR__ . '/../../views/layouts/header.php';
 require_once __DIR__ . '/../../config/modulo.php';
+$_COOKIE['modulo'] = 'staging'; // Fuerza el uso de la DB staging en esta petición
 $modulo = new Modulo();
-session_start();
 
 if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $email = $_POST['email'];
     $password = $_POST['password'];
     
-    if($modulo->ifUsuarioExist($email) && $password == $modulo->getPassword($email)){
+    if($modulo->ifUsuarioExist($email) && $password == trim($modulo->getPassword($email))){
         $_SESSION['staging'] = true;
         header('Location: ' . base_url('/index'));
         exit;
-    }else{
-        echo "<script>alert('Credenciales incorrectas');</script>";
+    }else{        
+        echo "<script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Credenciales incorrectas',
+        });
+        </script>";
     }
 }
 ?>
