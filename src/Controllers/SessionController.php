@@ -20,4 +20,8 @@ class SessionController
         header('Location: ' . base_url('/'));
         exit;
     }
+
+    public function registro(){
+        require_once __DIR__ . '/../../views/session/registro.php';
+    }
 }

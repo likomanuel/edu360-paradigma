@@ -46,6 +46,14 @@ header {
     z-index: 1000;
 }
 
+.logo_evolucionador {
+    font-weight: 700;
+    color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo {
     font-weight: 700;
     font-size: 1.2rem;
@@ -662,4 +670,169 @@ p {
     color: #ff3e3e;
     margin-top: 5px;
     text-align: right;
+}
+
+/* --- CONTENEDOR DE REGISTRO --- */
+.evolution-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.reg-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Lado Izquierdo: Visual/Info */
+.reg-info {
+    background: linear-gradient(135deg, rgba(0, 168, 232, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reg-info h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--cyber-green);
+}
+
+.reg-info p {
+    line-height: 1.6;
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+/* Monitor de Hash (Simulación técnica) */
+.hash-monitor {
+    background: #000;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
+    border: 1px dashed var(--primary-blue);
+    font-family: 'Fira Code', monospace;
+}
+
+.hash-label {
+    font-size: 0.7rem;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#visual-hash {
+    font-size: 0.75rem;
+    color: var(--cyber-green);
+    word-break: break-all;
+    opacity: 0.8;
+}
+
+/* Lado Derecho: Formulario */
+.reg-form {
+    padding: 40px;
+}
+
+.form-header {
+    margin-bottom: 30px;
+}
+
+.form-header span {
+    color: var(--primary-blue);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-bottom: 2px solid #333;
+    padding: 12px 0;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+    outline: none;
+}
+
+.input-box input:focus {
+    border-color: var(--primary-blue);
+    background: rgba(0, 168, 232, 0.05);
+}
+
+.input-box label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    color: #666;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -15px;
+    font-size: 0.75rem;
+    color: var(--primary-blue);
+}
+
+/* Estatus Soberanía Badge */
+.status-badge {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--cyber-green);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: 1px solid var(--cyber-green);
+}
+
+.btn-register {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 168, 232, 0.3);
+    transition: 0.3s;
+}
+
+.btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 168, 232, 0.5);
+}
+
+@media (max-width: 768px) {
+    .reg-card {
+        grid-template-columns: 1fr;
+    }
+
+    .reg-info {
+        display: none;
+    }
 }

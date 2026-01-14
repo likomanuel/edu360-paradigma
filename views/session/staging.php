@@ -1,8 +1,9 @@
 <?php
-require_once __DIR__ . '/../../views/layouts/header.php';
 require_once __DIR__ . '/../../config/modulo.php';
 $_COOKIE['modulo'] = 'staging'; // Fuerza el uso de la DB staging en esta petición
 $modulo = new Modulo();
+
+session_start();
 
 if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $email = $_POST['email'];
@@ -10,6 +11,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     
     if($modulo->ifUsuarioExist($email) && $password == trim($modulo->getPassword($email))){
         $_SESSION['staging'] = true;
+        $_SESSION['email'] = $email;
         header('Location: ' . base_url('/index'));
         exit;
     }else{        
@@ -22,6 +24,8 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         </script>";
     }
 }
+
+require_once __DIR__ . '/../../views/layouts/header.php';
 ?>
 
     <section class="login-wrapper">

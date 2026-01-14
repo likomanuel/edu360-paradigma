@@ -1,0 +1,2 @@
+[13-Jan-2026 16:08:59 UTC] PHP Warning:  Undefined array key "DB_NAME" in C:\Apache24\htdocs\edu360-paradigma\config\DataBase.php on line 27
+[13-Jan-2026 23:04:02 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\views\session\staging.php on line 6) in C:\Apache24\htdocs\edu360-paradigma\views\layouts\header.php on line 3

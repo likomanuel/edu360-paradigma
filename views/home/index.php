@@ -77,7 +77,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
   </div>
 
 <?php
-if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
+if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {
 ?>
 <div id="staging-trigger" onclick="toggleStagingMenu()">
     <i class="fas fa-terminal"></i>

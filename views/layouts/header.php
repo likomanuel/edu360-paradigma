@@ -47,7 +47,21 @@ session_start();
                 <li><a href="#">Programas</a></li>
                 <li><a href="#">IA & Neuroeducación</a></li>
                 <li><a href="<?php 
-                if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {
+                if(isset($_SESSION['email'])) {
+                    echo base_url('/contacto');
+                }
+                else{
+                    echo base_url('/registro'); 
+                }
+                ?>"
+                >
+                <?php if(isset($_SESSION['email'])) { ?>
+                    <i class="fas fa-user-astronaut"></i> Contacto
+                <?php } else { ?>
+                    <i class="fas fa-user"></i> Registrarse
+                <?php } ?></a></li>
+                <li><a href="<?php 
+                if(isset($_SESSION['email'])) {
                     echo base_url('/closeSession');
                 }
                 else{
@@ -58,12 +72,11 @@ session_start();
                     }
                 }?>"
                 >
-                <?php if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) { ?>
+                <?php if(isset($_SESSION['email'])) { ?>
                     <i class="fas fa-user-astronaut"></i> Cerrar Sesión
                 <?php } else { ?>
                     <i class="fas fa-user"></i> Iniciar Sesión
-                <?php } ?></a></li>
-                <li><a href="#">Contacto</a></li>
+                <?php } ?></a></li>                
             </ul>
         </nav>
         <div class="search-icon">

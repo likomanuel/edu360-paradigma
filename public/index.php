@@ -38,6 +38,11 @@ switch ($route) {
         $controller->session();        
         break;
 
+    case '/registro':
+        $controller = new App\Controllers\SessionController(); 
+        $controller->registro();        
+        break;
+
     case '/closeSession':
         $controller = new App\Controllers\SessionController(); 
         $controller->closeSession();        
