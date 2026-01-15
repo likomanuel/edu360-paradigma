@@ -9,7 +9,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $password = $_POST['password'];
     
     if($modulo->ifUsuarioExist($email) && $password == trim($modulo->getPassword($email))){
+        $_SESSION['staging'] = false;
         $_SESSION['email'] = $email;
+        $_SESSION['status'] = $modulo->getUser($email)['estatus_soberania'];
         header('Location: ' . base_url('/index'));
         exit;
     }else{        

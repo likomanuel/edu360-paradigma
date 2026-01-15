@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
   <section class="hero">
         <h1>Paradigma EDU360</h1>
         <p>Soberanía Cognitiva y Rigor Federal</p>
-        <button class="btn-main">Conoce más</button>
+        <button class="btn-main" onclick="window.location.href='https://www.edu360global.org/university-institute/'">Conoce más</button>
     </section>
 
     <section class="pillars">
@@ -22,6 +22,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
             </div>
             <div class="card">
                 <i class="fas fa-network-wired"></i>
+                <img src="<?php echo img('favicon/university/android-chrome-192x192.png') ?>" alt="Logo" width="100" height="100"> 
                 <h3>Infraestructura</h3>
                 <p>Soporte técnico y tecnológico para la educación digital.</p>
             </div>
@@ -57,24 +58,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <p>Operación con mínima intervención humana.</p>
             </div>
         </div>
-    </section>  
-    
-  <p class="subtitle">Creado por el Dr. Manuel Aguilera, PhD</p>
-
-  <div class="content">
-    <p>El Paradigma EDU360 es el primer ecosistema educativo digital avanzado para el mundo hispano.</p>
-    <p>No vendemos cursos. Operamos un laboratorio vivo del futuro educativo.</p>
-
-    <p>
-      <strong>Verificación de certificaciones</strong>:
-      <a href="https://verify.edu360global.org" target="_blank">verify.edu360.global</a>
-    </p>
-
-    <stripe-buy-button buy-button-id="buy_btn_1SjNRtE0riMQis9OP4MNRczT"
-      publishable-key="pk_test_51Sj3ePE0riMQis9O7MtULrr8hgKTdwqiXvvXlHJdNQ3MUwmEHXLCr7FsMThMhIXdzQ9vVfE2jPU3SYA2PPxJ1sq200IXJPDzJ1">
-    </stripe-buy-button>
-
-  </div>
+    </section> 
 
 <?php
 if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {

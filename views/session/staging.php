@@ -11,6 +11,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     if($modulo->ifStagingUsuarioExist($email) && $password == trim($modulo->getStagingPassword($email))){
         $_SESSION['staging'] = true;
         $_SESSION['email'] = $email;
+        $_SESSION['status'] = 'En Consolidacion';
         header('Location: ' . base_url('/index'));
         exit;
     }else{        

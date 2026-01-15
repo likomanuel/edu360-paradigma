@@ -16,10 +16,10 @@
             <div class="footer-section">
                 <h4>Enlaces Rápidos</h4>
                 <ul>
-                    <li>Misión y Visión</li>
-                    <li>Cursos Certificados</li>
-                    <li>Plataforma Virtual</li>
-                    <li>Política de Privacidad</li>
+                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/quienes-somos/">¿Quienes Somos?</a></li>
+                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/">¿Qué Hacemos?</a></li>
+                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/investigacion/">¿Cómo lo Hacemos?</a></li>
+                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/contactanos/">Contáctanos</a></li>
                 </ul>
             </div>
             <div class="footer-section">

@@ -14,7 +14,7 @@ session_start();
     <title><?php echo PROJECT_NAME; ?></title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo img('favicon/favicon.ico'); ?>" />
+    <link rel="icon" type="image/x-icon" href="<?php echo img('favicon/university/favicon.ico'); ?>" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,8 +34,8 @@ session_start();
 
 <body>
 <header>
-        <div class="logo">
-            <img src="<?= base_url('/public/assets/img/logo_paradigma_removebg.png') ?>" alt="Logo" width="50" height="40"> 
+        <div class="logo" style="cursor: pointer;" onclick="window.location.href='<?php echo base_url('/'); ?>'">
+            <img src="<?php echo img('favicon/university/android-chrome-192x192.png') ?>" alt="Logo" width="40" height="40"> 
             <?php if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') { ?>
                 <span style="color: #FF0000;">Paradigma EDU360 Staging</span>
             <?php } else { ?>
@@ -43,9 +43,7 @@ session_start();
             <?php } ?>
         </div>
         <nav>
-            <ul>
-                <li><a href="#">Programas</a></li>
-                <li><a href="#">IA & Neuroeducación</a></li>
+            <ul>                
                 <li><a href="<?php 
                 if(isset($_SESSION['email'])) {
                     echo base_url('/mipanel');
@@ -55,7 +53,7 @@ session_start();
                 }
                 ?>"
                 >
-                <?php if(isset($_SESSION['email'])) { ?>
+                <?php if(isset($_SESSION['email'])) { ?>                    
                     <i class="fas fa-user-astronaut"></i> Mi Panel
                 <?php } else { ?>
                     <i class="fas fa-user"></i> Registrarse

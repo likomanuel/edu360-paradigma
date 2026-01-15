@@ -2,6 +2,12 @@
 require_once __DIR__ . '/../../config/modulo.php';
 require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
+
+$link = "pagos";
+if(isset($_SESSION['status']) && $_SESSION['status'] == 'Activo'){
+    $link = "neuroeducacion";
+}
+
 ?>
     <style>
         :root {
@@ -105,6 +111,7 @@ $modulo = new Modulo();
 
     <header>
         <div class="logo"><i class="fas fa-microchip"></i> PARADIGMA EDU360</div>
+        <div class="udv-counter"><a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>">IA & Neuroeducación</a></div>
         <div class="user-nav">
             <span class="udv-counter">1,240.50 UDV</span>
             <i class="fas fa-bell"></i>

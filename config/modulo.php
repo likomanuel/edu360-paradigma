@@ -134,7 +134,16 @@ class Modulo
         return ($result['TOTAL'] == 1);
     }
 
-
+    public function getUser($usuario):array
+    {
+        $result = $this->db->row_sqlconector("select * from evolucionadores where email_verificado='$usuario'");
+        if (!$result) {
+            error_log("\nError: Fallo en consulta getUser para usuario: " . $usuario, 3, self::LOG_PATH);
+            return [];
+        }
+        return $result;
+    }
+    
     public function createUser($email, $password, $hash, $nombre_completo, $estatus_soberania): bool
     {
         // Encrypt the password before storing
@@ -250,6 +259,64 @@ class Modulo
         // Usamos OPENSSL_RAW_DATA porque ahora $encrypted es binario puro
         $result = openssl_decrypt($encrypted, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
         return $result;
+    }
+
+    /**
+     * Verifica si la tabla nodos_activos existe, si no existe la crea
+     * @return bool True si la tabla existe o fue creada exitosamente
+     */
+    public function ensureNodosActivosTable(): bool
+    {
+        try {
+            // Verificar si la tabla existe
+            $checkTable = $this->db->row_sqlconector(
+                "SELECT COUNT(*) as count 
+                 FROM information_schema.tables 
+                 WHERE table_schema = DATABASE() 
+                 AND table_name = 'nodos_activos'"
+            );
+
+            if ($checkTable && $checkTable['count'] > 0) {
+                // La tabla ya existe
+                error_log("\nTabla 'nodos_activos' ya existe en la base de datos.", 3, self::LOG_PATH);
+                return true;
+            }
+
+            // La tabla no existe, crearla
+            $createTableSQL = "
+                CREATE TABLE `nodos_activos` (
+                    `id` INT(11) NOT NULL AUTO_INCREMENT,
+                    `id_evolucionador` INT(11) NOT NULL,
+                    `stripe_session_id` VARCHAR(255) NOT NULL,
+                    `monto` DECIMAL(10,2) NOT NULL,
+                    `estatus` VARCHAR(50) NOT NULL DEFAULT 'Activado',
+                    `fecha_activacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    `fecha_expiracion` TIMESTAMP NULL DEFAULT NULL,
+                    PRIMARY KEY (`id`),
+                    UNIQUE KEY `unique_session` (`stripe_session_id`),
+                    KEY `idx_evolucionador` (`id_evolucionador`),
+                    CONSTRAINT `fk_nodos_evolucionador` 
+                        FOREIGN KEY (`id_evolucionador`) 
+                        REFERENCES `evolucionadores` (`id_evolucionador`) 
+                        ON DELETE CASCADE 
+                        ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            ";
+
+            $result = $this->db->sqlconector($createTableSQL);
+
+            if ($result) {
+                error_log("\nTabla 'nodos_activos' creada exitosamente.", 3, self::LOG_PATH);
+                return true;
+            } else {
+                error_log("\nError: No se pudo crear la tabla 'nodos_activos'.", 3, self::LOG_PATH);
+                return false;
+            }
+
+        } catch (Exception $e) {
+            error_log("\nError al verificar/crear tabla 'nodos_activos': " . $e->getMessage(), 3, self::LOG_PATH);
+            return false;
+        }
     }
 
 }

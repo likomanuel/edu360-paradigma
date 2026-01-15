@@ -53,6 +53,16 @@ switch ($route) {
         $controller->index();        
         break;
 
+    case '/neuroeducacion':
+        $controller = new App\Controllers\NeuroEducacionController(); 
+        $controller->neuroeducacion();        
+        break;
+
+    case '/pagos':
+        $controller = new App\Controllers\NeuroEducacionController(); 
+        $controller->pagos();        
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";
