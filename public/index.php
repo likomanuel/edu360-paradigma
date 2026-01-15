@@ -48,6 +48,11 @@ switch ($route) {
         $controller->closeSession();        
         break;
 
+    case '/mipanel':
+        $controller = new App\Controllers\PanelController(); 
+        $controller->index();        
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";

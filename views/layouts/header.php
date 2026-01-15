@@ -48,7 +48,7 @@ session_start();
                 <li><a href="#">IA & Neuroeducación</a></li>
                 <li><a href="<?php 
                 if(isset($_SESSION['email'])) {
-                    echo base_url('/contacto');
+                    echo base_url('/mipanel');
                 }
                 else{
                     echo base_url('/registro'); 
@@ -56,7 +56,7 @@ session_start();
                 ?>"
                 >
                 <?php if(isset($_SESSION['email'])) { ?>
-                    <i class="fas fa-user-astronaut"></i> Contacto
+                    <i class="fas fa-user-astronaut"></i> Mi Panel
                 <?php } else { ?>
                     <i class="fas fa-user"></i> Registrarse
                 <?php } ?></a></li>

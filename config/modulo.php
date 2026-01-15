@@ -116,6 +116,16 @@ class Modulo
     }
     public function ifUsuarioExist($usuario):bool
     {
+        $result = $this->db->row_sqlconector("select COUNT(*) AS TOTAL from evolucionadores where email_verificado='$usuario'");
+        if (!$result) {
+            error_log("\nError: Fallo en consulta ifUsuarioExist para usuario: " . $usuario, 3, self::LOG_PATH);
+            return false;
+        }
+        return ($result['TOTAL'] == 1);
+    }
+
+    public function ifStagingUsuarioExist($usuario):bool
+    {
         $result = $this->db->row_sqlconector("select COUNT(*) AS TOTAL from staging where usuario='$usuario'");
         if (!$result) {
             error_log("\nError: Fallo en consulta ifUsuarioExist para usuario: " . $usuario, 3, self::LOG_PATH);
@@ -124,7 +134,77 @@ class Modulo
         return ($result['TOTAL'] == 1);
     }
 
+
+    public function createUser($email, $password, $hash, $nombre_completo, $estatus_soberania): bool
+    {
+        // Encrypt the password before storing
+        $encryptedPassword = $this->encryptApiKey($password, self::ENCRYPTION_KEY);
+        
+        // Define the base path for user folders (adjust this path according to your hosting structure)
+        $basePath = __DIR__ . '/../users'; // You can change this to your desired location
+        
+        // Create the main hash folder
+        $hashFolderPath = $basePath . '/' . $hash;
+        
+        // Create the folder structure
+        if (!file_exists($hashFolderPath)) {
+            if (!mkdir($hashFolderPath, 0777, true)) {
+                error_log("\nError: No se pudo crear la carpeta principal: " . $hashFolderPath, 3, self::LOG_PATH);
+                return false;
+            }
+            chmod($hashFolderPath, 0777);
+        }
+        
+        // Create subdirectories: perfil, certificados, logros
+        $subdirectories = ['perfil', 'certificados', 'logros'];
+        
+        foreach ($subdirectories as $subdir) {
+            $subdirPath = $hashFolderPath . '/' . $subdir;
+            
+            if (!file_exists($subdirPath)) {
+                if (!mkdir($subdirPath, 0777, true)) {
+                    error_log("\nError: No se pudo crear la subcarpeta: " . $subdirPath, 3, self::LOG_PATH);
+                    return false;
+                }
+                chmod($subdirPath, 0777);
+            }
+        }
+        
+        // Prepare the SQL insert statement
+        $sql = "INSERT INTO evolucionadores (email_verificado, password, hash_identidad, nombre_completo, estatus_soberania) 
+                VALUES ('$email', '$encryptedPassword', '$hash', '$nombre_completo', '$estatus_soberania')";
+        
+        // Execute the insert
+        $result = $this->db->sqlconector($sql);
+        
+        if (!$result) {
+            error_log("\nError: Fallo al crear usuario: " . $email, 3, self::LOG_PATH);
+            return false;
+        }
+        
+        error_log("\nUsuario creado exitosamente: " . $email . " | Carpeta: " . $hashFolderPath, 3, self::LOG_PATH);
+        return true;
+    }
+
     public function getPassword($usuario):string
+    {        
+        $row = $this->db->row_sqlconector("select password from evolucionadores where email_verificado='$usuario'");
+        if (!$row || !isset($row['password'])) {
+            error_log("\nError: No se encontró contraseña para el usuario: " . $usuario, 3, self::LOG_PATH);
+            return "";
+        }
+        
+        $encryptedData = trim($row['password']);
+        $decrypted = $this->decryptApiKey($encryptedData, self::ENCRYPTION_KEY);        
+        if ($decrypted === false || $decrypted === null) {
+            error_log("\nError: Fallo la desencriptación para el usuario: " . $usuario . " | Data length: " . strlen($encryptedData), 3, self::LOG_PATH);
+            return "";
+        }
+        
+        return $decrypted;
+    }
+
+    public function getStagingPassword($usuario):string
     {        
         $row = $this->db->row_sqlconector("select password from staging where usuario='$usuario'");
         if (!$row || !isset($row['password'])) {
@@ -141,6 +221,7 @@ class Modulo
         
         return $decrypted;
     }
+
 
     public function encryptApiKey($apiKey, $encryptionKey): string
     {

@@ -1,10 +1,10 @@
 <?php
 
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'edu360';
-    private $username = 'root';
-    private $password = 'a10882990';
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     private $charset = 'utf8mb4';
 
     /**
@@ -25,6 +25,9 @@ class Database {
      */
     public function __construct() {
         $this->db_name = $_ENV['DB_NAME'];
+        $this->host = $_ENV['DB_HOST'];
+        $this->username = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASS'];
 
         $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset={$this->charset}";
         $options = [
