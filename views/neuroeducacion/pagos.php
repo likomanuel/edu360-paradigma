@@ -1,3 +1,40 @@
+<?php
+require_once __DIR__ . '/../../vendor/autoload.php';
+use Dotenv\Dotenv;
+use App\Services\StripeService;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
+
+// La lógica de creación de sesión de Stripe ahora solo ocurre si se envía el formulario (POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $stripeService = new StripeService($_ENV['STRIPE_SECRET_KEY']);
+
+        $checkout_session = $stripeService->createCheckoutSession([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => ['name' => 'Acceso al Nodo Fundacional - EDU360'],
+                    'unit_amount' => 2000, // $20.00
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => base_url('procesar_pago.php') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => base_url('neuroeducacion/pagos.php'), // Volver a esta misma página
+        ]);
+
+        header("HTTP/1.1 303 See Other");
+        header("Location: " . $checkout_session->url);
+        exit();
+
+    } catch (Exception $e) {
+        $error_mensaje = "Error al iniciar el proceso de pago. Por favor, intente de nuevo.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -269,10 +306,16 @@
 
         <section class="checkout-card">
             <h2>Acceso al Nodo</h2>
-            <div class="price-tag">99.00 <span>USD</span></div>
+            <div class="price-tag">20.00 <span>USD</span></div>
             <p style="font-size: 0.8rem; color: #888; margin-bottom: 30px;">
                 Cuota única de activación para el Nodo Fundacional.
             </p>
+
+            <?php if (isset($error_mensaje)): ?>
+                <div style="color: #ff4444; margin-bottom: 20px; font-size: 0.9rem;">
+                    <i class="fas fa-exclamation-circle"></i> <?php echo $error_mensaje; ?>
+                </div>
+            <?php endif; ?>
 
             <stripe-buy-button
             buy-button-id="buy_btn_1Sq0H0E0riMQis9OIH6QxMbE" 
@@ -280,6 +323,11 @@
             success-url="<?php echo base_url('procesar_pago.php'); ?>?session_id={CHECKOUT_SESSION_ID}" >
             </stripe-buy-button>
 
+            <form method="POST">
+                <button type="submit" id="checkout-button" style="width: 100%; padding: 15px; background: var(--primary-blue); color: white; border: none; border-radius: 5px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-bottom: 20px;">
+                    <i class="fab fa-stripe"></i> Pagar con Tarjeta ($20.00 USD)
+                </button>
+            </form>
             <div class="secure-notice">
                 <i class="fas fa-lock"></i>
                 <span>Pagos procesados de forma segura por Stripe. No almacenamos datos de su tarjeta.</span>

@@ -1,0 +1,7 @@
+
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1 | Monto: 20 USD
+Pago procesado exitosamente - Usuario: alfonsi.acosta@gmail.com | Session: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1 | Monto: 20 USD

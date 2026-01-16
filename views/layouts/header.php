@@ -29,7 +29,6 @@ session_start();
     <!-- endbuild -->
     <script src="<?php echo js('jquery-3.5.1.js'); ?>"></script>
     <script src="<?php echo js('sweetalert2.js'); ?>"></script>
-    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 
 <body>

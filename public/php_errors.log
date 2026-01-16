@@ -1,0 +1,36 @@
+[16-Jan-2026 18:42:22 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:42:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php:2
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php(10): require_once()
+#1 C:\Apache24\htdocs\edu360-paradigma\public\index.php(63): App\Controllers\NeuroEducacionController->pagos()
+#2 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:42:25 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:42:25 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php:2
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php(10): require_once()
+#1 C:\Apache24\htdocs\edu360-paradigma\public\index.php(63): App\Controllers\NeuroEducacionController->pagos()
+#2 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:43:05 UTC] PHP Fatal error:  Uncaught Dotenv\Exception\InvalidPathException: Unable to read any of the environment file(s) at [C:\Apache24\htdocs\edu360-paradigma\views\.env]. in C:\Apache24\htdocs\edu360-paradigma\vendor\vlucas\phpdotenv\src\Store\FileStore.php:68
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\vendor\vlucas\phpdotenv\src\Dotenv.php(222): Dotenv\Store\FileStore->read()
+#1 C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php(6): Dotenv\Dotenv->load()
+#2 C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php(10): require_once('...')
+#3 C:\Apache24\htdocs\edu360-paradigma\public\index.php(63): App\Controllers\NeuroEducacionController->pagos()
+#4 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\vendor\vlucas\phpdotenv\src\Store\FileStore.php on line 68
+[16-Jan-2026 18:49:19 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:49:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php:2
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php(10): require_once()
+#1 C:\Apache24\htdocs\edu360-paradigma\public\index.php(63): App\Controllers\NeuroEducacionController->pagos()
+#2 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:49:20 UTC] PHP Warning:  require_once(C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php): Failed to open stream: No such file or directory in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
+[16-Jan-2026 18:49:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion/../vendor/autoload.php' (include_path='.;C:\php\pear') in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php:2
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php(10): require_once()
+#1 C:\Apache24\htdocs\edu360-paradigma\public\index.php(63): App\Controllers\NeuroEducacionController->pagos()
+#2 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\pagos.php on line 2
