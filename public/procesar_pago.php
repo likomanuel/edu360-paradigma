@@ -2,6 +2,11 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/modulo.php';
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
 // Inicializar el módulo que contiene la conexión a la base de datos
 $modulo = new Modulo();
 $db = $modulo->getDb();
@@ -15,6 +20,11 @@ $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
 
 // 2. Obtener el Session ID desde la URL
 $session_id = $_GET['session_id'] ?? null;
+
+// LOG DE DEPURACIÓN TEMPORAL
+error_log("\n[DEBUG_PAGO] URL Recibida: " . $_SERVER['REQUEST_URI'], 3, Modulo::LOG_PATH);
+error_log("\n[DEBUG_PAGO] GET params: " . json_encode($_GET), 3, Modulo::LOG_PATH);
+error_log("\n[PROCESAR_PAGO] Session ID extraído: " . ($session_id ?? 'VACÍO'), 3, Modulo::LOG_PATH);
 
 if (!$session_id) {
     die("Acceso no autorizado: No se encontró ID de sesión.");
@@ -30,6 +40,13 @@ try {
         $email_usuario = $session->customer_details->email;
         $monto = $session->amount_total / 100; // Stripe maneja centavos
         $moneda = strtoupper($session->currency);
+
+        // Log de información del pago recibido
+        error_log(
+            "\n[PROCESAR_PAGO] Pago recibido de Stripe - Email: $email_usuario | Session: $session_id | Monto: $monto $moneda",
+            3,
+            Modulo::LOG_PATH
+        );
 
         // 4. Lógica de Base de Datos usando los métodos del proyecto
         // Primero: Verificamos si este pago ya fue procesado antes para evitar duplicados

@@ -260,7 +260,7 @@
 
                 <div class="verify-box">
                     <strong>Verificación de certificaciones</strong><br>
-                    <a href="<?php echo base_url(); ?>verify" target="_blank">
+                    <a href="<?php echo base_url('verify'); ?>" target="_blank">
                         <i class="fas fa-external-link-alt"></i> verify.edu360.global
                     </a>
                 </div>
@@ -274,11 +274,12 @@
                 Cuota única de activación para el Nodo Fundacional.
             </p>
 
-            <stripe-buy-button 
-            buy-button-id="buy_btn_1SjNRtE0riMQis9OP4MNRczT"
-            publishable-key="pk_test_51Sj3ePE0riMQis9O7MtULrr8hgKTdwqiXvvXlHJdNQ3MUwmEHXLCr7FsMThMhIXdzQ9vVfE2jPU3SYA2PPxJ1sq200IXJPDzJ1"
-            success-url="<?php echo base_url(); ?>/procesar_pago.php?session_id={CHECKOUT_SESSION_ID}">
+            <stripe-buy-button
+            buy-button-id="buy_btn_1Sq0H0E0riMQis9OIH6QxMbE" 
+            publishable-key="pk_test_51Sj3ePE0riMQis9O7MtULrr8hgKTdwqiXvvXlHJdNQ3MUwmEHXLCr7FsMThMhIXdzQ9vVfE2jPU3SYA2PPxJ1sq200IXJPDzJ1" 
+            success-url="<?php echo base_url('procesar_pago.php'); ?>?session_id={CHECKOUT_SESSION_ID}" >
             </stripe-buy-button>
+
             <div class="secure-notice">
                 <i class="fas fa-lock"></i>
                 <span>Pagos procesados de forma segura por Stripe. No almacenamos datos de su tarjeta.</span>

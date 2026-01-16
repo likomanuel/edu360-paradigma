@@ -14,6 +14,11 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/modulo.php';
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
 // Inicializar el módulo que contiene la conexión a la base de datos
 $modulo = new Modulo();
 $db = $modulo->getDb();

@@ -19,8 +19,8 @@ if (!function_exists('base_url')) {
      * @return string URL completa.
      */
     function base_url($path = '') {
-        // Si el .env ya trae "https://...", lo usamos directamente
-        $base = rtrim($_ENV['BASE_URL'], '/');
+        // Usamos HOST para asegurar una URL absoluta (necesaria para Stripe)
+        $base = rtrim($_ENV['HOST'] ?? $_ENV['BASE_URL'], '/');
         
         return $base . '/' . ltrim($path, '/');
     }

@@ -16,8 +16,8 @@
     RewriteRule ^([^.]+)$ $1.html [L]
 
     # 3. Redirigir todo el tráfico a la carpeta /public
-    RewriteRule ^$ public/index.php [L]
-    RewriteRule ^((?!public/).*)$ public/$1 [L]
+    RewriteRule ^$ public/index.php [QSA,L]
+    RewriteRule ^((?!public/).*)$ public/$1 [QSA,L]
 </IfModule>
 
 # Seguridad: Bloquear archivos sensibles
