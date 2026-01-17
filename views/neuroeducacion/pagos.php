@@ -316,13 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-exclamation-circle"></i> <?php echo $error_mensaje; ?>
                 </div>
             <?php endif; ?>
-
-            <stripe-buy-button
-            buy-button-id="buy_btn_1Sq0H0E0riMQis9OIH6QxMbE" 
-            publishable-key="pk_test_51Sj3ePE0riMQis9O7MtULrr8hgKTdwqiXvvXlHJdNQ3MUwmEHXLCr7FsMThMhIXdzQ9vVfE2jPU3SYA2PPxJ1sq200IXJPDzJ1" 
-            success-url="<?php echo base_url('procesar_pago.php'); ?>?session_id={CHECKOUT_SESSION_ID}" >
-            </stripe-buy-button>
-
+            
             <form method="POST">
                 <button type="submit" id="checkout-button" style="width: 100%; padding: 15px; background: var(--primary-blue); color: white; border: none; border-radius: 5px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-bottom: 20px;">
                     <i class="fab fa-stripe"></i> Pagar con Tarjeta ($20.00 USD)

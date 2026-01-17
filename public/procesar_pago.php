@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/modulo.php';
+require_once __DIR__ . '/../src/helpers.php';
 
 use Dotenv\Dotenv;
 
@@ -120,7 +121,7 @@ try {
         <h1>CONEXIÓN ESTABLECIDA</h1>
         <p><?php echo $mensaje_exito; ?></p>
         <p style="color: #666; font-size: 0.8rem;">ID de Transacción: <?php echo htmlspecialchars($session_id); ?></p>
-        <a href="<?php echo base_url("mipanel"); ?>" class="btn-dash">ACCEDER AL PANEL DE SOBERANÍA</a>
+        <a href="<?php echo base_url('mipanel'); ?>" class="btn-dash">ACCEDER AL PANEL DE SOBERANÍA</a>
     </div>
 </body>
 </html>

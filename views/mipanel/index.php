@@ -4,8 +4,11 @@ require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
 
 $link = "pagos";
-if(isset($_SESSION['status']) && $_SESSION['status'] == 'Activo'){
+$caption = "Activar el Nodo";
+$user = $modulo->getUser($_SESSION['email']);
+if($user['estatus_soberania'] == 'Activo'){
     $link = "neuroeducacion";
+    $caption = "IA & Neuroeducación";
 }
 
 ?>
@@ -111,9 +114,9 @@ if(isset($_SESSION['status']) && $_SESSION['status'] == 'Activo'){
 
     <header>
         <div class="logo"><i class="fas fa-microchip"></i> PARADIGMA EDU360</div>
-        <div class="udv-counter"><a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>">IA & Neuroeducación</a></div>
+        <div class="udv-counter"><a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>"><?php echo $caption; ?></a></div>
         <div class="user-nav">
-            <span class="udv-counter">1,240.50 UDV</span>
+            <span class="udv-counter"><?php echo $user['total_udv_acumuladas']; ?> UDV</span>
             <i class="fas fa-bell"></i>
             <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
         </div>
@@ -126,21 +129,21 @@ if(isset($_SESSION['status']) && $_SESSION['status'] == 'Activo'){
             <div class="avatar-container">
                 <i class="fas fa-user-astronaut"></i>
             </div>
-            <strong>Nombre del Evolucionador</strong>
-            <span class="user-hash">ID: 0x77B4...A9E1</span>
+            <strong><?php echo $user['nombre_completo']; ?></strong>
+            <span class="user-hash">ID: <?php echo $user['hash_identidad']; ?></span>
             
             <div class="profile-data">
                 <div class="data-item">
                     <label>Email Verificado</label>
-                    evolucionador@soberania.edu
+                    <?php echo $user['email_verificado']; ?>
                 </div>
                 <div class="data-item">
                     <label>Estatus de Soberanía</label>
-                    <span style="color: var(--cyber-green);">ACTIVO</span>
+                    <span style="color: var(--cyber-green);"><?php echo $user['estatus_soberania']; ?></span>
                 </div>
                 <div class="data-item">
                     <label>Fecha de Ascensión</label>
-                    14 de Enero, 2026
+                    <?php echo $user['creado_at']; ?>
                 </div>
             </div>
         </section>

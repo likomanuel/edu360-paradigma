@@ -5,3 +5,33 @@ Tabla 'nodos_activos' ya existe en la base de datos.
 [PROCESAR_PAGO] Session ID extraído: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1
 [PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1 | Monto: 20 USD
 Pago procesado exitosamente - Usuario: alfonsi.acosta@gmail.com | Session: cs_test_a1FpexUQoIPu95TkcxgdshryNgr3rpeGrG33nqfvx6LiXQrsEtAZk59ey1 | Monto: 20 USD
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs | Monto: 20 USD
+Pago procesado exitosamente - Usuario: alfonsi.acosta@gmail.com | Session: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs | Monto: 20 USD
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs | Monto: 20 USD
+Intento de procesar pago duplicado - Session: cs_test_a1Xd5f7JTw4pblRMaALvpbZ8027hyiloS01EjM1IPVNu2nWYIpMgyVgaSs
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9 | Monto: 20 USD
+Pago procesado exitosamente - Usuario: alfonsi.acosta@gmail.com | Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9 | Monto: 20 USD
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9 | Monto: 20 USD
+Intento de procesar pago duplicado - Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+Tabla 'nodos_activos' ya existe en la base de datos.
+[DEBUG_PAGO] URL Recibida: /edu360-paradigma/procesar_pago.php?session_id=cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[DEBUG_PAGO] GET params: {"session_id":"cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9"}
+[PROCESAR_PAGO] Session ID extraído: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
+[PROCESAR_PAGO] Pago recibido de Stripe - Email: alfonsi.acosta@gmail.com | Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9 | Monto: 20 USD
+Intento de procesar pago duplicado - Session: cs_test_a1dZawDBTcPhkyQkqlUDRLyv6bUGJFoQd1ZIA6ZpYGf4VujE3TSMBZM1M9
