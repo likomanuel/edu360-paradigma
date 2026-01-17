@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Services;
 
+include_once __DIR__ . '/../../vendor/autoload.php';
 use Stripe\StripeClient;
 use Exception;
 
