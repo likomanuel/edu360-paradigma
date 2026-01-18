@@ -5,10 +5,14 @@ $modulo = new Modulo();
 
 $link = "pagos";
 $caption = "Activar el Nodo";
+$verificado = 0;
 $user = $modulo->getUser($_SESSION['email']);
 if($user['estatus_soberania'] == 'Activo'){
     $link = "neuroeducacion";
     $caption = "IA & Neuroeducación";
+}
+if($user['verificado'] == 1){
+    $verificado = 100;
 }
 
 ?>
@@ -267,8 +271,8 @@ if($user['estatus_soberania'] == 'Activo'){
                 <div class="evolution-info">
                     <h4>Verificación de Identidad 
                         <span style="color: var(--text-muted); font-size: 0.7rem; cursor: pointer; border-bottom: 1px solid var(--text-muted);" onclick="verificarIdentidad('<?php if($user['verificado'] == 0){ echo $user['hash_identidad']; }else{echo 'verificado';}?>')">Verificar</span></h4>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Auditoría de Jules</small>
+                    <div class="progress-bar"><div class="progress-fill" style="width: <?php echo $verificado; ?>%;"></div></div>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;"><?php echo $verificado; ?>% Completado - Próximo hito: Auditoría de Jules</small>
                 </div>
             </div>
             

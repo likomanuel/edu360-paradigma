@@ -56,3 +56,7 @@ Stack trace:
 [16-Jan-2026 19:52:55 UTC] PHP Warning:  Undefined array key "status_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 8
 [16-Jan-2026 19:53:00 UTC] PHP Warning:  Undefined array key "status_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 8
 [16-Jan-2026 19:55:17 UTC] PHP Warning:  Undefined array key "status_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 9
+[18-Jan-2026 03:13:24 UTC] [GEMINI_SERVICE_ERROR] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[18-Jan-2026 03:13:24 UTC] [VERIFICACION_ERROR] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[18-Jan-2026 03:27:02 UTC] [GEMINI_SERVICE_ERROR] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[18-Jan-2026 03:27:02 UTC] [VERIFICACION_ERROR] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.

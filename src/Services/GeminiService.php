@@ -14,8 +14,7 @@ class GeminiService
     Perfiles profesionales (LinkedIn, directorios gremiales).
     Participación en eventos públicos, conferencias o publicaciones académicas.
     Menciones en boletines oficiales, registros mercantiles o gacetas (siempre que se trate de cargos públicos o registros de empresas).
-    Actividad en organizaciones civiles o deportivas.
-    Nota: Por favor, omite cualquier dato privado como domicilio particular, correos personales o información financiera sensible según las normas de privacidad.
+    Actividad en organizaciones civiles o deportivas.    
     ";
 
     public function __construct(?string $secretKey = null)
@@ -31,7 +30,7 @@ class GeminiService
             $datos = json_decode($coincidencias[0], true);
         }
 
-        if (json_last_error() === JSON_ERROR_NONE && isset($datos['sentimiento'])) {
+        if (json_last_error() === JSON_ERROR_NONE && !empty($datos)) {
             return $datos;
         } else {
             return ['error' => true, 'message' => 'Error al procesar la respuesta de la IA.'];
@@ -144,7 +143,7 @@ class GeminiService
     public function generateResponse(string $prompt)
     {
         try {
-            $response = $this->gemini->generativeModel(model: 'gemini-1.5-flash')->generateContent($prompt);
+            $response = $this->gemini->generativeModel(model: 'gemini-2.5-flash')->generateContent($prompt);
             $json = $response->text();
             return $this->cleanJSON($json);
         } catch (Exception $e) {
