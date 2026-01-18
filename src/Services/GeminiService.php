@@ -10,6 +10,14 @@ class GeminiService
     /** @var \Gemini\Client */
     private $gemini;
 
+    private $prompt_verificacion = "Actúa como un investigador de fuentes abiertas (OSINT). Realiza una búsqueda web exhaustiva sobre [Nombre Completo] en la localidad de [Ciudad/Estado]. Enfócate exclusivamente en información de dominio público como:
+    Perfiles profesionales (LinkedIn, directorios gremiales).
+    Participación en eventos públicos, conferencias o publicaciones académicas.
+    Menciones en boletines oficiales, registros mercantiles o gacetas (siempre que se trate de cargos públicos o registros de empresas).
+    Actividad en organizaciones civiles o deportivas.
+    Nota: Por favor, omite cualquier dato privado como domicilio particular, correos personales o información financiera sensible según las normas de privacidad.
+    ";
+
     public function __construct(?string $secretKey = null)
     {
         $key = $secretKey ?? $_ENV['GEMINI_KEY'] ?? '';
@@ -30,6 +38,109 @@ class GeminiService
         }
     }
 
+    private function getSnovToken()
+    {
+        $clientId = $_ENV['SNOW_CLIENT_ID'] ?? '';
+        $clientSecret = $_ENV['SNOW_CLIENT_SECRET'] ?? '';
+
+        if (empty($clientId) || empty($clientSecret)) {
+            return ['success' => false, 'message' => 'Faltan credenciales SNOW_CLIENT_ID / SNOW_CLIENT_SECRET'];
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v1/oauth/access_token");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'grant_type' => 'client_credentials'
+        ]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $responseRaw = curl_exec($ch);
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $data = json_decode($responseRaw, true);
+        if ($httpStatus !== 200 || !isset($data['access_token'])) {
+            return ['success' => false, 'message' => 'Error de autenticación con Snov.io', 'raw' => $data];
+        }
+
+        return ['success' => true, 'access_token' => $data['access_token']];
+    }
+
+    public function verifyEmail(string $email)
+    {
+        $tokenRes = $this->getSnovToken();
+        if (!$tokenRes['success']) return $tokenRes;
+        $token = $tokenRes['access_token'];
+
+        // Snov.io v2 Email Verifier: Start
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v2/email-verification/start");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['emails' => [$email]]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        $resStart = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        if (!isset($resStart['data']['task_hash'])) {
+            return ['success' => false, 'message' => 'No se pudo iniciar la verificación', 'raw' => $resStart];
+        }
+
+        $hash = $resStart['data']['task_hash'];
+
+        // Wait a bit for verification to process (simplified for this test/demo)
+        sleep(2);
+
+        // Snov.io v2 Email Verifier: Result
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v2/email-verification/result?task_hash=$hash");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        $resResult = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        return ['success' => true, 'verification' => $resResult];
+    }
+
+    public function scrap(string $email)
+    {
+        try {
+            $tokenRes = $this->getSnovToken();
+            if (!$tokenRes['success']) return $tokenRes;
+            $token = $tokenRes['access_token'];
+
+            // 1. Enriquecer Perfil (v1) - access_token en el cuerpo según doc
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v1/get-profile-by-email");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'access_token' => $token,
+                'email' => $email
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $profileData = json_decode(curl_exec($ch), true);
+            curl_close($ch);
+
+            // 2. Verificar Email (Incrustado para facilitar retorno combinado)
+            $verification = $this->verifyEmail($email);
+
+            return [
+                'success' => true,
+                'profile' => $profileData,
+                'verification' => $verification['verification'] ?? null
+            ];
+
+        } catch (Exception $e) {
+            error_log("[GEMINI_SERVICE_ERROR] " . $e->getMessage());
+            return ['success' => false, 'message' => 'Excepción: ' . $e->getMessage()];
+        }
+    }
     public function generateResponse(string $prompt)
     {
         try {

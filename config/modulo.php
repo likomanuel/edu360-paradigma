@@ -143,6 +143,17 @@ class Modulo
         }
         return $result;
     }
+
+    public function updateUserPhoto($email, $photoFileName): bool
+    {
+        $sql = "UPDATE evolucionadores SET foto = '$photoFileName' WHERE email_verificado = '$email'";
+        $result = $this->db->sqlconector($sql);
+        if (!$result) {
+            error_log("\nError: Fallo al actualizar foto para usuario: " . $email, 3, self::LOG_PATH);
+            return false;
+        }
+        return true;
+    }
     
     public function createUser($email, $password, $hash, $nombre_completo, $estatus_soberania): bool
     {
@@ -150,7 +161,7 @@ class Modulo
         $encryptedPassword = $this->encryptApiKey($password, self::ENCRYPTION_KEY);
         
         // Define the base path for user folders (adjust this path according to your hosting structure)
-        $basePath = __DIR__ . '/../users'; // You can change this to your desired location
+        $basePath = __DIR__ . '/../public/users'; // You can change this to your desired location
         
         // Create the main hash folder
         $hashFolderPath = $basePath . '/' . $hash;

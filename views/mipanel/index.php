@@ -108,6 +108,110 @@ if($user['estatus_soberania'] == 'Activo'){
             .cert-gallery { grid-template-columns: 1fr; }
             .user-nav span { display: none; }
         }
+
+        /* --- MODAL CSS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #111;
+            border: 1px solid var(--primary-blue);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 168, 232, 0.3);
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 168, 232, 0.2);
+        }
+
+        .form-group input[readonly] {
+            color: #666;
+            border-color: #222;
+        }
+
+        .modal-footer {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-cancel { background: #222; color: white; }
+        .btn-cancel:hover { background: #333; }
+        .btn-proceed { background: var(--primary-blue); color: #000; }
+        .btn-proceed:hover { background: #008fca; box-shadow: 0 0 20px rgba(0, 168, 232, 0.4); }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -126,9 +230,16 @@ if($user['estatus_soberania'] == 'Activo'){
         
         <section class="block profile-block">
             <h2><i class="fas fa-id-card"></i> Perfil</h2>
-            <div class="avatar-container">
-                <i class="fas fa-user-astronaut"></i>
+            <div class="avatar-container" onclick="document.getElementById('file-upload').click();" style="cursor: pointer; overflow: hidden; position: relative;" title="Haz clic para cambiar foto">
+                <?php if(!empty($user['foto'])): ?>
+                    <img src="<?php echo base_url('public/users/'.$user['hash_identidad'].'/perfil/'.$user['foto']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                <?php else: ?>
+                    <i class="fas fa-user-astronaut"></i>
+                <?php endif; ?>
+                <div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.5); width: 100%; font-size: 0.5rem; padding: 2px 0;">EDITAR</div>
             </div>
+            <input type="file" id="file-upload" style="display: none;" accept="image/*" onchange="uploadFoto(this);">
+
             <strong><?php echo $user['nombre_completo']; ?></strong>
             <span class="user-hash">ID: <?php echo $user['hash_identidad']; ?></span>
             
@@ -150,13 +261,23 @@ if($user['estatus_soberania'] == 'Activo'){
 
         <section class="block evolutions-block">
             <h2><i class="fas fa-dna"></i> Mis Evoluciones (En curso)</h2>
+
+            <div class="evolution-item">
+                <div class="evolution-icon"><i class="fas fa-brain"></i></div>
+                <div class="evolution-info">
+                    <h4>Verificación de Identidad 
+                        <span style="color: var(--text-muted); font-size: 0.7rem; cursor: pointer; border-bottom: 1px solid var(--text-muted);" onclick="verificarIdentidad('<?php if($user['verificado'] == 0){ echo $user['hash_identidad']; }else{echo 'verificado';}?>')">Verificar</span></h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Auditoría de Jules</small>
+                </div>
+            </div>
             
             <div class="evolution-item">
                 <div class="evolution-icon"><i class="fas fa-brain"></i></div>
                 <div class="evolution-info">
                     <h4>IA Generativa y Neurociencia Aplicada</h4>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
-                    <small style="color: var(--text-muted); font-size: 0.7rem;">75% Completado - Próximo hito: Auditoría de Jules</small>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Auditoría de Jules</small>
                 </div>
             </div>
 
@@ -164,8 +285,8 @@ if($user['estatus_soberania'] == 'Activo'){
                 <div class="evolution-icon"><i class="fas fa-code-branch"></i></div>
                 <div class="evolution-info">
                     <h4>Arquitecturas de Nodos Federales</h4>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
-                    <small style="color: var(--text-muted); font-size: 0.7rem;">30% Completado - Próximo hito: Despliegue en Staging</small>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Despliegue en Staging</small>
                 </div>
             </div>
         </section>
@@ -205,6 +326,123 @@ if($user['estatus_soberania'] == 'Activo'){
         </section>
 
     </main>
+
+    <!-- Modal de Verificación -->
+    <div id="verifyModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            <h3><i class="fas fa-user-shield"></i> Protocolo de Verificación</h3>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">
+                Para certificar tu identidad en la red Paradigma, Jules realizará una auditoría OSINT basada en los siguientes datos:
+            </p>
+            
+            <form id="verifyForm">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" value="<?php echo $user['nombre_completo']; ?>" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad o Región</label>
+                    <input type="text" name="ciudad" placeholder="Ej: Madrid, España" required>
+                </div>
+                <div class="form-group">
+                    <label>Gremio o Profesión</label>
+                    <input type="text" name="profesion" placeholder="Ej: Ingeniero de Software" required>
+                </div>
+                <div class="form-group">
+                    <label>Empresa o Institución</label>
+                    <input type="text" name="empresa" placeholder="Ej: Google Cloud">
+                </div>
+                <div class="form-group">
+                    <label>Usuario de Red Social (LinkedIn/Twitter)</label>
+                    <input type="text" name="red_social" placeholder="Ej: @username o link al perfil">
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Abortar</button>
+                    <button type="submit" class="btn btn-proceed">Proceder con Auditoría</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    function verificarIdentidad(status) {
+        if (status === 'verificado') {
+            alert('Tu identidad ya ha sido auditada y certificada.');
+            return;
+        }
+        document.getElementById('verifyModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('verifyModal').style.display = 'none';
+    }
+
+    // Cerrar modal al hacer clic fuera
+    window.onclick = function(event) {
+        let modal = document.getElementById('verifyModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    document.getElementById('verifyForm').onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const btn = this.querySelector('.btn-proceed');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> Auditando...';
+        btn.disabled = true;
+
+        fetch('<?php echo base_url("public/procesar_verificacion.php"); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Auditoría completada. Los resultados han sido registrados.');
+                location.reload();
+            } else {
+                alert('Error en auditoría: ' + data.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Fallo en la conexión con el nodo auditor.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+    };
+
+    function uploadFoto(input) {
+        if (input.files && input.files[0]) {
+            const formData = new FormData();
+            formData.append('foto', input.files[0]);
+
+            fetch('<?php echo base_url("public/upload_foto.php"); ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al subir la foto.');
+            });
+        }
+    }
+    </script>
 
 <?php
 require_once __DIR__ . '/../../views/layouts/footer.php';
