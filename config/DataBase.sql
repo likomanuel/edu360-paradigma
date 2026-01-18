@@ -22,21 +22,47 @@ USE `edu360-staging`;
 -- Volcando estructura para tabla edu360-staging.artefactos_dominio
 CREATE TABLE IF NOT EXISTS `artefactos_dominio` (
   `id_artefacto` int(11) NOT NULL AUTO_INCREMENT,
-  `id_evolucionador` int(11) NOT NULL,
-  `ruta_conocimiento` varchar(150) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
   `url_vault` varchar(255) NOT NULL,
-  `timestamp_entrega` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id_artefacto`),
-  KEY `fk_artefacto_evolucionador` (`id_evolucionador`),
-  CONSTRAINT `fk_artefacto_evolucionador` FOREIGN KEY (`id_evolucionador`) REFERENCES `evolucionadores` (`id_evolucionador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `nivel_trayectoria` varchar(255) NOT NULL,
+  `densidad_cognitiva_udv` int(11) NOT NULL DEFAULT 0,
+  `naturaleza_validacion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_artefacto`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.artefactos_dominio: ~1 rows (aproximadamente)
+DELETE FROM `artefactos_dominio`;
+INSERT INTO `artefactos_dominio` (`id_artefacto`, `nombre`, `url_vault`, `nivel_trayectoria`, `densidad_cognitiva_udv`, `naturaleza_validacion`) VALUES
+	(1, 'Paradigma Edu360', 'https://drive.google.com/file/d/1jNwcmCFtRieZPtxK8rV-H7dGUgqtJDZ8/view?usp=sharing', 'Diplomado de Dominio', 20, 'Integración funcional de habilidades básicas');
+
+-- Volcando estructura para tabla edu360-staging.artefactos_metas
+CREATE TABLE IF NOT EXISTS `artefactos_metas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_artefacto` int(11) NOT NULL DEFAULT 0,
+  `position` int(11) DEFAULT NULL,
+  `meta` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `objetivo` varchar(255) DEFAULT NULL,
+  `valor_udv` decimal(10,2) NOT NULL DEFAULT 0.00,
+  PRIMARY KEY (`id`),
+  KEY `id_artefacto` (`id_artefacto`),
+  CONSTRAINT `FK__artefactos_dominio` FOREIGN KEY (`id_artefacto`) REFERENCES `artefactos_dominio` (`id_artefacto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla edu360-staging.artefactos_metas: ~4 rows (aproximadamente)
+DELETE FROM `artefactos_metas`;
+INSERT INTO `artefactos_metas` (`id`, `id_artefacto`, `position`, `meta`, `descripcion`, `objetivo`, `valor_udv`) VALUES
+	(1, 1, 1, 'Transformación Mental y Paradigmática', 'Internalizar el cambio del modelo industrial al modelo "360"', 'Comprender la neuroeducación y cómo el cerebro aprende en entornos digitales', 20.00),
+	(2, 1, 2, 'Dominio de Ecosistemas Tecnológicos', 'Integrar herramientas de Inteligencia Artificial, Realidad Aumentada y entornos virtuales en el aula', 'Pasar de ser un consumidor de tecnología a un creador de recursos educativos disruptivos', 30.00),
+	(3, 1, 3, 'Diseño Pedagógico Innovador (ABP)', 'Implementar el Aprendizaje Basado en Proyectos con impacto social', 'Crear currículos flexibles que fomenten el pensamiento crítico y la resolución de problemas reales', 25.00),
+	(4, 1, 4, 'Liderazgo y Humanismo Digital', 'Desarrollar habilidades blandas (soft skills) y ética en el uso de datos', 'Ejercer un rol de mentoría que priorice el bienestar emocional del estudiante', 25.00);
 
 -- Volcando estructura para tabla edu360-staging.audit_log_inquisidor
 CREATE TABLE IF NOT EXISTS `audit_log_inquisidor` (
   `id_auditoria` int(11) NOT NULL AUTO_INCREMENT,
   `id_artefacto` int(11) NOT NULL,
+  `id_artefacto_meta` int(11) NOT NULL,
+  `id_evolucionador` int(11) NOT NULL,
   `score_rigor` decimal(5,2) NOT NULL,
   `veredicto` enum('Acuñado','En Desarrollo') NOT NULL,
   `friccion_detectada` text DEFAULT NULL,
@@ -44,10 +70,15 @@ CREATE TABLE IF NOT EXISTS `audit_log_inquisidor` (
   `auditado_at` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_auditoria`),
   KEY `fk_audit_artefacto` (`id_artefacto`),
+  KEY `id_artefacto_meta` (`id_artefacto_meta`),
+  KEY `id_evolucionador` (`id_evolucionador`),
+  CONSTRAINT `FK_audit_log_inquisidor_artefactos_metas` FOREIGN KEY (`id_artefacto_meta`) REFERENCES `artefactos_metas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_audit_log_inquisidor_evolucionadores` FOREIGN KEY (`id_evolucionador`) REFERENCES `evolucionadores` (`id_evolucionador`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_audit_artefacto` FOREIGN KEY (`id_artefacto`) REFERENCES `artefactos_dominio` (`id_artefacto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.audit_log_inquisidor: ~0 rows (aproximadamente)
+DELETE FROM `audit_log_inquisidor`;
 
 -- Volcando estructura para tabla edu360-staging.evolucionadores
 CREATE TABLE IF NOT EXISTS `evolucionadores` (
@@ -65,7 +96,10 @@ CREATE TABLE IF NOT EXISTS `evolucionadores` (
   UNIQUE KEY `email_verificado` (`email_verificado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.evolucionadores: ~1 rows (aproximadamente)
+DELETE FROM `evolucionadores`;
+INSERT INTO `evolucionadores` (`id_evolucionador`, `hash_identidad`, `nombre_completo`, `email_verificado`, `estatus_soberania`, `total_udv_acumuladas`, `creado_at`, `password`, `foto`, `verificado`) VALUES
+	(2, '0x267212A4267212A4267212A4267212A4', 'Daniel Alfonsi', 'alfonsi.acosta@gmail.com', 'Activo', 3.00, '2026-01-14 20:43:17', '1nyIl0IE7DUUGPRFtGMSGcxrY4OTM/v76NaBf80rtck=', 'perfil_1768686193.jpg', 1);
 
 -- Volcando estructura para tabla edu360-staging.nodos_activos
 CREATE TABLE IF NOT EXISTS `nodos_activos` (
@@ -76,13 +110,17 @@ CREATE TABLE IF NOT EXISTS `nodos_activos` (
   `estatus` varchar(50) NOT NULL DEFAULT 'Activado',
   `fecha_activacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_expiracion` timestamp NULL DEFAULT NULL,
+  `id_artefacto` int(11) DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_session` (`stripe_session_id`),
   KEY `idx_evolucionador` (`id_evolucionador`),
   CONSTRAINT `fk_nodos_evolucionador` FOREIGN KEY (`id_evolucionador`) REFERENCES `evolucionadores` (`id_evolucionador`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.nodos_activos: ~1 rows (aproximadamente)
+DELETE FROM `nodos_activos`;
+INSERT INTO `nodos_activos` (`id`, `id_evolucionador`, `stripe_session_id`, `monto`, `estatus`, `fecha_activacion`, `fecha_expiracion`, `id_artefacto`) VALUES
+	(4, 2, 'cs_test_a1W5SeRd4O947GaphMrG2Ieif13iWf2nW83pS24TJmRIosPlwB5FDXgt4o', 20.00, 'Activado', '2026-01-17 18:13:15', NULL, 1);
 
 -- Volcando estructura para tabla edu360-staging.nodos_fundacionales
 CREATE TABLE IF NOT EXISTS `nodos_fundacionales` (
@@ -96,7 +134,8 @@ CREATE TABLE IF NOT EXISTS `nodos_fundacionales` (
   CONSTRAINT `fk_nodo_titular` FOREIGN KEY (`id_titular`) REFERENCES `evolucionadores` (`id_evolucionador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.nodos_fundacionales: ~0 rows (aproximadamente)
+DELETE FROM `nodos_fundacionales`;
 
 -- Volcando estructura para tabla edu360-staging.staging
 CREATE TABLE IF NOT EXISTS `staging` (
@@ -108,7 +147,11 @@ CREATE TABLE IF NOT EXISTS `staging` (
   UNIQUE KEY `usuario` (`usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla edu360-staging.staging: ~2 rows (aproximadamente)
+DELETE FROM `staging`;
+INSERT INTO `staging` (`id`, `usuario`, `password`, `nivel`) VALUES
+	(1, 'alfonsi.acosta@gmail.com', 'f/t8tUSW+70FTNk9E2+PxUEPr8v0qgIV7d5Ofl419pY=', 'Tecnico'),
+	(2, 'likomanuel1975@gmail.com', 'fayfZreOxnXXGDWNBXVJf/H51EING4wtAZ1fvu9EaCU=', 'Tecnico');
 
 -- Volcando estructura para disparador edu360-staging.tr_actualizar_udv_soberania
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';

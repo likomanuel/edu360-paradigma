@@ -12,6 +12,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['staging'] = true;
         $_SESSION['email'] = $email;
         $_SESSION['status'] = 'En Consolidacion';
+        $_SESSION['id_evolucionador'] = $modulo->getUser($email)['id_evolucionador'];
         header('Location: ' . base_url('/index'));
         exit;
     }else{        

@@ -9,9 +9,11 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $password = $_POST['password'];
     
     if($modulo->ifUsuarioExist($email) && $password == trim($modulo->getPassword($email))){
+        $user = $modulo->getUser($email);
         $_SESSION['staging'] = false;
         $_SESSION['email'] = $email;
-        $_SESSION['status'] = $modulo->getUser($email)['estatus_soberania'];
+        $_SESSION['status'] = $user['estatus_soberania'];
+        $_SESSION['id_evolucionador'] = $user['id_evolucionador'];
         header('Location: ' . base_url('/index'));
         exit;
     }else{        

@@ -101,12 +101,12 @@ try {
 
     // Paso 3: Actualizar Base de Datos si la IA dio el visto bueno
     if (isset($aiResponse['verificado']) && $aiResponse['verificado']) {
-        $updateSql = "UPDATE evolucionadores SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 100 WHERE email_verificado = '{$user['email_verificado']}'";
+        $updateSql = "UPDATE evolucionadores SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 3 WHERE email_verificado = '{$user['email_verificado']}'";
         $modulo->getDb()->sqlconector($updateSql);
         
         echo json_encode([
             'success' => true,
-            'message' => 'Identidad verificada con éxito. Se han otorgado 100 UDV.',
+            'message' => 'Identidad verificada con éxito. Se han otorgado 3 UDV.',
             'ia_report' => $aiResponse
         ]);
     } else {

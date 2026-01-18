@@ -3,6 +3,10 @@ require_once __DIR__ . '/../../config/modulo.php';
 require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
 
+use App\Controllers\NeuroEducacionController;
+
+$neuroEducacionController = new NeuroEducacionController();
+
 $link = "pagos";
 $caption = "Activar el Nodo";
 $verificado = 0;
@@ -221,7 +225,7 @@ if($user['verificado'] == 1){
 <body>
 
     <header>
-        <div class="logo"><i class="fas fa-microchip"></i> PARADIGMA EDU360</div>
+        <div class="logo" style="text-transform: uppercase;"><i class="fas fa-microchip"></i> <?php echo $neuroEducacionController->artefactoActivo($user['id_evolucionador'])['nombre']; ?></div>
         <div class="udv-counter"><a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>"><?php echo $caption; ?></a></div>
         <div class="user-nav">
             <span class="udv-counter"><?php echo $user['total_udv_acumuladas']; ?> UDV</span>
