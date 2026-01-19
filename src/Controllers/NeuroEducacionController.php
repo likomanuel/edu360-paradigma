@@ -92,6 +92,11 @@ class NeuroEducacionController
                     $status = 'En Proceso';
                     $progress = 0;
                     $foundCurrent = true;
+
+                    // PERSISTENCIA: Crear el registro inicial en la DB para que ya exista en auditoría
+                    $sqlInsert = "INSERT INTO audit_log_inquisidor (id_artefacto, id_artefacto_meta, id_evolucionador, score_rigor, veredicto, udv_otorgadas) 
+                                  VALUES ($id_artefacto, $metaId, $id_evolucionador, 0, 'En Desarrollo', 0)";
+                    $this->db->sqlconector($sqlInsert);
                 }
             }
 
