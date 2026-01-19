@@ -159,6 +159,29 @@ $metaActualData = [
             color: var(--primary-blue);
             border: 1px solid var(--primary-blue);
         }
+
+        /* Scrollbar Styling - Thinner and theme-adapted */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+            box-shadow: 0 0 5px var(--primary-glow);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cef3;
+        }
+        
+        /* Firefox support */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) var(--bg-dark);
+        }
     </style>
 </head>
 <body>
@@ -220,6 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const udvNumber = document.querySelector('.udv-number');
+
+    // Desactivar copiar, pegar y menú contextual en el input para asegurar 
+    // que el evolucionador demuestre su conocimiento real.
+    ['copy', 'paste', 'cut', 'contextmenu'].forEach(event => {
+        userInput.addEventListener(event, (e) => {
+            e.preventDefault();
+            userInput.style.borderColor = 'red';
+            setTimeout(() => userInput.style.borderColor = '#333', 500);
+        });
+    });
 
     function appendMessage(role, text) {
         const div = document.createElement('div');
