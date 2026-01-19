@@ -87,3 +87,32 @@ Stack trace:
 #0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(57): App\Controllers\NeuroEducacionController->__construct()
 #1 {main}
   thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php on line 11
+[19-Jan-2026 12:38:26 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:38:26 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:38:26 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 9
+[19-Jan-2026 12:38:26 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 12:38:34 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:38:34 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:38:34 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 9
+[19-Jan-2026 12:38:34 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 12:39:43 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:39:43 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:39:43 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 9
+[19-Jan-2026 12:39:43 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 12:42:30 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:42:30 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:42:30 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 9
+[19-Jan-2026 12:42:30 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 12:46:54 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:46:54 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 8
+[19-Jan-2026 12:46:54 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 9
+[19-Jan-2026 12:46:54 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 13:27:35 UTC] PHP Warning:  Undefined array key "descripcion" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 196
+[19-Jan-2026 13:27:35 UTC] PHP Warning:  Undefined array key "objetivo" in C:\Apache24\htdocs\edu360-paradigma\views\neuroeducacion\neuroeducacion.php on line 198
+[19-Jan-2026 14:39:21 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
+[19-Jan-2026 14:39:29 UTC] [GEMINI_SERVICE_ERROR] The model is overloaded. Please try again later.
+[19-Jan-2026 14:41:01 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
+[19-Jan-2026 17:22:47 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
+[19-Jan-2026 17:22:47 UTC] [GEMINI_SERVICE_ERROR] API key not valid. Please pass a valid API key.
+[19-Jan-2026 17:27:33 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
+[19-Jan-2026 17:32:22 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183

@@ -106,10 +106,92 @@ class NeuroEducacionController
                 'objetivo' => $meta['objetivo'],
                 'status' => $status,
                 'progress' => $progress,
-                'veredicto' => $veredicto
+                'veredicto' => $veredicto,
+                'udv_otorgadas' => $audit ? $audit['udv_otorgadas'] : 0,
+                'valor_udv' => $meta['valor_udv']
             ];
         }
 
         return $results;
+    }
+
+    public function procesarAuditoria($id_evolucionador, $mensajeUsuario)
+    {
+        $gemini = new \App\Services\GeminiService();
+        
+        // 1. Obtener contexto de la meta activa
+        $sqlNodo = "SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador = $id_evolucionador AND estatus = 'Activado' LIMIT 1";
+        $nodo = $this->db->row_sqlconector($sqlNodo);
+        if (!$nodo) return ['error' => 'No hay nodo activo'];
+        $id_artefacto = $nodo['id_artefacto'];
+
+        $sqlMetas = "SELECT * FROM artefactos_metas WHERE id_artefacto = $id_artefacto ORDER BY position ASC";
+        $metas = $this->db->array_sqlconector($sqlMetas);
+
+        $sqlAudit = "SELECT * FROM audit_log_inquisidor WHERE id_evolucionador = $id_evolucionador AND id_artefacto = $id_artefacto";
+        $audits = $this->db->array_sqlconector($sqlAudit);
+        $auditMap = [];
+        foreach ($audits as $a) $auditMap[$a['id_artefacto_meta']] = $a;
+
+        $metaActual = null;
+        $id_meta = null;
+        foreach ($metas as $m) {
+            $a = $auditMap[$m['id']] ?? null;
+            if (!$a || $a['veredicto'] !== 'Acuñado') {
+                $metaActual = $m;
+                $metaActual['udv_otorgadas'] = $a ? $a['udv_otorgadas'] : 0;
+                $id_meta = $m['id'];
+                break;
+            }
+        }
+
+        if (!$metaActual) return ['error' => 'No hay metas pendientes'];
+
+        // 2. Obtener historial de chat
+        $historial = $this->getHistorialChat($id_evolucionador, $id_artefacto, $id_meta);
+
+        // 3. Llamar a Gemini
+        try {
+            $respuestaIA = $gemini->auditarRespuesta($metaActual, $mensajeUsuario, $historial);
+        } catch (\Exception $e) {
+            return ['error' => 'Error en la IA: ' . $e->getMessage()];
+        }
+
+        if (isset($respuestaIA['error'])) return $respuestaIA;
+
+        // 4. Guardar mensajes en el log
+        $this->db->sqlconector("INSERT INTO chat_auditoria_log (id_evolucionador, id_artefacto, id_artefacto_meta, role, content) VALUES ($id_evolucionador, $id_artefacto, $id_meta, 'user', '" . addslashes($mensajeUsuario) . "')");
+        $this->db->sqlconector("INSERT INTO chat_auditoria_log (id_evolucionador, id_artefacto, id_artefacto_meta, role, content) VALUES ($id_evolucionador, $id_artefacto, $id_meta, 'assistant', '" . addslashes($respuestaIA['mensaje'] ?? '') . "')");
+
+        // 5. Actualizar audit_log_inquisidor
+        $nuevasUDV = (float)($respuestaIA['udv_otorgadas'] ?? 0);
+        $udvTotales = (float)$metaActual['udv_otorgadas'] + $nuevasUDV;
+        $veredicto = $respuestaIA['veredicto'] ?? 'En Desarrollo';
+
+        if ($udvTotales >= $metaActual['valor_udv']) {
+            $veredicto = 'Acuñado';
+            $udvTotales = $metaActual['valor_udv'];
+        }
+
+        $this->db->sqlconector("UPDATE audit_log_inquisidor SET udv_otorgadas = $udvTotales, veredicto = '$veredicto', auditado_at = CURRENT_TIMESTAMP WHERE id_evolucionador = $id_evolucionador AND id_artefacto = $id_artefacto AND id_artefacto_meta = $id_meta");
+
+        return [
+            'success' => true,
+            'mensaje' => $respuestaIA['mensaje'] ?? 'Sin respuesta',
+            'udv_otorgadas' => $nuevasUDV,
+            'udv_totales' => $udvTotales,
+            'veredicto' => $veredicto,
+            'progresion' => ($veredicto === 'Acuñado')
+        ];
+    }
+
+    private function getHistorialChat($id_evolucionador, $id_artefacto, $id_meta)
+    {
+        $sql = "SELECT role, content FROM chat_auditoria_log 
+                WHERE id_evolucionador = $id_evolucionador 
+                AND id_artefacto = $id_artefacto 
+                AND id_artefacto_meta = $id_meta 
+                ORDER BY created_at ASC LIMIT 10";
+        return $this->db->array_sqlconector($sql) ?? [];
     }
 }

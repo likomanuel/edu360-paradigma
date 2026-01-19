@@ -1,3 +1,33 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../config/modulo.php';
+$modulo = new Modulo();
+
+use App\Controllers\NeuroEducacionController;
+$neuroEducacionController = new NeuroEducacionController();
+
+$user = $modulo->getUser($_SESSION['email']);
+$evoluciones = $neuroEducacionController->misEvoluciones($user['id_evolucionador']);
+
+// Encontrar la meta activa (la primera 'En Proceso')
+$metaEnProgreso = null;
+foreach ($evoluciones as $evo) {
+    if ($evo['status'] === 'En Proceso') {
+        $metaEnProgreso = $evo;
+        break;
+    }
+}
+
+// Variable para futuros usos de comunicacion
+$metaActualData = [
+    'descripcion' => $metaEnProgreso ? $metaEnProgreso['descripcion'] : 'N/A',
+    'objetivo' => $metaEnProgreso ? $metaEnProgreso['objetivo'] : 'N/A',
+    'nombre' => $metaEnProgreso ? $metaEnProgreso['meta'] : 'N/A',
+    'udv_otorgadas' => $metaEnProgreso ? $metaEnProgreso['udv_otorgadas'] : 0,
+    'valor_udv' => $metaEnProgreso ? $metaEnProgreso['valor_udv'] : 0,
+    'progreso_porcentaje' => $metaEnProgreso ? $metaEnProgreso['progress'] : 0,
+];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,6 +42,7 @@
             --primary-glow: rgba(0, 168, 232, 0.3);
             --bg-dark: #0a0a0a;
             --card-bg: rgba(20, 20, 20, 0.9);
+            --cyber-green: #00ff88;
         }
         
         body { font-family: 'Montserrat', sans-serif; background: var(--bg-dark); color: white; margin: 0; overflow: hidden; }
@@ -46,6 +77,8 @@
 
         /* Área de Chat / Auditoría */
         .main-chat {
+            overflow-y: scroll;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
@@ -132,20 +165,28 @@
 
 <div class="app-container">
     <aside class="sidebar">
-        <div class="logo"><i class="fas fa-brain"></i> EDU360 v10</div>
+        <div class="logo"><i class="fas fa-brain"></i> EDU360 v10 <a href="<?php echo base_url('mipanel'); ?>" style="color: var(--primary-blue); font-size: 0.8rem; text-decoration: none; margin-left: 10px;"><i class="fas fa-arrow-left"></i> Volver</a></div>
         <br>
         <div class="udv-counter">
             <div class="udv-label">Dominio Acuñado</div>
-            <div class="udv-number">12.5</div>
-            <div class="udv-label">UDV de 20.0</div>
+            <div class="udv-number"><?php echo $metaActualData['udv_otorgadas']; ?></div>
+            <div class="udv-label">UDV de <?php echo $metaActualData['valor_udv']; ?></div>
         </div>
         
         <div class="progress-list">
             <p><small>METAS DEL DIPLOMADO</small></p>
             <div style="font-size: 0.85rem; color: #aaa;">
-                <p><i class="fas fa-check-circle" style="color: var(--primary-blue);"></i> Neuroplasticidad Aplicada</p>
-                <p><i class="fas fa-circle-notch"></i> Arquitectura de Sistemas</p>
-                <p><i class="far fa-circle"></i> Ética Cognitiva</p>
+                <?php foreach($evoluciones as $evo): 
+                    $isCulminado = ($evo['status'] === 'Culminado');
+                    $isLocked = ($evo['status'] === 'Bloqueado');
+                    $icon = $isCulminado ? 'fa-check-circle' : ($isLocked ? 'fa-circle' : 'fa-circle-notch fa-spin');
+                    $color = $isCulminado ? 'var(--cyber-green)' : ($isLocked ? '#444' : 'var(--primary-blue)');
+                ?>
+                    <p style="<?php echo $isLocked ? 'opacity: 0.4;' : ''; ?>">
+                        <i class="fas <?php echo $icon; ?>" style="color: <?php echo $color; ?>;"></i> 
+                        <?php echo $evo['meta']; ?>
+                    </p>
+                <?php endforeach; ?>
             </div>
         </div>
     </aside>
@@ -154,21 +195,93 @@
         <div class="chat-history">
             <div class="message ai-message">
                 <span class="status-badge">NODO VALIDADOR IA</span>
-                <p>Bienvenido, Evolucionador. He analizado tu trayectoria previa. Para acuñar tus próximas **2.5 UDV** en el módulo de "Soberanía Intelectual", necesito que demuestres dominio: 
+                <p>Bienvenido, Evolucionador. He analizado tu trayectoria previa. Para acuñar tus próximas **<?php echo $metaActualData['valor_udv']; ?> UDV** en el módulo de "<?php echo $metaActualData['nombre']; ?>",  necesito que demuestres dominio: 
                 <br><br>
-                ¿Cómo integrarías el concepto de **SRAA** en una empresa que actualmente mide el desempeño por horas-hombre? Describe el protocolo de transición.</p>
+                <?php echo $metaActualData['descripcion']; ?>
+                <br><br>
+                <?php echo $metaActualData['objetivo']; ?>
+                <br><br>
+                ¿Cómo integrarías el concepto.</p>
             </div>
-
-            </div>
+        </div>
 
         <div class="input-area">
             <div class="input-container">
-                <input type="text" placeholder="Presenta tu evidencia de dominio aquí...">
-                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                <input type="text" id="userInput" placeholder="Presenta tu evidencia de dominio aquí...">
+                <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </main>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const chatHistory = document.querySelector('.chat-history');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const udvNumber = document.querySelector('.udv-number');
+
+    function appendMessage(role, text) {
+        const div = document.createElement('div');
+        div.className = `message ${role}-message`;
+        if (role === 'ai') {
+            div.innerHTML = `<span class="status-badge">NODO VALIDADOR IA</span><p>${text}</p>`;
+        } else {
+            div.innerHTML = `<p>${text}</p>`;
+        }
+        chatHistory.appendChild(div);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const msg = userInput.value.trim();
+        if (!msg) return;
+
+        appendMessage('user', msg);
+        userInput.value = '';
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+
+        try {
+            const response = await fetch('<?php echo base_url("procesar_auditoria.php"); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mensaje: msg })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                appendMessage('ai', 'Error: ' + data.error);
+            } else {
+                appendMessage('ai', data.mensaje);
+                
+                // Actualizar contadores
+                if (data.udv_totales !== undefined) {
+                    udvNumber.innerText = data.udv_totales;
+                }
+
+                // Si hubo progresión, recargar sidebar o avisar
+                if (data.progresion) {
+                    appendMessage('ai', '<i class="fas fa-medal"></i> **¡META ACUÑADA!** Has desbloqueado el siguiente nivel. Recargando tu trayectoria...');
+                    setTimeout(() => location.reload(), 3000);
+                }
+            }
+        } catch (e) {
+            appendMessage('ai', 'Error de conexión con el Nodo Validador.');
+        } finally {
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+});
+</script>
 
 </body>
 </html>

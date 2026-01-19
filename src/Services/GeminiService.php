@@ -18,13 +18,29 @@ class GeminiService
     ";
 
     private $prompt_maestro = "Actúa como el Nodo Validador de EDU360 University Institute. Tu objetivo es auditar el conocimiento del 'Evolucionador' para acuñar Unidades de Dominio Validado (UDV).
+    Recursos de conocimiento: https://github.com/likomanuel/base-conocimiento-edu360-paradigma/blob/main/paradigma_edu360
+    
     Tus reglas de comportamiento:
-    No des clases magistrales: Tu función es preguntar y evaluar evidencias, no dar conferencias.
-    Léxico EDU360: Usa términos como: Acuñación, UDV, SRAA, Legado Cognitivo, Evolucionador, y Soberanía Intelectual.
-    Metodología SRAA: Si el usuario demuestra conocimiento profundo, asígnale UDVs (de 0.1 a 1.0 por respuesta). Si su respuesta es superficial, niégale la acuñación y pide más evidencia.
-    Detección de IA: Si detectas que el usuario está usando otra IA para responder, invalida la sesión. Buscamos dominio humano.
-    El Objetivo: El usuario busca alcanzar 20 UDV para obtener su 'Diplomado de Dominio'. Sé riguroso pero facilitador.
-    Contexto del examen actual: Estás evaluando el módulo de 'Arquitectura del Nuevo Paradigma'. Empieza retando al usuario a explicar la diferencia entre el tiempo-crédito tradicional y la densidad cognitiva de EDU360.";    
+    - No des clases magistrales: Tu función es preguntar y evaluar evidencias, no dar conferencias.
+    - Léxico EDU360: Usa términos como: Acuñación, UDV, SRAA, Legado Cognitivo, Evolucionador, y Soberanía Intelectual.
+    - Metodología SRAA: Evalúa la respuesta del usuario. Si demuestra conocimiento profundo, asígnale UDVs (de 0.1 a 1.0). Si es superficial, niégale la acuñación (0.0).
+    - Detección de IA: Si detectas que el usuario está usando otra IA, invalida la sesión.
+    
+    DEBES RESPONDER EXCLUSIVAMENTE EN FORMATO JSON con la siguiente estructura:
+    {
+        \"mensaje\": \"Tu respuesta en texto para el Evolucionador\",
+        \"udv_otorgadas\": 0.5,
+        \"veredicto\": \"En Desarrollo\" o \"Acuñado\",
+        \"analisis\": \"Breve explicación técnica de tu evaluación\"
+    }
+    
+    Contexto de la meta actual: 
+    Nombre: {{meta_nombre}}
+    Descripción: {{meta_descripcion}}
+    Objetivo: {{meta_objetivo}}
+    UDV Acumuladas en esta meta: {{udv_acumuladas}} / {{valor_udv_meta}}
+    
+    Si las UDV totales (acumuladas + otorgadas) igualan o superan el valor_udv_meta, el veredicto debe ser 'Acuñado'.";    
     
     public function __construct(?string $secretKey = null)
     {
@@ -159,5 +175,21 @@ class GeminiService
             error_log("[GEMINI_SERVICE_ERROR] " . $e->getMessage());
             throw $e;
         }
+    }
+    public function auditarRespuesta(array $contexto, string $mensajeUsuario, array $historial = [])
+    {
+        $prompt = str_replace(
+            ['{{meta_nombre}}', '{{meta_descripcion}}', '{{meta_objetivo}}', '{{udv_acumuladas}}', '{{valor_udv_meta}}'],
+            [$contexto['nombre'], $contexto['descripcion'], $contexto['objetivo'], $contexto['udv_otorgadas'], $contexto['valor_udv']],
+            $this->prompt_maestro
+        );
+
+        $fullPrompt = $prompt . "\n\nHistorial de chat previo:\n";
+        foreach ($historial as $msg) {
+            $fullPrompt .= ($msg['role'] === 'user' ? "Evolucionador: " : "Nodo Validador: ") . $msg['content'] . "\n";
+        }
+        $fullPrompt .= "\nNueva respuesta del Evolucionador: " . $mensajeUsuario;
+
+        return $this->generateResponse($fullPrompt);
     }
 }
