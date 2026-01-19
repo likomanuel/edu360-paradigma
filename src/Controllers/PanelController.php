@@ -7,4 +7,9 @@ class PanelController
     {
         require_once __DIR__ . '/../../views/mipanel/index.php';
     }
+
+    public function aula()
+    {
+        require_once __DIR__ . '/../../views/mipanel/aula.php';
+    }
 }

@@ -1,6 +1,7 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../config/modulo.php';
-require_once __DIR__ . '/../../views/layouts/header.php';
+//require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
 
 use App\Controllers\NeuroEducacionController;
@@ -20,6 +21,17 @@ if($user['verificado'] == 1){
 }
 
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control</title>
+    <link rel="stylesheet" href="<?php echo css('style.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo css('sweetalert2.css'); ?>" />
+    <script src="<?php echo js('jquery-3.5.1.js'); ?>"></script>
+    <script src="<?php echo js('sweetalert2.js'); ?>"></script>
+    </head>
     <style>
         :root {
             --primary-blue: #00a8e8;
@@ -221,12 +233,19 @@ if($user['verificado'] == 1){
             cursor: pointer;
         }
     </style>
-</head>
 <body>
 
     <header>
         <div class="logo" style="text-transform: uppercase;"><i class="fas fa-microchip"></i> <?php echo $neuroEducacionController->artefactoActivo($user['id_evolucionador'])['nombre']; ?></div>
-        <div class="udv-counter"><a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>"><?php echo $caption; ?></a></div>
+        <div class="aula-counter">
+            <a  style="text-decoration: none; color: white;" href="<?php echo base_url('/'); ?>">Home</a>            
+        </div>
+        <div class="udv-counter">
+            <a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>"><?php echo $caption; ?></a>            
+        </div>
+        <div class="aula-counter">
+            <a  style="text-decoration: none; color: white;" href="<?php echo base_url('aula'); ?>">Aula Virtual</a>            
+        </div>
         <div class="user-nav">
             <span class="udv-counter"><?php echo $user['total_udv_acumuladas']; ?> UDV</span>
             <i class="fas fa-bell"></i>

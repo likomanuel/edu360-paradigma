@@ -116,3 +116,78 @@ Stack trace:
 [19-Jan-2026 17:22:47 UTC] [GEMINI_SERVICE_ERROR] API key not valid. Please pass a valid API key.
 [19-Jan-2026 17:27:33 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
 [19-Jan-2026 17:32:22 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 183
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 14
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 18
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 228
+[19-Jan-2026 22:43:35 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM nodos_activos WHERE estatus = 'Activado' AND id_evolucionador = 
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php on line 26
+[19-Jan-2026 22:43:35 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM artefactos_dominio WHERE id_artefacto = 
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 228
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "total_udv_acumuladas" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 236
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 256
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 257
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "email_verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 262
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 266
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "creado_at" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 270
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 279
+[19-Jan-2026 22:43:35 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 287
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 287
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 330
+[19-Jan-2026 22:43:35 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 4 - Query: SELECT n.*, a.nombre, a.nivel_trayectoria 
+                FROM nodos_activos n 
+                JOIN artefactos_dominio a ON n.id_artefacto = a.id_artefacto 
+                WHERE n.id_evolucionador = 
+[19-Jan-2026 22:43:35 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 388
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 14
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 18
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 240
+[19-Jan-2026 22:45:23 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM nodos_activos WHERE estatus = 'Activado' AND id_evolucionador = 
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php on line 26
+[19-Jan-2026 22:45:23 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM artefactos_dominio WHERE id_artefacto = 
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 240
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "total_udv_acumuladas" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 248
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 268
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 269
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "email_verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 274
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 278
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "creado_at" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 282
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 291
+[19-Jan-2026 22:45:23 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 299
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 299
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 342
+[19-Jan-2026 22:45:23 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 4 - Query: SELECT n.*, a.nombre, a.nivel_trayectoria 
+                FROM nodos_activos n 
+                JOIN artefactos_dominio a ON n.id_artefacto = a.id_artefacto 
+                WHERE n.id_evolucionador = 
+[19-Jan-2026 22:45:23 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 400
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined global variable $_SESSION in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 13
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 14
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 18
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 240
+[19-Jan-2026 22:45:46 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM nodos_activos WHERE estatus = 'Activado' AND id_evolucionador = 
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php on line 26
+[19-Jan-2026 22:45:46 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM artefactos_dominio WHERE id_artefacto = 
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 240
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "total_udv_acumuladas" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 248
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 268
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 269
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "email_verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 274
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "estatus_soberania" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 278
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "creado_at" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 282
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 291
+[19-Jan-2026 22:45:46 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND estatus = 'Activado' LIMIT 1' at line 1 - Query: SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador =  AND estatus = 'Activado' LIMIT 1
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "verificado" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 299
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "hash_identidad" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 299
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "id_evolucionador" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 342
+[19-Jan-2026 22:45:46 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 4 - Query: SELECT n.*, a.nombre, a.nivel_trayectoria 
+                FROM nodos_activos n 
+                JOIN artefactos_dominio a ON n.id_artefacto = a.id_artefacto 
+                WHERE n.id_evolucionador = 
+[19-Jan-2026 22:45:46 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 400

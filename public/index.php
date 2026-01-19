@@ -66,6 +66,11 @@ switch ($route) {
         $controller->pagos();        
         break;
 
+    case '/aula':
+        $controller = new App\Controllers\PanelController(); 
+        $controller->aula();        
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";
