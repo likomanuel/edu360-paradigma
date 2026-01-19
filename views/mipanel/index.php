@@ -270,8 +270,13 @@ if($user['verificado'] == 1){
         <section class="block evolutions-block">
             <h2><i class="fas fa-dna"></i> Mis Evoluciones (En curso)</h2>
 
+            <?php 
+            $evoluciones = $neuroEducacionController->misEvoluciones($user['id_evolucionador']);
+            
+            // Especial: Verificación de Identidad (se mantiene como primer hito manual por ahora)
+            ?>
             <div class="evolution-item">
-                <div class="evolution-icon"><i class="fas fa-brain"></i></div>
+                <div class="evolution-icon"><i class="fas fa-user-shield"></i></div>
                 <div class="evolution-info">
                     <h4>Verificación de Identidad 
                         <span style="color: var(--text-muted); font-size: 0.7rem; cursor: pointer; border-bottom: 1px solid var(--text-muted);" onclick="verificarIdentidad('<?php if($user['verificado'] == 0){ echo $user['hash_identidad']; }else{echo 'verificado';}?>')">Verificar</span></h4>
@@ -279,40 +284,68 @@ if($user['verificado'] == 1){
                     <small style="color: var(--text-muted); font-size: 0.7rem;"><?php echo $verificado; ?>% Completado - Próximo hito: Auditoría de Jules</small>
                 </div>
             </div>
-            
-            <div class="evolution-item">
-                <div class="evolution-icon"><i class="fas fa-brain"></i></div>
-                <div class="evolution-info">
-                    <h4>IA Generativa y Neurociencia Aplicada</h4>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Auditoría de Jules</small>
-                </div>
-            </div>
 
-            <div class="evolution-item">
-                <div class="evolution-icon"><i class="fas fa-code-branch"></i></div>
+            <?php 
+            if (empty($evoluciones)): 
+            ?>
+            <div class="evolution-item" style="opacity: 0.5;">
+                <div class="evolution-icon"><i class="fas fa-lock"></i></div>
                 <div class="evolution-info">
-                    <h4>Arquitecturas de Nodos Federales</h4>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                    <small style="color: var(--text-muted); font-size: 0.7rem;">0% Completado - Próximo hito: Despliegue en Staging</small>
+                    <h4>Nodos de Aprendizaje</h4>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">Activa un nodo para comenzar tu evolución.</small>
                 </div>
             </div>
+            <?php 
+            else:
+                foreach($evoluciones as $evo): 
+                    $isLocked = ($evo['status'] === 'Bloqueado');
+                    $isCulminado = ($evo['status'] === 'Culminado');
+                    $icon = $isCulminado ? 'fa-check-circle' : ($isLocked ? 'fa-lock' : 'fa-brain');
+                    $color = $isCulminado ? 'var(--cyber-green)' : ($isLocked ? 'var(--text-muted)' : 'var(--primary-blue)');
+            ?>
+            <div class="evolution-item" style="<?php echo $isLocked ? 'opacity: 0.5;' : ''; ?>">
+                <div class="evolution-icon" style="color: <?php echo $color; ?>;"><i class="fas <?php echo $icon; ?>"></i></div>
+                <div class="evolution-info">
+                    <h4><?php echo $evo['meta']; ?></h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: <?php echo $evo['progress']; ?>%; background: <?php echo $color; ?>; box-shadow: 0 0 10px <?php echo $color; ?>;"></div></div>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">
+                        <?php echo round($evo['progress']); ?>% Completado - <?php echo $evo['status']; ?>
+                    </small>
+                </div>
+            </div>
+            <?php 
+                endforeach; 
+            endif; 
+            ?>
         </section>
 
         <section class="block achievements-block">
             <h2><i class="fas fa-trophy"></i> Mis Logros</h2>
-            <div class="achievement-tag">
-                <i class="fas fa-certificate"></i>
-                <span>Fundamentos de Soberanía Cognitiva</span>
+            <?php 
+            $logros = $neuroEducacionController->logrosEvolucionador($user['id_evolucionador']);
+            if (empty($logros)):
+            ?>
+            <div class="achievement-tag" style="border-left: 3px solid var(--text-muted);">
+                <i class="fas fa-info-circle" style="color: var(--text-muted);"></i>
+                <span>No hay logros registrados aún.</span>
             </div>
-            <div class="achievement-tag">
-                <i class="fas fa-shield-alt"></i>
-                <span>Protocolo de El Inquisidor Nivel 1</span>
+            <?php 
+            else:
+                foreach($logros as $logro): 
+                    $isCulminado = ($logro['estatus'] == 'Culminado');
+                    $statusLabel = $isCulminado ? 'Culminado' : 'En Proceso';
+                    $borderStyle = $isCulminado ? 'border-left: 3px solid var(--cyber-green);' : 'border-left: 3px solid var(--primary-blue);';
+                    $iconClass = $isCulminado ? 'fa-check-circle' : 'fa-spinner fa-spin';
+                    $iconColor = $isCulminado ? 'var(--cyber-green)' : 'var(--primary-blue)';
+            ?>
+            <div class="achievement-tag" style="<?php echo $borderStyle; ?>">
+                <i class="fas <?php echo $iconClass; ?>" style="color: <?php echo $iconColor; ?>;"></i>
+                <span><?php echo $logro['nombre'] . ' - ' . $logro['nivel_trayectoria'] . ' (' . $statusLabel . ')'; ?></span>
             </div>
-            <div class="achievement-tag">
-                <i class="fas fa-bolt"></i>
-                <span>Primer Acuñado de UDV Exitoso</span>
-            </div>
+            <?php 
+                endforeach; 
+            endif; 
+            ?>
         </section>
 
         <section class="block certificates-block">
