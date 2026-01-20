@@ -1,7 +1,49 @@
 <?php
 require_once __DIR__ . '/../../views/layouts/header.php';
 ?>
-  <section class="hero">
+    <style>
+        .grid-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 168, 232, 0.3);
+        }
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            transition: transform 0.5s ease;
+        }
+        .card:hover img {
+            transform: scale(1.05);
+        }
+        .card i {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+
+    <section class="hero">
         <h1>Paradigma EDU360</h1>
         <p>Soberanía Cognitiva y Rigor Federal</p>
         <button class="btn-main" onclick="window.location.href='https://www.edu360global.org/university-institute/'">Conoce más</button>
@@ -11,23 +53,22 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         <h2>Nuestros Pilares</h2>
         <div class="grid-pillars">
             <div class="card">
-                <i class="fas fa-brain"></i>
+                <img src="<?php echo img('home_cards/pilar_ia.png'); ?>" alt="IA Aplicada">
                 <h3>IA aplicada</h3>
                 <p>Implementación de inteligencia artificial en entornos educativos modernos.</p>
             </div>
             <div class="card">
-                <i class="fas fa-lightbulb"></i>
+                <img src="<?php echo img('home_cards/pilar_neurociencia.png'); ?>" alt="Neurociencia">
                 <h3>Neurociencia</h3>
                 <p>Estudio del aprendizaje basado en el funcionamiento del cerebro.</p>
             </div>
             <div class="card">
-                <i class="fas fa-network-wired"></i>
-                <img src="<?php echo img('favicon/university/android-chrome-192x192.png') ?>" alt="Logo" width="100" height="100"> 
+                <img src="<?php echo img('home_cards/pilar_infraestructura.png'); ?>" alt="Infraestructura">
                 <h3>Infraestructura</h3>
                 <p>Soporte técnico y tecnológico para la educación digital.</p>
             </div>
             <div class="card">
-                <i class="fas fa-users"></i>
+                <img src="<?php echo img('home_cards/pilar_liderazgo.png'); ?>" alt="Liderazgo">
                 <h3>Liderazgo</h3>
                 <p>Formación de líderes para la era de la información global.</p>
             </div>
@@ -38,12 +79,12 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         <h2>Programas</h2>
         <div class="grid-pillars">
             <div class="card">
-                <i class="fas fa-brain"></i>
+                <img src="<?php echo img('home_cards/prog_neuroeducacion.png'); ?>" alt="Neuroeducación Aplicada">
                 <h3>Neuroeducación Aplicada</h3>
                 <p>Implementación de inteligencia artificial en entornos educativos modernos.</p>
             </div>
             <div class="card">
-                <i class="fas fa-lightbulb"></i>
+                <img src="<?php echo img('home_cards/prog_sraa.png'); ?>" alt="Sistema SRAA">
                 <h3>Sistema SRAA</h3>
                 <p>Progresión acumulativa sin retrocesos.</p>
             </div>
@@ -53,12 +94,12 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <p>Humanismo en la era algorítmica.</p>
             </div>
             <div class="card">
-                <i class="fas fa-users"></i>
+                <img src="<?php echo img('home_cards/edu360universidad.jpeg'); ?>" alt="Autogobierno Digital">
                 <h3>Autogobierno Digital</h3>
                 <p>Operación con mínima intervención humana.</p>
             </div>
         </div>
-    </section> 
+    </section>
 
 <?php
 if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {

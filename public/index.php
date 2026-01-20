@@ -36,7 +36,6 @@ switch ($route) {
         break;
 
     case '/session':
-        echo "Session";
         $controller = new App\Controllers\SessionController(); 
         $controller->session();        
         break;

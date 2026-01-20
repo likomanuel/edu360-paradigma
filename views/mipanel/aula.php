@@ -1,3 +1,13 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+    header("Location: " . base_url("/session") );
+    exit();
+}
+require_once __DIR__ . '/../../config/modulo.php';
+$modulo = new Modulo();
+
+?>  
 <!DOCTYPE html>
 <html lang="es">
 <head>

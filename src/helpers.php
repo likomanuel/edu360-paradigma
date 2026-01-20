@@ -52,6 +52,12 @@ if (!function_exists('img')) {
     }
 }
 
+if (!function_exists('fonts')) {
+    function fonts($path) {
+        return base_url('public/assets/fonts/' . ltrim($path, '/'));
+    }
+}
+
 if (!function_exists('modulo')) {
     function modulo() {
         return $_ENV['MODULO'];

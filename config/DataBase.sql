@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `artefactos_dominio` (
 -- Volcando datos para la tabla edu360-staging.artefactos_dominio: ~1 rows (aproximadamente)
 DELETE FROM `artefactos_dominio`;
 INSERT INTO `artefactos_dominio` (`id_artefacto`, `nombre`, `url_vault`, `nivel_trayectoria`, `densidad_cognitiva_udv`, `naturaleza_validacion`) VALUES
-	(1, 'Paradigma Edu360', 'https://drive.google.com/file/d/1jNwcmCFtRieZPtxK8rV-H7dGUgqtJDZ8/view?usp=sharing', 'Diplomado de Dominio', 20, 'Integración funcional de habilidades básicas');
+	(1, 'Paradigma Edu360', 'https://drive.google.com/file/d/1jNwcmCFtRieZPtxK8rV-H7dGUgqtJDZ8/view?usp=sharing', 'Diplomado de Dominio', 100, 'Integración funcional de habilidades básicas');
 
 -- Volcando estructura para tabla edu360-staging.artefactos_metas
 CREATE TABLE IF NOT EXISTS `artefactos_metas` (
@@ -75,10 +75,35 @@ CREATE TABLE IF NOT EXISTS `audit_log_inquisidor` (
   CONSTRAINT `FK_audit_log_inquisidor_artefactos_metas` FOREIGN KEY (`id_artefacto_meta`) REFERENCES `artefactos_metas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_audit_log_inquisidor_evolucionadores` FOREIGN KEY (`id_evolucionador`) REFERENCES `evolucionadores` (`id_evolucionador`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_audit_artefacto` FOREIGN KEY (`id_artefacto`) REFERENCES `artefactos_dominio` (`id_artefacto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Volcando datos para la tabla edu360-staging.audit_log_inquisidor: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla edu360-staging.audit_log_inquisidor: ~1 rows (aproximadamente)
 DELETE FROM `audit_log_inquisidor`;
+INSERT INTO `audit_log_inquisidor` (`id_auditoria`, `id_artefacto`, `id_artefacto_meta`, `id_evolucionador`, `score_rigor`, `veredicto`, `friccion_detectada`, `udv_otorgadas`, `auditado_at`) VALUES
+	(1, 1, 1, 2, 0.00, 'En Desarrollo', NULL, 0.00, '2026-01-19 17:32:29');
+
+-- Volcando estructura para tabla edu360-staging.chat_auditoria_log
+CREATE TABLE IF NOT EXISTS `chat_auditoria_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_evolucionador` int(11) NOT NULL,
+  `id_artefacto` int(11) NOT NULL,
+  `id_artefacto_meta` int(11) NOT NULL,
+  `role` enum('user','assistant') NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `id_evolucionador` (`id_evolucionador`,`id_artefacto`,`id_artefacto_meta`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- Volcando datos para la tabla edu360-staging.chat_auditoria_log: ~6 rows (aproximadamente)
+DELETE FROM `chat_auditoria_log`;
+INSERT INTO `chat_auditoria_log` (`id`, `id_evolucionador`, `id_artefacto`, `id_artefacto_meta`, `role`, `content`, `created_at`) VALUES
+	(1, 2, 1, 1, 'user', 'prueba', '2026-01-19 14:41:06'),
+	(2, 2, 1, 1, 'assistant', 'Evolucionador, para proceder con la acuñación de UDVs en esta meta, es fundamental que tu Legado Cognitivo refleje una comprensión profunda del objetivo. La respuesta \'prueba\' es genérica y no evidencia la internalización de cómo el cerebro aprende en entornos digitales, ni el cambio del modelo industrial al \'360\'. ¿Podrías expandir tu SRAA y demostrar tu Soberanía Intelectual sobre la neuroeducación en contextos digitales, según el objetivo actual?', '2026-01-19 14:41:06'),
+	(3, 2, 1, 1, 'user', 'con este metodo el evolucionador podra obtener un titulo demostrando que sabe de la materia', '2026-01-19 17:27:40'),
+	(4, 2, 1, 1, 'assistant', 'Evolucionador, tu SRAA actual menciona un beneficio general de la titulación, pero no profundiza en el Legado Cognitivo específico que buscamos acuñar. El objetivo es comprender la neuroeducación y cómo el cerebro aprende en entornos digitales. Para la acuñación de UDVs, necesito evidencias de tu Soberanía Intelectual sobre estos conceptos fundamentales del paradigma EDU360. ¿Podrías explicitar cómo el modelo 360, a través de la neuroeducación, facilita el aprendizaje cerebral en el contexto digital, diferenciándolo del modelo industrial?', '2026-01-19 17:27:40'),
+	(5, 2, 1, 1, 'user', 'edu360 te da la oportunidad de estudiar y demostrar que sabes de neuroeducacion', '2026-01-19 17:32:29'),
+	(6, 2, 1, 1, 'assistant', 'Evolucionador, tu SRAA actual se limita a una descripción general de lo que EDU360 ofrece, sin profundizar en el Legado Cognitivo específico que buscamos acuñar. El objetivo es comprender la neuroeducación y cómo el cerebro aprende en entornos digitales, así como el contraste con el modelo industrial. Para la acuñación de UDVs, necesito evidencias de tu Soberanía Intelectual sobre estos conceptos fundamentales del paradigma EDU360. ¿Podrías explicar *cómo* la neuroeducación facilita el aprendizaje cerebral en el contexto digital, y cómo esto se diferencia del enfoque del modelo industrial en el marco del modelo 360?', '2026-01-19 17:32:29');
 
 -- Volcando estructura para tabla edu360-staging.evolucionadores
 CREATE TABLE IF NOT EXISTS `evolucionadores` (
@@ -147,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `staging` (
   UNIQUE KEY `usuario` (`usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla edu360-staging.staging: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla edu360-staging.staging: ~1 rows (aproximadamente)
 DELETE FROM `staging`;
 INSERT INTO `staging` (`id`, `usuario`, `password`, `nivel`) VALUES
 	(1, 'alfonsi.acosta@gmail.com', 'f/t8tUSW+70FTNk9E2+PxUEPr8v0qgIV7d5Ofl419pY=', 'Tecnico'),

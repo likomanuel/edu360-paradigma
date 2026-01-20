@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if(!isset($_SESSION['email'])){
+    header("Location: " . base_url("/session") );
+    exit();
+}
 require_once __DIR__ . '/../../config/modulo.php';
 //require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
