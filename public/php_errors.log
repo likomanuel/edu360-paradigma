@@ -215,3 +215,28 @@ Stack trace:
                 JOIN artefactos_dominio a ON n.id_artefacto = a.id_artefacto 
                 WHERE n.id_evolucionador = 
 [19-Jan-2026 23:19:40 UTC] PHP Warning:  Undefined array key "nombre_completo" in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 402
+[20-Jan-2026 03:07:53 UTC] PHP Fatal error:  Uncaught Error: Class "Modulo" not found in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php:15
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(54): App\Controllers\PanelController->__construct()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php on line 15
+[20-Jan-2026 03:07:55 UTC] PHP Fatal error:  Uncaught Error: Class "Modulo" not found in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php:15
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(54): App\Controllers\PanelController->__construct()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php on line 15
+[20-Jan-2026 03:08:00 UTC] PHP Fatal error:  Uncaught Error: Class "Modulo" not found in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php:15
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(54): App\Controllers\PanelController->__construct()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php on line 15
+[20-Jan-2026 03:08:04 UTC] PHP Fatal error:  Uncaught Error: Class "Modulo" not found in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php:15
+Stack trace:
+#0 C:\Apache24\htdocs\edu360-paradigma\public\index.php(54): App\Controllers\PanelController->__construct()
+#1 {main}
+  thrown in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\PanelController.php on line 15
+[20-Jan-2026 03:10:04 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 2) in C:\Apache24\htdocs\edu360-paradigma\views\layouts\header.php on line 3
+[20-Jan-2026 03:10:12 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 2) in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\aula.php on line 2
+[20-Jan-2026 03:11:53 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 2) in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\aula.php on line 2
+[20-Jan-2026 03:11:59 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 2) in C:\Apache24\htdocs\edu360-paradigma\views\layouts\header.php on line 3
+[20-Jan-2026 03:12:21 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 2) in C:\Apache24\htdocs\edu360-paradigma\views\layouts\header.php on line 3

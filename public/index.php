@@ -1,9 +1,11 @@
 <?php
+session_start();
 // Cargar el autoloader de Composer para que tus clases funcionen
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Cargar la clase Database
+// Cargar la clase Database y Modulo
 require_once __DIR__ . '/../config/DataBase.php';
+require_once __DIR__ . '/../config/modulo.php';
 
 // Cargar funciones auxiliares (como base_url)
 require_once __DIR__ . '/../src/helpers.php';

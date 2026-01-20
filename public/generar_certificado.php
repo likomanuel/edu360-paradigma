@@ -37,7 +37,16 @@ function generarCertificadoEdu360($nombreAlumno, $hashTransaccion, $emailAlumno,
 
     // 8. Salida del certificado
     if ($guardarEnDisco) {
-        $rutaSalida = __DIR__ . "/../certificados/{$hashTransaccion}.png";
+        // Si $guardarEnDisco es un string, lo usamos como ruta completa
+        // Si es booleano true, usamos la ruta por defecto
+        $rutaSalida = is_string($guardarEnDisco) ? $guardarEnDisco : __DIR__ . "/../certificados/{$hashTransaccion}.png";
+        
+        // Asegurar que el directorio existe
+        $directorio = dirname($rutaSalida);
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0777, true);
+        }
+
         imagepng($img, $rutaSalida); // guarda en disco
         return $rutaSalida;
     } else {

@@ -1,11 +1,8 @@
 <?php
-session_start();
-
 if(!isset($_SESSION['email'])){
     header("Location: " . base_url("/session") );
     exit();
 }
-require_once __DIR__ . '/../../config/modulo.php';
 //require_once __DIR__ . '/../../views/layouts/header.php';
 $modulo = new Modulo();
 
@@ -375,18 +372,37 @@ if($user['verificado'] == 1){
         <section class="block certificates-block">
             <h2><i class="fas fa-file-contract"></i> Galería de Certificados</h2>
             <div class="cert-gallery">
-                <div class="cert-thumb">
-                    <img src="https://via.placeholder.com/300x180/111/00a8e8?text=Certificado+01" alt="Certificado">
-                    <div class="overlay">Soberanía Digital v1.0</div>
+                <?php 
+                $certDir = __DIR__ . "/../../public/users/" . $user['hash_identidad'] . "/certificados/";
+                $hasCerts = false;
+                if (is_dir($certDir)) {
+                    $certs = glob($certDir . "*.png");
+                    foreach ($certs as $certPath) {
+                        $hasCerts = true;
+                        $certFile = basename($certPath);
+                        $certUrl = base_url("public/users/" . $user['hash_identidad'] . "/certificados/" . $certFile);
+                        // Limpiar el nombre para el overlay (quitar 'Certificado_', extension y timestamps)
+                        $displayName = str_replace(['Certificado_', '.png'], '', $certFile);
+                        if (strpos($displayName, '_') !== false) {
+                            $parts = explode('_', $displayName);
+                            $displayName = "Módulo " . $parts[0];
+                        }
+                ?>
+                <div class="cert-thumb" onclick="window.open('<?php echo $certUrl; ?>', '_blank')">
+                    <img src="<?php echo $certUrl; ?>" alt="Certificado">
+                    <div class="overlay"><?php echo $displayName; ?></div>
                 </div>
-                <div class="cert-thumb">
-                    <img src="https://via.placeholder.com/300x180/111/00ff88?text=Certificado+02" alt="Certificado">
-                    <div class="overlay">Liderazgo en Redes</div>
-                </div>
-                <div class="cert-thumb">
-                    <img src="https://via.placeholder.com/300x180/111/666?text=Proximamente" alt="Certificado">
+                <?php 
+                    }
+                } 
+                
+                if (!$hasCerts):
+                ?>
+                <div class="cert-thumb" style="opacity: 0.3; cursor: default;">
+                    <img src="https://via.placeholder.com/300x180/111/444?text=Sin+Certificados" alt="Proximamente">
                     <div class="overlay">En curso...</div>
                 </div>
+                <?php endif; ?>
             </div>
         </section>
 

@@ -1,10 +1,8 @@
 <?php
-session_start();
 if(!isset($_SESSION['email'])){
     header("Location: " . base_url("/session") );
     exit();
 }
-require_once __DIR__ . '/../../config/modulo.php';
 $modulo = new Modulo();
 
 use App\Controllers\NeuroEducacionController;
