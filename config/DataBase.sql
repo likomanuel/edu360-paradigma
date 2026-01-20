@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `staging` (
   UNIQUE KEY `usuario` (`usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla edu360-staging.staging: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla edu360-staging.staging: ~2 rows (aproximadamente)
 DELETE FROM `staging`;
 INSERT INTO `staging` (`id`, `usuario`, `password`, `nivel`) VALUES
 	(1, 'alfonsi.acosta@gmail.com', 'f/t8tUSW+70FTNk9E2+PxUEPr8v0qgIV7d5Ofl419pY=', 'Tecnico'),

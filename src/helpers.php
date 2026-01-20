@@ -69,3 +69,30 @@ if (!function_exists('host')) {
         return $_ENV['HOST'];
     }
 }
+
+if (!function_exists('public_path')) {
+    /**
+     * Devuelve la ruta absoluta al directorio public.
+     */
+    function public_path($path = '') {
+        return dirname(__DIR__) . '/public/' . ltrim($path, '/');
+    }
+}
+
+if (!function_exists('img_path')) {
+    /**
+     * Devuelve la ruta absoluta a una imagen.
+     */
+    function img_path($path) {
+        return public_path('assets/img/' . ltrim($path, '/'));
+    }
+}
+
+if (!function_exists('fonts_path')) {
+    /**
+     * Devuelve la ruta absoluta a una fuente.
+     */
+    function fonts_path($path) {
+        return public_path('assets/fonts/' . ltrim($path, '/'));
+    }
+}

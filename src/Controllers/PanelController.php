@@ -65,9 +65,11 @@ class PanelController
             // Ruta específica del usuario: public/users/{hash}/certificados/
             $rutaDestino = __DIR__ . "/../../public/users/{$hashUser}/certificados/{$nombreCertificado}.png";
             
-            // Llamar a la función de generación (necesitaremos ajustar generar_certificado.php para aceptar ruta)
+            // Llamar a la función de generación con la firma corregida (6 parámetros)
             if (function_exists('generarCertificadoEdu360')) {
-                generarCertificadoEdu360($nombreAlumno, $nombreCertificado, $emailAlumno, $rutaDestino);
+                $nombreModulo = $artefacto['nombre'];
+                $hashImpreso = $user['hash_identidad'];
+                generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $emailAlumno, $rutaDestino, true);
                 
                 // 5. Culminar el diplomado (Cerrar el nodo)
                 $sqlUpdate = "UPDATE nodos_activos SET estatus = 'Cerrado' WHERE id = $id_nodo";
