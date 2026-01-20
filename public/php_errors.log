@@ -1,8 +1,0 @@
-[20-Jan-2026 13:53:47 UTC] PHP Warning:  imagecreatefrompng(): php_network_getaddresses: getaddrinfo for www.localhost failed: Host desconocido in C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php on line 24
-[20-Jan-2026 13:53:47 UTC] PHP Warning:  imagecreatefrompng(http://www.localhost/edu360-paradigma/public/assets/img/edu360_template.png): Failed to open stream: php_network_getaddresses: getaddrinfo for www.localhost failed: Host desconocido in C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php on line 24
-[20-Jan-2026 13:53:47 UTC] PHP Fatal error:  Uncaught TypeError: imagecolorallocate(): Argument #1 ($image) must be of type GdImage, false given in C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php:27
-Stack trace:
-#0 C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php(27): imagecolorallocate()
-#1 C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php(61): generarCertificadoEdu360()
-#2 {main}
-  thrown in C:\Apache24\htdocs\edu360-paradigma\public\generar_certificado.php on line 27
