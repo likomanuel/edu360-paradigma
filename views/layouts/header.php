@@ -1,6 +1,8 @@
 <?php
 setcookie("modulo", $_ENV['MODULO'], time() + 3600, "/");
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -63,7 +65,7 @@ session_start();
                 }
                 else{
                     if(isset($_COOKIE['modulo']) && $_COOKIE['modulo'] == 'staging') {
-                        echo base_url('/staging');
+                        echo base_url('/debug');
                     } else {
                         echo base_url('/session');
                     }

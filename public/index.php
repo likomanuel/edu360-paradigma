@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Cargar el autoloader de Composer para que tus clases funcionen
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -32,7 +34,7 @@ switch ($route) {
         $controller->index();        
         break;
 
-    case '/staging':
+    case '/debug':
         $controller = new App\Controllers\StagingController(); 
         $controller->staging();        
         break;
