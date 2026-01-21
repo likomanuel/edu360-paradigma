@@ -24,8 +24,8 @@
             </div>
             <div class="footer-section">
                 <h4>Contacto</h4>
-                <p><i class="fas fa-envelope"></i> info@360global.com</p>
-                <p><i class="fas fa-phone"></i> +54 11 1234 5678</p>
+                <p><i class="fas fa-envelope"></i> info@edu360global.org</p>
+                <p><i class="fas fa-phone"></i> +1 813 790 8821</p>
                 <p><i class="fas fa-map-marker-alt"></i> EDU360 Global Services LLC · Tampa, Florida</p>
             </div>
         </div>
