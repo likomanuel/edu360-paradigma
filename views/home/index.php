@@ -328,7 +328,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <p>Progresión acumulativa sin retrocesos.</p>
             </div>
             <div class="card">
-                <i class="fas fa-network-wired"></i>
+                <img src="<?php echo img('home_cards/prog_etica.png'); ?>" alt="Ética en IA Educativa">
                 <h3>Ética en IA Educativa</h3>
                 <p>Humanismo en la era algorítmica.</p>
             </div>
