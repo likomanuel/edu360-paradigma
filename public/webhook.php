@@ -119,10 +119,15 @@ function activarNodoSoberano($db, $email, $session_id, $monto, $moneda = 'USD') 
 
             if ($user) {
                 // 3. Registrar el nodo activo
+                $tipo_nodo_defaul = "Omega";
+                $sum_tipo_nodo = $db->row_sqlconector("SELECT COUNT(tipo_nodo) AS sum_tipo_nodo FROM nodos_activos WHERE tipo_nodo = 'Beta' AND estatus='Activado'")['sum_tipo_nodo'];
+                if ($sum_tipo_nodo < 100) {
+                    $tipo_nodo_defaul = "Beta";
+                }
                 $db->sqlconector(
-                    "INSERT INTO nodos_activos (id_evolucionador, stripe_session_id, monto, estatus) 
-                     VALUES (?, ?, ?, 'Activado')",
-                    [$user['id_evolucionador'], $session_id, $monto]
+                    "INSERT INTO nodos_activos (id_evolucionador, stripe_session_id, monto, estatus, tipo_nodo) 
+                     VALUES (?, ?, ?, 'Activado', ?)",
+                    [$user['id_evolucionador'], $session_id, $monto, $tipo_nodo_defaul]
                 );
 
                 // 4. Activar estatus en la tabla principal

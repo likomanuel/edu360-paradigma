@@ -72,8 +72,8 @@ class PanelController
                 generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $emailAlumno, $rutaDestino, true);
                 
                 // 5. Culminar el diplomado (Cerrar el nodo)
-                $sqlUpdate = "UPDATE nodos_activos SET estatus = 'Cerrado' WHERE id = $id_nodo";
-                $this->db->sqlconector($sqlUpdate);
+                //$sqlUpdate = "UPDATE nodos_activos SET estatus = 'Cerrado' WHERE id = $id_nodo";
+                //$this->db->sqlconector($sqlUpdate);
             }
         }
     }
