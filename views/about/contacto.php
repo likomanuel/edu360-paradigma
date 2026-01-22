@@ -130,26 +130,72 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     </div>
 
     <div class="contact-form">
-        <form>
+        <form id="contactForm">
+            <input type="hidden" name="contact_form" value="1">
             <div class="form-group">
                 <label>Nombre Completo</label>
-                <input type="text" class="form-control" placeholder="Tu nombre...">
+                <input type="text" name="nombre" class="form-control" placeholder="Tu nombre..." required>
             </div>
             <div class="form-group">
                 <label>Correo Electrónico</label>
-                <input type="email" class="form-control" placeholder="tu@email.com">
+                <input type="email" name="email" class="form-control" placeholder="tu@email.com" required>
             </div>
             <div class="form-group">
                 <label>Asunto</label>
-                <input type="text" class="form-control" placeholder="Motivo de contacto">
+                <input type="text" name="asunto" class="form-control" placeholder="Motivo de contacto" required>
             </div>
             <div class="form-group">
                 <label>Mensaje</label>
-                <textarea class="form-control" rows="5" placeholder="Cuéntanos más..."></textarea>
+                <textarea name="mensaje" class="form-control" rows="5" placeholder="Cuéntanos más..." required></textarea>
             </div>
-            <button type="submit" class="btn-submit">Enviar Mensaje</button>
+            <button type="submit" class="btn-submit" id="submitBtn">Enviar Mensaje</button>
+            <div id="responseMessage" style="margin-top: 20px; text-align: center; display: none;"></div>
         </form>
     </div>
+
+    <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const btn = document.getElementById('submitBtn');
+        const responseMsg = document.getElementById('responseMessage');
+        const formData = new FormData(form);
+        
+        btn.disabled = true;
+        btn.innerText = 'Enviando...';
+        
+        fetch('public/servermail.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            responseMsg.style.display = 'block';
+            if(data.status === 1) {
+                responseMsg.style.color = '#00ff00';
+                responseMsg.innerText = '¡Mensaje enviado con éxito!';
+                form.reset();
+            } else {
+                responseMsg.style.color = '#ff0000';
+                responseMsg.innerText = 'Error: ' + data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseMsg.style.display = 'block';
+            responseMsg.style.color = '#ff0000';
+            responseMsg.innerText = 'Hubo un error al procesar tu solicitud.';
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = 'Enviar Mensaje';
+            setTimeout(() => {
+                responseMsg.style.display = 'none';
+            }, 5000);
+        });
+    });
+    </script>
 </div>
 
 <?php

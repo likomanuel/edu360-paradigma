@@ -1,0 +1,2 @@
+[22-Jan-2026 13:40:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in C:\Apache24\htdocs\edu360-paradigma\vendor\phpmailer\phpmailer\src\SMTP.php on line 1360
+[22-Jan-2026 13:43:14 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in C:\Apache24\htdocs\edu360-paradigma\vendor\phpmailer\phpmailer\src\SMTP.php on line 1360
