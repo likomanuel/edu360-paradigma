@@ -26,7 +26,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         }
         .card img {
             width: 100%;
-            height: 180px;
+            /*height: 180px;*/
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -333,7 +333,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <p>Humanismo en la era algorítmica.</p>
             </div>
             <div class="card">
-                <img src="<?php echo img('home_cards/edu360universidad.jpeg'); ?>" alt="Autogobierno Digital">
+                <img src="<?php echo img('home_cards/edu360universidad.png'); ?>" alt="Autogobierno Digital">
                 <h3>Autogobierno Digital</h3>
                 <p>Operación con mínima intervención humana.</p>
             </div>

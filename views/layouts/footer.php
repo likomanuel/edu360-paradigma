@@ -16,17 +16,17 @@
             <div class="footer-section">
                 <h4>Enlaces Rápidos</h4>
                 <ul>
-                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/quienes-somos/">¿Quienes Somos?</a></li>
-                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/">¿Qué Hacemos?</a></li>
-                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/investigacion/">¿Cómo lo Hacemos?</a></li>
-                    <li><a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://edu360global.org/university-institute/contactanos/">Contáctanos</a></li>
+                    <li><a href="<?php echo base_url('/quienes-somos'); ?>">¿Quienes Somos?</a></li>
+                    <li><a href="<?php echo base_url('/que-hacemos'); ?>">¿Qué Hacemos?</a></li>
+                    <li><a href="<?php echo base_url('/como-lo-hacemos'); ?>">¿Cómo lo Hacemos?</a></li>
+                    <li><a href="<?php echo base_url('/contacto'); ?>">Contáctanos</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Contacto</h4>
                 <p><i class="fas fa-envelope"></i> president@edu360global.org</p>
                 <p><i class="fas fa-phone"></i> +1 813 790 8821</p>
-                <p><i class="fas fa-map-marker-alt"></i> EDU360 Global Services LLC · Tampa, Florida</p>
+                <p><i class="fas fa-microchip"></i> Protocolo: Kérnel v10</p>
             </div>
         </div>
         <div class="copyright">

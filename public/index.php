@@ -74,6 +74,26 @@ switch ($route) {
         $controller->aula();        
         break;
 
+    case '/quienes-somos':
+        $controller = new App\Controllers\AboutController();
+        $controller->quienesSomos();
+        break;
+
+    case '/que-hacemos':
+        $controller = new App\Controllers\AboutController();
+        $controller->queHacemos();
+        break;
+
+    case '/como-lo-hacemos':
+        $controller = new App\Controllers\AboutController();
+        $controller->comoLoHacemos();
+        break;
+
+    case '/contacto':
+        $controller = new App\Controllers\AboutController();
+        $controller->contacto();
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";
