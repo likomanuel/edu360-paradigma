@@ -130,14 +130,18 @@ $metaActualData = [
             position: relative;
         }
 
-        .input-container input {
+        .input-container textarea {
             width: 100%;
             background: #1a1a1a;
             border: 1px solid #333;
             padding: 20px 60px 20px 20px;
-            border-radius: 30px;
+            border-radius: 20px;
             color: white;
             font-size: 1rem;
+            resize: vertical;
+            min-height: 60px;
+            max-height: 200px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .send-btn {
@@ -232,7 +236,7 @@ $metaActualData = [
 
         <div class="input-area">
             <div class="input-container">
-                <input type="text" id="userInput" placeholder="Presenta tu evidencia de dominio aquí...">
+                <textarea id="userInput" placeholder="Presenta tu evidencia de dominio aquí..." rows="3"></textarea>
                 <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
@@ -312,9 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
-    });
 });
 </script>
 

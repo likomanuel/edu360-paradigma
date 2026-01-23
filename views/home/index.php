@@ -262,7 +262,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     <section class="hero">
         <h1>Paradigma EDU360</h1>
         <p>Soberanía Cognitiva y Rigor Federal</p>
-        <button class="btn-main" onclick="window.location.href='https://www.edu360global.org/university-institute/'">Conoce más</button>
+        <button class="btn-main" onclick="window.location.href='https://www.edu360global.org/que-hacemos'">Conoce más</button>
     </section>
 
     <!-- Beta Offer Section -->

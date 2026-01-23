@@ -81,6 +81,21 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         font-size: 2.5rem;
         color: var(--primary-gold);
         margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .linkedin-link {
+        color: #0077b5;
+        font-size: 1.8rem;
+        transition: transform 0.3s, color 0.3s;
+        display: inline-flex;
+    }
+
+    .linkedin-link:hover {
+        color: #00a0dc;
+        transform: translateY(-3px) scale(1.1);
     }
 
     .rector-tagline {
@@ -207,16 +222,22 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     <!-- Rectoría -->
     <section class="rector-card">
         <div class="rector-image">
-            <img src="<?php echo img('home_cards/pilar_liderazgo.png'); ?>" alt="Dr. Manuel José Aguilera">
+            <img src="<?php echo img('home_cards/rector.jpeg'); ?>" alt="Dr. Manuel José Aguilera">
         </div>
         <div class="rector-info">
-            <h2>Dr. Manuel José Aguilera</h2>
+            <h2>
+                Dr. Manuel José Aguilera
+                <a href="http://www.linkedin.com/in/dr-manuel-aguilera-3792b13a3" target="_blank" rel="noopener noreferrer" class="linkedin-link" title="LinkedIn Profile">                
+                    <i class="ri-linkedin-box-fill"></i>
+                </a>
+            </h2>
             <div class="rector-tagline">Arquitecto de Soberanía Cognitiva y Visionario del Capital Intelectual</div>
             <p class="rector-description">
                 Líder estratégico con la misión de desintermediar el conocimiento global. Como Rector Fundador de EDU360 University Institute, ha transformado la educación tradicional en un ecosistema de activos digitales inmutables. 
                 <br><br>
                 Autor del modelo de Rigor Federal y de los 23 reglamentos institucionales que blindan la integridad de la Red. Bajo su liderazgo, EDU360 se posiciona como la infraestructura estándar para la emancipación intelectual.
             </p>
+            
             <div class="metadata-box">
                 <div class="metadata-item"><span class="metadata-label">Status del Nodo:</span> Rector / Nodo Alfa Fundador</div>
                 <div class="metadata-item"><span class="metadata-label">Protocolo:</span> Kérnel v10 Activo</div>
@@ -259,6 +280,10 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <h4>Autonomía Descentralizada</h4>
                 <p>Éxito basado en capacidad demostrada, sin estructuras burocráticas.</p>
             </div>
+            <div class="value-item">
+                <h4>Humanismo Evolucionador</h4>
+                <p>El uso de la tecnología como herramienta para expandir la conciencia, la ética y el liderazgo humano, no para reemplazarlos.</p>
+            </div>            
         </div>
     </section>
 

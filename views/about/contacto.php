@@ -108,7 +108,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
             <i class="fas fa-envelope"></i>
             <div>
                 <h4 style="color: #fff;">Email</h4>
-                <p>contacto@edu360global.org</p>
+                <p>president@edu360global.org</p>
             </div>
         </div>
 
