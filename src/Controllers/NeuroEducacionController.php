@@ -175,6 +175,29 @@ class NeuroEducacionController
 
         $this->db->sqlconector("UPDATE audit_log_inquisidor SET udv_otorgadas = $udvTotales, veredicto = '$veredicto', auditado_at = CURRENT_TIMESTAMP WHERE id_evolucionador = $id_evolucionador AND id_artefacto = $id_artefacto AND id_artefacto_meta = $id_meta");
 
+        // 6. Sincronización de UDVs con la tabla evolucionadores (Solo si está Acuñado y no se ha sumado antes)
+        if ($veredicto === 'Acuñado') {
+            $sqlCheck = "SELECT sumado FROM audit_log_inquisidor 
+                        WHERE id_evolucionador = $id_evolucionador 
+                        AND id_artefacto = $id_artefacto 
+                        AND id_artefacto_meta = $id_meta";
+            $checkSum = $this->db->row_sqlconector($sqlCheck);
+
+            if ($checkSum && (int)$checkSum['sumado'] === 0) {
+                // Sumamos al total acumulado del evolucionador
+                $this->db->sqlconector("UPDATE evolucionadores 
+                                       SET total_udv_acumuladas = total_udv_acumuladas + $udvTotales 
+                                       WHERE id_evolucionador = $id_evolucionador");
+                
+                // Marcamos como sumado para evitar redundancia
+                $this->db->sqlconector("UPDATE audit_log_inquisidor 
+                                       SET sumado = 1 
+                                       WHERE id_evolucionador = $id_evolucionador 
+                                       AND id_artefacto = $id_artefacto 
+                                       AND id_artefacto_meta = $id_meta");
+            }
+        }
+
         return [
             'success' => true,
             'mensaje' => $respuestaIA['mensaje'] ?? 'Sin respuesta',

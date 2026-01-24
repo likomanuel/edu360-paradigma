@@ -34,7 +34,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
 
     .feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
         gap: 40px;
         padding: 80px 20px;
         max-width: 1200px;

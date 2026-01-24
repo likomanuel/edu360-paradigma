@@ -50,7 +50,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 
             <div class="reg-form">
                 <div class="form-header">
-                    <div class="status-badge">Estatus: En Consolidación</div>
+                    <div class="status-badge">Estatus: En Consolidación</div><br>
                     <span>Formulario de Ascensión</span>
                 </div>
 

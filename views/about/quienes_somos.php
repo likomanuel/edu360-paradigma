@@ -170,27 +170,88 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     }
 
     .values-section {
-        background: rgba(255, 215, 0, 0.05);
-        border-radius: 50px;
-        padding: 60px;
+        background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, transparent 100%);
+        border-radius: 60px;
+        padding: 80px 40px;
         margin-bottom: 80px;
+        position: relative;
     }
 
     .values-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 50px;
     }
 
+    /* Logic for 2 on top, 3 on bottom */
     .value-item {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        padding: 35px;
+        border-radius: 30px;
+        width: calc(33.333% - 20px);
+        min-width: 300px;
         text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .value-item:nth-child(1),
+    .value-item:nth-child(2) {
+        width: calc(45% - 20px);
+    }
+
+    .value-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.1), transparent 60%);
+        pointer-events: none;
+    }
+
+    .value-item:hover {
+        transform: translateY(-10px) scale(1.02);
+        background: rgba(255, 215, 0, 0.06);
+        border-color: var(--primary-gold);
+        box-shadow: 0 15px 40px rgba(255, 215, 0, 0.1);
+    }
+
+    .value-item i {
+        font-size: 2.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 20px;
+        display: block;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
     }
 
     .value-item h4 {
-        color: var(--primary-gold);
-        font-size: 1.3rem;
+        color: #fff;
+        font-size: 1.4rem;
         margin-bottom: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .value-item p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+    }
+
+    @media (max-width: 992px) {
+        .value-item, 
+        .value-item:nth-child(1),
+        .value-item:nth-child(2) {
+            width: 100%;
+        }
     }
 
     .identity-box {
@@ -262,27 +323,34 @@ require_once __DIR__ . '/../../views/layouts/header.php';
 
     <!-- Valores -->
     <section class="values-section">
-        <h2 style="text-align: center; font-size: 2.5rem; color: #fff;">Nuestros Valores</h2>
+        <h2 style="text-align: center; font-size: 3rem; color: #fff; text-transform: uppercase; letter-spacing: 2px;">Nuestros Valores</h2>
+        <p style="text-align: center; color: var(--primary-gold); margin-top: -10px; font-weight: 600;">Los pilares fundamentales de la Red Federal</p>
+        
         <div class="values-grid">
             <div class="value-item">
+                <i class="ri-shield-user-line"></i>
                 <h4>Soberanía Cognitiva</h4>
                 <p>Derecho inalienable a ser el único dueño de su conocimiento y progreso profesional.</p>
             </div>
             <div class="value-item">
+                <i class="ri-government-line"></i>
                 <h4>Rigor Federal</h4>
                 <p>Auditoría de IA para garantizar acreditación basada en evidencia de dominio inmutable.</p>
             </div>
             <div class="value-item">
+                <i class="ri-node-tree"></i>
                 <h4>Transparencia de Nodo</h4>
                 <p>Certificaciones rastreables y verificadas, eliminando el fraude académico.</p>
             </div>
             <div class="value-item">
+                <i class="ri-radar-line"></i>
                 <h4>Autonomía Descentralizada</h4>
                 <p>Éxito basado en capacidad demostrada, sin estructuras burocráticas.</p>
             </div>
             <div class="value-item">
+                <i class="ri-earth-line"></i>
                 <h4>Humanismo Evolucionador</h4>
-                <p>El uso de la tecnología como herramienta para expandir la conciencia, la ética y el liderazgo humano, no para reemplazarlos.</p>
+                <p>Uso de la tecnología como herramienta para expandir la conciencia, la ética y el liderazgo humano.</p>
             </div>            
         </div>
     </section>
