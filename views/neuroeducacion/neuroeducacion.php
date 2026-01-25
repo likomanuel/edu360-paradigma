@@ -198,7 +198,7 @@ $metaActualData = [
         <br>
         <div class="udv-counter">
             <div class="udv-label">Dominio Acuñado</div>
-            <div class="udv-number"><?php echo $metaActualData['udv_otorgadas']; ?></div>
+            <div class="udv-number"><?php echo round($metaActualData['udv_otorgadas'], 2); ?></div>
             <div class="udv-label">UDV de <?php echo $metaActualData['valor_udv']; ?></div>
         </div>
         

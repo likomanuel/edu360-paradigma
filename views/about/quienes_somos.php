@@ -84,6 +84,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         display: flex;
         align-items: center;
         gap: 15px;
+        justify-content: center;
     }
 
     .linkedin-link {
@@ -287,7 +288,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         </div>
         <div class="rector-info">
             <h2>
-                Dr. Manuel José Aguilera
+                Dr. Manuel Aguilera
                 <a href="http://www.linkedin.com/in/dr-manuel-aguilera-3792b13a3" target="_blank" rel="noopener noreferrer" class="linkedin-link" title="LinkedIn Profile">                
                     <i class="ri-linkedin-box-fill"></i>
                 </a>

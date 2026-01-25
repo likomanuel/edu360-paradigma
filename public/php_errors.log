@@ -1,3 +1,6 @@
 [22-Jan-2026 13:40:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in C:\Apache24\htdocs\edu360-paradigma\vendor\phpmailer\phpmailer\src\SMTP.php on line 1360
 [22-Jan-2026 13:43:14 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in C:\Apache24\htdocs\edu360-paradigma\vendor\phpmailer\phpmailer\src\SMTP.php on line 1360
 [23-Jan-2026 18:29:44 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 3) in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\aula.php on line 2
+[25-Jan-2026 03:57:49 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 184
+[25-Jan-2026 04:03:27 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 184
+[25-Jan-2026 13:01:07 UTC] PHP Warning:  Undefined array key "nombre" in C:\Apache24\htdocs\edu360-paradigma\src\Services\GeminiService.php on line 189
