@@ -21,6 +21,7 @@ $dotenv->load();
 
 $modulo = new Modulo();
 $db = $modulo->getDb();
+$modulo->ensureLinksTable(); // Asegurar que la tabla LINKS exista
 function sendEmail($to, $subject, $body) {
   // Configuración de PHPMailer
   $mail = new PHPMailer(true);
@@ -61,24 +62,73 @@ function sendEmail($to, $subject, $body) {
 }
 
 
+// --- Capa de Compatibilidad ---
+if (!function_exists('sqlconector')) {
+    function sqlconector($query, $params = []) {
+        global $modulo;
+        return $modulo->getDb()->sqlconector($query, $params);
+    }
+}
+
 if(isset($_POST['getcodemail'])){
   $codigo = rand(100000, 999999); // Generar un codigo de 6 digitos
   $email = $_POST['email'];
-  $obj = array('status' => 0, 'message' => 'Error al enviar el correo');
+  $type = $_POST['type'] ?? 'login'; // 'login' or 'registro'
+  $password = $_POST['password'] ?? '';
+  $obj = array('status' => 0, 'message' => 'Error al enviar el correo','codigo'=>'null');
 
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $obj['message'] = "Formato de correo electronico invalido";
   } else {
-    if($modulo->ifUsuarioExist($email)){
+    $userExists = $modulo->ifUsuarioExist($email);
+    
+    $proceed = false;
+    if ($type === 'registro') {
+        if (!$userExists) {
+            $proceed = true;
+        } else {
+            $obj['message'] = 'El correo ya está registrado';
+        }
+    } else { // login
+        if ($userExists) {
+            // Validar contraseña antes de enviar el código
+            if ($password !== '' && $password == trim($modulo->getPassword($email))) {
+                $proceed = true;
+            } else {
+                $obj['message'] = 'Contraseña incorrecta';
+            }
+        } else {
+            $obj['message'] = 'El correo no está registrado';
+        }
+    }
+
+    if($proceed){
       sqlconector("INSERT INTO LINKS (LINK,CORREO) VALUES('$codigo','$email')");
-      sendEmail($email, "Codigo Inline Profit", "Copie este codigo: <br> $codigo <br>Generado por Inlineprofit para su seguridad no conteste este email.");
+      sendEmail($email, "Codigo de Verificación - Edu360", "Su código de verificación es: <br><h2 style='color:#007bff; letter-spacing: 5px;'>$codigo</h2> <br>Generado por Edu360 para su seguridad no conteste este email.");
       $obj['status'] = 1;
       $obj['message'] = 'Codigo enviado';
-    } else {
-      $obj['message'] = 'El correo no esta registrado';
+      $obj['codigo'] = $codigo;
     }
   }
   echo json_encode($obj);
+}
+
+if(isset($_POST['verifycode'])){
+    $email = $_POST['email'];
+    $codigo = $_POST['codigo'];
+    $obj = array('status' => 0, 'message' => 'Código inválido');
+
+    // Usar prepared statements con sqlconector
+    $stmt = sqlconector("SELECT * FROM LINKS WHERE CORREO = ? AND LINK = ? ORDER BY ID DESC LIMIT 1", [$email, $codigo]);
+    $row = $stmt->fetch();
+
+    if($row){
+        // Eliminar el código después de usarlo
+        sqlconector("DELETE FROM LINKS WHERE ID = ?", [$row['ID']]);
+        $obj['status'] = 1;
+        $obj['message'] = 'Código verificado';
+    }
+    echo json_encode($obj);
 }
 
 if(isset($_POST['sendmailtecno'])){
@@ -124,4 +174,5 @@ if(isset($_GET['status'])){
   $result = sendEmail($email, "Prueba de Email", $message);
   echo json_encode(array('status' => $result['status'], 'message' => $result['message']));
 }
+
 

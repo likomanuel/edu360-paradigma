@@ -25,11 +25,12 @@ class GeminiService
     1. MAYÉUTICA RADICAL: Prohibido impartir lecciones. Si el Evolucionador ignora algo, no se lo expliques; indícale su "Punto de Fuga" y ordénale reconstruir su conocimiento. Evalúa la capacidad de síntesis y la aplicación práctica, no la repetición de conceptos.
     2. LÉXICO OBLIGATORIO: Tu lenguaje debe ser técnico y alineado al paradigma. Usa: Acuñación, UDV, SRAA, Legado Cognitivo, Evolucionador, Soberanía Intelectual, Rigor Federal, Humanismo Digital y Densidad Cognitiva.
     3. CRITERIO DE ACUÑACIÓN (SRAA):
-    - 0.0 UDV: Respuesta superficial, circular o generada por otra IA.
+    - 0.0 UDV: Respuesta superficial, sin sentido, circular o generada por otra IA.
     - 0.1 - 0.4 UDV: Comprensión teórica básica pero sin aplicación sistémica.
     - 0.5 - 0.9 UDV: Dominio funcional con capacidad de interconectar conceptos del paradigma.
     - 1.0 UDV: Dominio excepcional, propuesta original o resolución de alta complejidad.
     4. FILTRO DE INTEGRIDAD: Si detectas patrones de GPT, Claude u otras IAs (listas genéricas, exceso de cortesía, frases como "es importante recordar"), otorga 0.0 UDV, emite una 'Advertencia de Integridad' y bloquea el avance.    
+    5. EVALUACIÓN ATÓMICA: Tu puntuación de `udv_otorgadas` debe basarse EXCLUSIVAMENTE en el contenido de la 'Nueva respuesta del Evolucionador'. No arrastres méritos de respuestas anteriores del historial. Si la respuesta actual es irrelevante, sin sentido o circular, otorga 0.0 UDV independientemente de la calidad histórica.
     
     ESTRUCTURA DE SALIDA (ESTRICTO JSON):
     {
@@ -184,17 +185,32 @@ class GeminiService
     }
     public function auditarRespuesta(array $contexto, string $mensajeUsuario, array $historial = [])
     {
-        $prompt = str_replace(
+        // 1. Construir el prompt con los parámetros de la meta
+        $promptReglas = str_replace(
             ['{{meta_nombre}}', '{{meta_descripcion}}', '{{meta_objetivo}}', '{{udv_acumuladas}}', '{{valor_udv_meta}}'],
             [$contexto['meta'], $contexto['descripcion'], $contexto['objetivo'], $contexto['udv_otorgadas'], $contexto['valor_udv']],
             $this->prompt_maestro
         );
 
-        $fullPrompt = $prompt . "\n\nHistorial de chat previo:\n";
-        foreach ($historial as $msg) {
-            $fullPrompt .= ($msg['role'] === 'user' ? "Evolucionador: " : "Nodo Validador: ") . $msg['content'] . "\n";
+        // 2. Construir la estructura final segregada
+        $fullPrompt = "### CONTEXTO DE UBICACIÓN (HISTORIAL PREVIO)\n";
+        $fullPrompt .= "Este historial es solo para referenciar el hilo de la conversación. NO DEBE influir en la puntuación de la última respuesta.\n";
+        
+        if (empty($historial)) {
+            $fullPrompt .= "Sin historial previo.\n";
+        } else {
+            foreach ($historial as $msg) {
+                $role = ($msg['role'] === 'user' ? "Evolucionador" : "Nodo Validador");
+                $fullPrompt .= "[{$role}]: {$msg['content']}\n";
+            }
         }
-        $fullPrompt .= "\nNueva respuesta del Evolucionador: " . $mensajeUsuario;
+
+        $fullPrompt .= "\n### REGLAS DE AUDITORÍA Y PROTOCOLO SRAA\n";
+        $fullPrompt .= $promptReglas;
+
+        $fullPrompt .= "\n\n### OBJETO DE EVALUACIÓN ACTUAL (CRÍTICO)\n";
+        $fullPrompt .= "NUEVA RESPUESTA DEL EVOLUCIONADOR: \"{$mensajeUsuario}\"\n\n";
+        $fullPrompt .= "INSTRUCCIÓN FINAL: Audita la 'NUEVA RESPUESTA' siguiendo estrictamente la EVALUACIÓN ATÓMICA. Si es irrelevante o sin sentido en relación al contexto, otorga 0.0 UDV.";
 
         return $this->generateResponse($fullPrompt);
     }

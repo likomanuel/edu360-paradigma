@@ -29,8 +29,11 @@ if($user['verificado'] == 1){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control</title>
+    <link rel="icon" type="image/x-icon" href="<?php echo img('favicon/university/favicon.ico'); ?>" />
     <link rel="stylesheet" href="<?php echo css('style.css'); ?>" />
     <link rel="stylesheet" href="<?php echo css('sweetalert2.css'); ?>" />
+    <link href="https://cdn.jsdelivr.net" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="<?php echo js('jquery-3.5.1.js'); ?>"></script>
     <script src="<?php echo js('sweetalert2.js'); ?>"></script>
     </head>

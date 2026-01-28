@@ -35,6 +35,7 @@ $metaActualData = [
 <head>
     <meta charset="UTF-8">
     <title>EDU360 v10 | Interfaz de Evolución</title>
+    <link rel="icon" type="image/x-icon" href="<?php echo img('favicon/university/favicon.ico'); ?>" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>

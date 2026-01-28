@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if(!isset($_SESSION['email'])){
     header("Location: " . base_url("/session") );
     exit();
@@ -14,6 +17,7 @@ $modulo = new Modulo();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula Virtual Inmersiva - Paradigma EDU360</title>
+    <link rel="icon" type="image/x-icon" href="<?php echo img('favicon/university/favicon.ico'); ?>" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -220,11 +224,11 @@ $modulo = new Modulo();
                         <span class="resource-meta">PDF | 2.4 MB | Lectura Obligatoria</span>
                     </div>
                 </li>
-                <li class="resource-item" onclick="loadPDF('https://pdfobject.com/pdf/sample.pdf', this)">
+                <li class="resource-item" onclick="loadPDF('<?php echo base_url('public/pdf/DM-01- El Manifiesto del Soberano.pdf'); ?>', this)">
                     <i class="fas fa-file-alt"></i>
                     <div>
-                        <span class="resource-title">Arquitectura de Nodos Descentralizados</span>
-                        <span class="resource-meta">PDF | 5.1 MB | Técnico</span>
+                        <span class="resource-title">El Manifiesto del Soberano</span>
+                        <span class="resource-meta">PDF | 286 KB | Técnico</span>
                     </div>
                 </li>
                 <li class="resource-item" onclick="loadPDF('https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf', this)">

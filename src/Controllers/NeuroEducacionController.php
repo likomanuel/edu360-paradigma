@@ -210,11 +210,16 @@ class NeuroEducacionController
 
     private function getHistorialChat($id_evolucionador, $id_artefacto, $id_meta)
     {
+        // Usamos una ventana deslizante de los últimos 15 mensajes para no sobrecargar el prompt
+        // y mantener la relevancia de la conversación inmediata.
         $sql = "SELECT role, content FROM chat_auditoria_log 
                 WHERE id_evolucionador = $id_evolucionador 
                 AND id_artefacto = $id_artefacto 
                 AND id_artefacto_meta = $id_meta 
-                ORDER BY created_at ASC LIMIT 10";
-        return $this->db->array_sqlconector($sql) ?? [];
+                ORDER BY created_at DESC LIMIT 15";
+        $historial = $this->db->array_sqlconector($sql) ?? [];
+        
+        // Revertimos para que la IA los reciba en orden cronológico (viejo -> nuevo)
+        return array_reverse($historial);
     }
 }

@@ -330,4 +330,52 @@ class Modulo
         }
     }
 
+    /**
+     * Verifica si la tabla LINKS existe, si no existe la crea
+     * @return bool True si la tabla existe o fue creada exitosamente
+     */
+    public function ensureLinksTable(): bool
+    {
+        try {
+            // Verificar si la tabla existe
+            $checkTable = $this->db->row_sqlconector(
+                "SELECT COUNT(*) as count 
+                 FROM information_schema.tables 
+                 WHERE table_schema = DATABASE() 
+                 AND table_name = 'LINKS'"
+            );
+
+            if ($checkTable && $checkTable['count'] > 0) {
+                // La tabla ya existe
+                return true;
+            }
+
+            // La tabla no existe, crearla
+            $createTableSQL = "
+                CREATE TABLE IF NOT EXISTS `LINKS` (
+                  `ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `FECHA` timestamp NOT NULL DEFAULT current_timestamp(),
+                  `LINK` varchar(255) DEFAULT NULL,
+                  `CORREO` varchar(255) DEFAULT NULL,
+                  `BLOQUEADO` int(11) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`ID`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            ";
+
+            $result = $this->db->sqlconector($createTableSQL);
+
+            if ($result) {
+                error_log("\nTabla 'LINKS' creada exitosamente.", 3, self::LOG_PATH);
+                return true;
+            } else {
+                error_log("\nError: No se pudo crear la tabla 'LINKS'.", 3, self::LOG_PATH);
+                return false;
+            }
+
+        } catch (Exception $e) {
+            error_log("\nError al verificar/crear tabla 'LINKS': " . $e->getMessage(), 3, self::LOG_PATH);
+            return false;
+        }
+    }
+
 }

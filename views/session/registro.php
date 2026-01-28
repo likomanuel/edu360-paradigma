@@ -137,7 +137,103 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         }
 
+        document.getElementById('formEvolucionador').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const email = formData.get('email');
+
+            Swal.fire({
+                title: 'Consolidando Identidad',
+                text: 'Enviando código de seguridad a su correo...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Paso 1: Solicitar código
+            fetch('<?php echo base_url('/public/servermail.php'); ?>', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'getcodemail': 1,
+                    'email': email,
+                    'type': 'registro'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 1) {
+                    // Paso 2: Mostrar modal para ingresar código
+                    Swal.fire({
+                        title: 'Protocolo de Seguridad',
+                        html: `
+                            <p style="color: #888;">Hemos enviado un código de 6 dígitos a <b>${email}</b></p>
+                            <input type="text" id="verification_code" class="swal2-input" placeholder="000000" maxlength="6" style="text-align: center; font-size: 2rem; letter-spacing: 10px; background: rgba(0,0,0,0.5); color: #00ff88; border: 1px solid #333;">
+                        `,
+                        confirmButtonText: 'Verificar e Iniciar Ascensión',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        background: '#0a0a0a',
+                        color: '#fff',
+                        preConfirm: () => {
+                            const code = Swal.getPopup().querySelector('#verification_code').value;
+                            if (!code || code.length !== 6) {
+                                Swal.showValidationMessage('Ingrese un código válido de 6 dígitos');
+                            }
+                            return code;
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Paso 3: Verificar código
+                            verifyAndSubmit(email, result.value);
+                        }
+                    });
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Fallo en la conexión con el servidor federal', 'error');
+            });
+        });
+
+        function verifyAndSubmit(email, code) {
+            Swal.fire({
+                title: 'Verificando Protocolo',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            fetch('<?php echo base_url('/public/servermail.php'); ?>', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'verifycode': 1,
+                    'email': email,
+                    'codigo': code
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 1) {
+                    Swal.fire({
+                        title: 'Identidad Consolidada',
+                        text: 'Protocolo completado con éxito. Iniciando redirección...',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        document.getElementById('formEvolucionador').submit();
+                    });
+                } else {
+                    Swal.fire('Error', 'Código de verificación incorrecto', 'error');
+                }
+            });
+        }
+
     </script>
+
 
 <?php
 require_once __DIR__ . '/../../views/layouts/footer.php';

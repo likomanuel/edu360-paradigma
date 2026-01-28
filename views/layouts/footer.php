@@ -3,40 +3,65 @@
 ?>
                     <!-- Footer -->
 <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Sobre Nosotros</h4>
-                <p>En Paradigma EDU360 transformamos el futuro de la educación integrando neurociencia y tecnología de vanguardia para potenciar el talento humano.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+    <div class="footer-blur"></div>
+    <div class="footer-content">
+        <div class="footer-section main-info">
+            <div class="footer-logo">
+                <img src="<?php echo img('favicon/university/android-chrome-192x192.png') ?>" alt="Logo EDU360" width="45">
+                <h4>Paradigma EDU360</h4>
+            </div>
+            <p>Transformamos el futuro de la educación integrando neurociencia y tecnología de vanguardia para potenciar el talento humano en el mundo hispano.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/edu360_global?igsh=ZTg1bm54aGw2NzU2" target="_blank" title="Instagram" class="social-btn instagram">
+                    <i class="ri-instagram-line"></i>
+                </a>
+                <a href="https://www.facebook.com/share/17myYfTZFq/" target="_blank" title="Facebook" class="social-btn facebook">
+                    <i class="ri-facebook-circle-fill"></i>
+                </a>
+                <a href="https://maps.app.goo.gl/xdKYE4dWPMnwijcPA?g_st=aw" target="_blank" title="Google Maps" class="social-btn maps">
+                    <i class="ri-map-pin-2-fill"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Explorar</h4>
+            <ul class="footer-links">
+                <li><a href="<?php echo base_url('/quienes-somos'); ?>"><i class="ri-arrow-right-s-line"></i> ¿Quiénes Somos?</a></li>
+                <li><a href="<?php echo base_url('/que-hacemos'); ?>"><i class="ri-arrow-right-s-line"></i> ¿Qué Hacemos?</a></li>
+                <li><a href="<?php echo base_url('/como-lo-hacemos'); ?>"><i class="ri-arrow-right-s-line"></i> ¿Cómo lo Hacemos?</a></li>
+                <li><a href="<?php echo base_url('/contacto'); ?>"><i class="ri-arrow-right-s-line"></i> Contáctanos</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Contacto Directo</h4>
+            <div class="contact-info">
+                <a href="mailto:president@edu360global.org" class="contact-item">
+                    <i class="ri-mail-send-line"></i>
+                    <span>president@edu360global.org</span>
+                </a>
+                <a href="tel:+18137908821" class="contact-item">
+                    <i class="ri-phone-line"></i>
+                    <span>+1 813 790 8821</span>
+                </a>
+                <div class="contact-item technical">
+                    <i class="ri-cpu-line"></i>
+                    <span>Protocolo: Kérnel v10</span>
                 </div>
             </div>
-            <div class="footer-section">
-                <h4>Enlaces Rápidos</h4>
-                <ul>
-                    <li><a href="<?php echo base_url('/quienes-somos'); ?>">¿Quienes Somos?</a></li>
-                    <li><a href="<?php echo base_url('/que-hacemos'); ?>">¿Qué Hacemos?</a></li>
-                    <li><a href="<?php echo base_url('/como-lo-hacemos'); ?>">¿Cómo lo Hacemos?</a></li>
-                    <li><a href="<?php echo base_url('/contacto'); ?>">Contáctanos</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p><i class="fas fa-envelope"></i> president@edu360global.org</p>
-                <p><i class="fas fa-phone"></i> +1 813 790 8821</p>
-                <p><i class="fas fa-microchip"></i> Protocolo: Kérnel v10</p>
-            </div>
         </div>
+    </div>
+    
+    <div class="footer-bottom">
         <div class="copyright">
-            &copy;
-            <script>
-                document.write(new Date().getFullYear());
-            </script>  
-            Paradigma EDU360. Todos los derechos reservados.
+            <p>&copy; <span id="year"></span> EDU360 Global. La soberanía del conocimiento empieza aquí.</p>
         </div>
-    </footer>
+    </div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</footer>
 
                     <div class="content-backdrop fade"></div>
                 </div>
