@@ -94,6 +94,16 @@ switch ($route) {
         $controller->contacto();
         break;
 
+    case '/verificar':
+        $controller = new App\Controllers\VerificarController();
+        $controller->index();
+        break;
+
+    case '/verificar/buscar':
+        $controller = new App\Controllers\VerificarController();
+        $controller->buscar();
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";
