@@ -27,7 +27,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css" rel="stylesheet" />
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css -->
-    <link rel="stylesheet" href="<?php echo css('style.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo css('style.css'); ?>?v1" />
     <link rel="stylesheet" href="<?php echo css('sweetalert2.css'); ?>" />
     <!-- endbuild -->
     <script src="<?php echo js('jquery-3.5.1.js'); ?>"></script>
@@ -76,7 +76,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <i class="fas fa-user-astronaut"></i> Cerrar Sesión
                 <?php } else { ?>
                     <i class="fas fa-user"></i> Iniciar Sesión
-                <?php } ?></a></li>                
+                <?php } ?></a></li>
+                <li class="verify-cert-item">
+                    <a href="<?php echo base_url('/verificar'); ?>" class="verify-cert-btn">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Verificar Certificado</span>
+                    </a>
+                </li>                
             </ul>
         </nav>
         <div class="search-icon">

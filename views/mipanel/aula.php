@@ -231,7 +231,7 @@ $modulo = new Modulo();
                         <span class="resource-meta">PDF | 286 KB | Técnico</span>
                     </div>
                 </li>
-                <li class="resource-item" onclick="loadPDF('https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf', this)">
+                <li class="resource-item" onclick="loadPDF('<?php echo base_url('public/pdf/ia_neuroeducacion.pdf'); ?>', this)">
                     <i class="fas fa-microchip"></i>
                     <div>
                         <span class="resource-title">IA y Neuroeducación: La Nueva Frontera</span>

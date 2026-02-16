@@ -89,6 +89,113 @@ nav ul li a:hover {
     cursor: pointer;
 }
 
+/* --- BOTÓN VERIFICAR CERTIFICADO (ESPECTACULAR) --- */
+.verify-cert-item {
+    position: relative;
+    margin-left: 15px;
+}
+
+.verify-cert-btn {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px !important;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #00a8e8 100%);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(0, 168, 232, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    animation: certPulse 3s ease-in-out infinite;
+}
+
+.verify-cert-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    animation: certShine 4s linear infinite;
+}
+
+.verify-cert-btn i {
+    font-size: 1.1rem;
+    color: #000;
+    filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.8));
+    z-index: 1;
+}
+
+.verify-cert-btn span {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.verify-cert-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 30px rgba(255, 215, 0, 0.6),
+        0 5px 50px rgba(0, 168, 232, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    color: #000 !important;
+}
+
+.verify-cert-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Animación de pulso sutil */
+@keyframes certPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(0, 168, 232, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(0, 168, 232, 0.3);
+    }
+}
+
+/* Animación de brillo que pasa por el botón */
+@keyframes certShine {
+    0% {
+        left: -50%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+/* Responsive: ajustar en pantallas pequeñas */
+@media (max-width: 768px) {
+    .verify-cert-item {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .verify-cert-btn {
+        padding: 10px 20px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .verify-cert-btn span {
+        display: none;
+    }
+
+    .verify-cert-btn i {
+        margin: 0;
+    }
+}
+
 /* --- HERO SECTION --- */
 .hero {
     height: 500px;
@@ -445,9 +552,17 @@ footer {
     box-shadow: 0 10px 20px rgba(0, 168, 232, 0.2);
 }
 
-.social-btn.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-.social-btn.facebook:hover { background: #1877f2; }
-.social-btn.maps:hover { background: #ea4335; }
+.social-btn.instagram:hover {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.social-btn.facebook:hover {
+    background: #1877f2;
+}
+
+.social-btn.maps:hover {
+    background: #ea4335;
+}
 
 /* Links */
 .footer-links {
@@ -539,6 +654,7 @@ footer {
     .footer-content {
         grid-template-columns: 1fr 1fr;
     }
+
     .footer-section.main-info {
         grid-column: span 2;
     }
@@ -548,10 +664,12 @@ footer {
     footer {
         padding: 60px 5% 30px;
     }
+
     .footer-content {
         grid-template-columns: 1fr;
         gap: 40px;
     }
+
     .footer-section.main-info {
         grid-column: span 1;
     }
