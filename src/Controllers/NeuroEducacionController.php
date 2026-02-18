@@ -23,14 +23,24 @@ class NeuroEducacionController
 
     public function artefactoActivo($id_evolucionador)
     {
-        $artefacto = $this->nodoActivo($id_evolucionador)['id_artefacto'];
-        $artefactoActivo = $this->db->row_sqlconector("SELECT * FROM artefactos_dominio WHERE id_artefacto = $artefacto");
-        return $artefactoActivo;
+        $nodo = $this->nodoActivo($id_evolucionador);
+        if (!$nodo || !isset($nodo['id_artefacto'])) {
+            // Si no hay nodo activo, intentar buscar el último culminado o usar uno por defecto ID 1
+            $sqlLast = "SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador = $id_evolucionador ORDER BY id DESC LIMIT 1";
+            $lastNodo = $this->db->row_sqlconector($sqlLast);
+            $id_artefacto = $lastNodo['id_artefacto'] ?? 1;
+        } else {
+            $id_artefacto = $nodo['id_artefacto'];
+        }
+
+        $artefactoActivo = $this->db->row_sqlconector("SELECT * FROM artefactos_dominio WHERE id_artefacto = $id_artefacto");
+        return $artefactoActivo ?: ['nombre' => 'EDU360'];
     }
+
     public function nodoActivo($id_evolucionador)
     {
-        $nodoActivo = $this->db->row_sqlconector("SELECT * FROM nodos_activos WHERE estatus = 'Activado' AND id_evolucionador = $id_evolucionador");
-        return $nodoActivo;
+        $nodoActivo = $this->db->row_sqlconector("SELECT * FROM nodos_activos WHERE estatus = 'Activado' AND id_evolucionador = $id_evolucionador LIMIT 1");
+        return $nodoActivo ?: null;
     }
 
     public function logrosEvolucionador($id_evolucionador): array

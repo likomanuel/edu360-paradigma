@@ -304,7 +304,7 @@ if($user['verificado'] == 1){
 <body>
 
     <header>
-        <div class="logo" style="text-transform: uppercase;"><i class="fas fa-microchip"></i> <?php echo $neuroEducacionController->artefactoActivo($user['id_evolucionador'])['nombre']; ?></div>
+        <div class="logo" style="text-transform: uppercase;"><i class="fas fa-microchip"></i> <?php echo ($neuroEducacionController->artefactoActivo($user['id_evolucionador'])['nombre'] ?? 'EDU360'); ?></div>
         <div class="aula-counter">
             <a  style="text-decoration: none; color: white;" href="<?php echo base_url('/'); ?>">Home</a>            
         </div>

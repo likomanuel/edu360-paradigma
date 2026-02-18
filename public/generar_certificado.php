@@ -3,7 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/helpers.php';
 require_once(__DIR__ . '/../bin/phpqrcode/qrlib.php');
 
-function generarCertificadoEdu360($nombreAlumno, $nombreCertificado, $hashTransaccion, $emailAlumno, $rutaDestino, $guardarEnDisco = true) {
+function generarCertificadoEdu360($nombreAlumno, $nombreCertificado, $hashTransaccion, $qrContent, $rutaDestino, $guardarEnDisco = true) {
     // 1. Configuración de archivos
     $rutaPlantilla = img_path('edu360_template.png');
     $rutaFuente = fonts_path('orbitron-bold.otf');
@@ -27,8 +27,8 @@ function generarCertificadoEdu360($nombreAlumno, $nombreCertificado, $hashTransa
         mkdir($directorio, 0777, true);
     }
     
-    // 2. Crear el QR con el email
-    QRcode::png($emailAlumno, $archivoQR, QR_ECLEVEL_L, 4, 2);
+    // 2. Crear el QR con el contenido proporcionado (URL o Email)
+    QRcode::png($qrContent, $archivoQR, QR_ECLEVEL_L, 4, 2);
 
     // 3. Cargar la imagen base
     $img = @imagecreatefrompng($rutaPlantilla);

@@ -68,11 +68,14 @@ class PanelController
             // Ruta específica del usuario: public/users/{hash}/certificados/
             $rutaDestino = __DIR__ . "/../../public/users/{$hashUser}/certificados/{$nombreCertificado}.png";
             
+            // 4.1 Construir URL de verificación para el QR
+            $urlVerificacion = base_url("verificar/buscar?q=" . $hashUser);
+            
             // Solo generar si el archivo físico no existe o si queremos regenerar pero marcarlo una sola vez
             if (function_exists('generarCertificadoEdu360')) {
                 $nombreModulo = $artefacto['nombre'];
                 $hashImpreso = $user['hash_identidad'];
-                $generado = generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $emailAlumno, $rutaDestino, true);
+                $generado = generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $urlVerificacion, $rutaDestino, true);
                 
                 if ($generado) {
                     // 5. Marcar como generado y Culminar el diplomado (Cerrar el nodo)
