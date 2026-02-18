@@ -30,11 +30,12 @@ class PanelController
     {
         $id_evolucionador = $user['id_evolucionador'];
         
-        // 1. Obtener el nodo activo actual
-        $sqlNodo = "SELECT id, id_artefacto FROM nodos_activos WHERE id_evolucionador = $id_evolucionador AND estatus = 'Activado' LIMIT 1";
+        // 1. Obtener el nodo activo actual (incluyendo la nueva bandera)
+        $sqlNodo = "SELECT id, id_artefacto, certificado_generado FROM nodos_activos WHERE id_evolucionador = $id_evolucionador AND estatus = 'Activado' LIMIT 1";
         $nodo = $this->db->row_sqlconector($sqlNodo);
         
         if (!$nodo) return;
+        if ((int)$nodo['certificado_generado'] === 1) return; // Ya generado, no hacer nada más
 
         $id_nodo = $nodo['id'];
         $id_artefacto = $nodo['id_artefacto'];
@@ -60,20 +61,24 @@ class PanelController
             $nombreAlumno = $user['nombre_completo'];
             $emailAlumno = $user['email_verificado'];
             $hashUser = $user['hash_identidad'];
-            $nombreCertificado = "Certificado_" . $id_artefacto . "_" . time();
+            
+            // Nombre determinista: Certificado_IDArtefacto_IDEvolucionador.png
+            $nombreCertificado = "Certificado_" . $id_artefacto . "_" . $id_evolucionador;
             
             // Ruta específica del usuario: public/users/{hash}/certificados/
             $rutaDestino = __DIR__ . "/../../public/users/{$hashUser}/certificados/{$nombreCertificado}.png";
             
-            // Llamar a la función de generación con la firma corregida (6 parámetros)
+            // Solo generar si el archivo físico no existe o si queremos regenerar pero marcarlo una sola vez
             if (function_exists('generarCertificadoEdu360')) {
                 $nombreModulo = $artefacto['nombre'];
                 $hashImpreso = $user['hash_identidad'];
-                generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $emailAlumno, $rutaDestino, true);
+                $generado = generarCertificadoEdu360($nombreAlumno, $nombreModulo, $hashImpreso, $emailAlumno, $rutaDestino, true);
                 
-                // 5. Culminar el diplomado (Cerrar el nodo)
-                //$sqlUpdate = "UPDATE nodos_activos SET estatus = 'Cerrado' WHERE id = $id_nodo";
-                //$this->db->sqlconector($sqlUpdate);
+                if ($generado) {
+                    // 5. Marcar como generado y Culminar el diplomado (Cerrar el nodo)
+                    $sqlUpdate = "UPDATE nodos_activos SET certificado_generado = 1, estatus = 'Cerrado' WHERE id = $id_nodo";
+                    $this->db->sqlconector($sqlUpdate);
+                }
             }
         }
     }
