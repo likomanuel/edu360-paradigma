@@ -237,6 +237,69 @@ if($user['verificado'] == 1){
             color: var(--text-muted);
             cursor: pointer;
         }
+
+        /* --- ESTUILO ESPECTACULAR PARA LOGROS CULMINADOS --- */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .achievement-completed {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%) !important;
+            border-left: 3px solid #ffd700 !important;
+            border-right: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: pulse-gold 2s infinite;
+        }
+
+        .achievement-completed::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
+        }
+
+        .btn-view-cert {
+            background: #ffd700;
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: auto;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-view-cert:hover {
+            background: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+
+        .status-badge-completed {
+            background: #ffd700;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
     </style>
 <body>
 
@@ -357,14 +420,35 @@ if($user['verificado'] == 1){
             else:
                 foreach($logros as $logro): 
                     $isCulminado = ($logro['estatus'] == 'Culminado');
-                    $statusLabel = $isCulminado ? 'Culminado' : 'En Proceso';
-                    $borderStyle = $isCulminado ? 'border-left: 3px solid var(--cyber-green);' : 'border-left: 3px solid var(--primary-blue);';
-                    $iconClass = $isCulminado ? 'fa-check-circle' : 'fa-spinner fa-spin';
-                    $iconColor = $isCulminado ? 'var(--cyber-green)' : 'var(--primary-blue)';
+                    $statusLabel = $isCulminado ? 'CULMINADO' : 'En Proceso';
+                    
+                    // Clase espectacular si está culminado
+                    $itemClass = $isCulminado ? 'achievement-tag achievement-completed' : 'achievement-tag';
+                    $borderStyle = $isCulminado ? '' : 'border-left: 3px solid var(--primary-blue);';
+                    $iconClass = $isCulminado ? 'fa-award' : 'fa-spinner fa-spin';
+                    $iconColor = $isCulminado ? '#ffd700' : 'var(--primary-blue)';
+
+                    // Buscar si tiene certificado para el botón directo
+                    $certFile = "Certificado_" . $logro['id_artefacto'] . "_" . $user['id_evolucionador'] . ".png";
+                    $certPath = __DIR__ . "/../../public/users/" . $user['hash_identidad'] . "/certificados/" . $certFile;
+                    $hasCert = file_exists($certPath);
             ?>
-            <div class="achievement-tag" style="<?php echo $borderStyle; ?>">
-                <i class="fas <?php echo $iconClass; ?>" style="color: <?php echo $iconColor; ?>;"></i>
-                <span><?php echo $logro['nombre'] . ' - ' . $logro['nivel_trayectoria'] . ' (' . $statusLabel . ')'; ?></span>
+            <div class="<?php echo $itemClass; ?>" style="<?php echo $borderStyle; ?>">
+                <i class="fas <?php echo $iconClass; ?>" style="color: <?php echo $iconColor; ?>; font-size: 1.1rem;"></i>
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-weight: 600;"><?php echo $logro['nombre']; ?></span>
+                    <small style="color: var(--text-muted); font-size: 0.7rem;">
+                        <?php echo $logro['nivel_trayectoria']; ?> • 
+                        <span class="<?php echo $isCulminado ? 'status-badge-completed' : ''; ?>">
+                            <?php echo $statusLabel; ?>
+                        </span>
+                    </small>
+                </div>
+                <?php if($isCulminado && $hasCert): ?>
+                    <a href="<?php echo base_url("public/users/" . $user['hash_identidad'] . "/certificados/" . $certFile); ?>" target="_blank" class="btn-view-cert">
+                        <i class="fas fa-eye"></i> CERTIFICADO
+                    </a>
+                <?php endif; ?>
             </div>
             <?php 
                 endforeach; 

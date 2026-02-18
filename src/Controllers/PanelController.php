@@ -76,7 +76,7 @@ class PanelController
                 
                 if ($generado) {
                     // 5. Marcar como generado y Culminar el diplomado (Cerrar el nodo)
-                    $sqlUpdate = "UPDATE nodos_activos SET certificado_generado = 1, estatus = 'Cerrado' WHERE id = $id_nodo";
+                    $sqlUpdate = "UPDATE nodos_activos SET certificado_generado = 1, estatus = 'Culminado' WHERE id = $id_nodo";
                     $this->db->sqlconector($sqlUpdate);
                 }
             }
