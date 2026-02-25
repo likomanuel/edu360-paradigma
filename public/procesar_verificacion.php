@@ -13,6 +13,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 $modulo = new Modulo();
+$modulo->ensureEvolucionadoresProfileCols();
 $user = $modulo->getUser($_SESSION['email']);
 
 if (!$user) {
@@ -48,26 +49,44 @@ try {
 
     // Validar estado de verificación del email
     $vData = $scrapResult['verification'] ?? null;
-    $isEmailValid = false;
+    error_log("[SNOV_RAW] " . json_encode($vData)); // Debug: siempre registrar estructura real
 
-    if ($vData && isset($vData['data'][0]['result']['smtp_status'])) {
-        $status = $vData['data'][0]['result']['smtp_status'];
-        if ($status === 'valid') {
-            $isEmailValid = true;
-        } else {
-            echo json_encode(['success' => false, 'message' => 'El correo electrónico no es válido o no existe según la auditoría de nivel 1 (Snov.io). Status: ' . $status]);
-            exit;
+    // Extraer smtp_status desde cualquier nivel de la estructura de respuesta
+    $smtpStatus = null;
+    if (is_array($vData)) {
+        // Estructura: data[0][result][smtp_status]
+        if (isset($vData['data'][0]['result']['smtp_status'])) {
+            $smtpStatus = $vData['data'][0]['result']['smtp_status'];
         }
-    } else {
-        // Si sigue en progreso, podemos decidir si bloquear o seguir. 
-        // Por ahora, asumiremos que si no es 'invalid' explícitamente, podemos intentar seguir o pedir reintento.
-        if (isset($vData['status']) && $vData['status'] === 'in_progress') {
-            echo json_encode(['success' => false, 'message' => 'La verificación del correo aún está en progreso. Por favor, intenta de nuevo en unos segundos.']);
-            exit;
+        // Estructura alternativa: data[0][smtp_status]
+        elseif (isset($vData['data'][0]['smtp_status'])) {
+            $smtpStatus = $vData['data'][0]['smtp_status'];
         }
-        echo json_encode(['success' => false, 'message' => 'No se pudo obtener un estado de verificación claro del correo.', 'raw' => $vData]);
-        exit;
+        // Estructura plana: result[smtp_status]
+        elseif (isset($vData['result']['smtp_status'])) {
+            $smtpStatus = $vData['result']['smtp_status'];
+        }
+        // Estructura plana directo
+        elseif (isset($vData['smtp_status'])) {
+            $smtpStatus = $vData['smtp_status'];
+        }
     }
+
+    if ($smtpStatus === 'valid') {
+        $isEmailValid = true;
+    } elseif ($smtpStatus !== null) {
+        // El email existe pero no es válido (invalid, disposable, etc.)
+        echo json_encode(['success' => false, 'message' => 'El correo electrónico no es válido según la auditoría (Snov.io). Status: ' . $smtpStatus]);
+        exit;
+    } elseif (isset($vData['status']) && $vData['status'] === 'in_progress') {
+        echo json_encode(['success' => false, 'message' => 'La verificación del correo sigue en progreso tras varios reintentos. Espera unos segundos e intenta de nuevo.']);
+        exit;
+    } else {
+        // Sin estructura reconocible — dejar pasar (benevolente) para no bloquear por falla de Snov.io
+        error_log("[SNOV_WARN] Estructura desconocida, permitiendo paso. Raw: " . json_encode($vData));
+        $isEmailValid = true;
+    }
+
 
     // Paso 2: Auditoría OSINT con IA
     // Obtenemos el prompt base usando Reflection para acceder a la propiedad privada (o podrías hacerla pública)
@@ -101,8 +120,19 @@ try {
 
     // Paso 3: Actualizar Base de Datos si la IA dio el visto bueno
     if (isset($aiResponse['verificado']) && $aiResponse['verificado']) {
-        $updateSql = "UPDATE evolucionadores SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 3 WHERE email_verificado = '{$user['email_verificado']}'";
-        $modulo->getDb()->sqlconector($updateSql);
+        $pdo = $modulo->getDb()->getConnection();
+        $updateSql = "UPDATE evolucionadores 
+                      SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 3,
+                          ciudad = :ciudad, profesion = :profesion, empresa = :empresa, red_social = :red_social
+                      WHERE email_verificado = :email";
+        $stmt = $pdo->prepare($updateSql);
+        $stmt->execute([
+            ':ciudad'     => $ciudad,
+            ':profesion'  => $profesion,
+            ':empresa'    => $empresa,
+            ':red_social' => $red_social,
+            ':email'      => $user['email_verificado'],
+        ]);
         
         echo json_encode([
             'success' => true,

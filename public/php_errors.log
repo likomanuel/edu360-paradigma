@@ -10,3 +10,6 @@
 [18-Feb-2026 22:10:39 UTC] PHP Warning:  Trying to access array offset on false in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\NeuroEducacionController.php on line 26
 [18-Feb-2026 22:10:39 UTC] Error al ejecutar la consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 - Query: SELECT * FROM artefactos_dominio WHERE id_artefacto = 
 [18-Feb-2026 22:10:39 UTC] PHP Warning:  Trying to access array offset on null in C:\Apache24\htdocs\edu360-paradigma\views\mipanel\index.php on line 307
+[25-Feb-2026 03:11:37 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from C:\Apache24\htdocs\edu360-paradigma\public\index.php on line 3) in C:\Apache24\htdocs\edu360-paradigma\src\Controllers\SessionController.php on line 14
+[25-Feb-2026 03:16:07 UTC] [SNOV_RAW] null
+[25-Feb-2026 03:16:07 UTC] [SNOV_WARN] Estructura desconocida, permitiendo paso. Raw: null

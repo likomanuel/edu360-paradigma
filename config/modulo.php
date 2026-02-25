@@ -381,4 +381,40 @@ class Modulo
         }
     }
 
+    /**
+     * Verifica y añade las columnas de perfil (ciudad, profesion, empresa, red_social)
+     * a la tabla evolucionadores si no existen (auto-migración).
+     * @return bool True si las columnas existen o fueron creadas exitosamente
+     */
+    public function ensureEvolucionadoresProfileCols(): bool
+    {
+        $columns = [
+            'ciudad'     => "ALTER TABLE `evolucionadores` ADD COLUMN `ciudad` VARCHAR(150) NULL DEFAULT NULL",
+            'profesion'  => "ALTER TABLE `evolucionadores` ADD COLUMN `profesion` VARCHAR(150) NULL DEFAULT NULL",
+            'empresa'    => "ALTER TABLE `evolucionadores` ADD COLUMN `empresa` VARCHAR(150) NULL DEFAULT NULL",
+            'red_social' => "ALTER TABLE `evolucionadores` ADD COLUMN `red_social` VARCHAR(255) NULL DEFAULT NULL",
+        ];
+
+        try {
+            foreach ($columns as $colName => $alterSql) {
+                $exists = $this->db->row_sqlconector(
+                    "SELECT COUNT(*) as count
+                     FROM information_schema.columns
+                     WHERE table_schema = DATABASE()
+                       AND table_name = 'evolucionadores'
+                       AND column_name = '$colName'"
+                );
+
+                if (!$exists || $exists['count'] == 0) {
+                    $this->db->sqlconector($alterSql);
+                    error_log("\nColumna '$colName' añadida a la tabla 'evolucionadores'.", 3, self::LOG_PATH);
+                }
+            }
+            return true;
+        } catch (Exception $e) {
+            error_log("\nError en ensureEvolucionadoresProfileCols: " . $e->getMessage(), 3, self::LOG_PATH);
+            return false;
+        }
+    }
+
 }

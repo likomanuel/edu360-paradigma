@@ -123,17 +123,28 @@ class GeminiService
 
         $hash = $resStart['data']['task_hash'];
 
-        // Wait a bit for verification to process (simplified for this test/demo)
-        sleep(2);
+        // Polling: hasta 5 reintentos esperando 3 segundos cada uno (15 seg máx)
+        $maxAttempts = 5;
+        $resResult   = null;
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            sleep(3);
 
-        // Snov.io v2 Email Verifier: Result
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v2/email-verification/result?task_hash=$hash");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        $resResult = json_decode(curl_exec($ch), true);
-        curl_close($ch);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://api.snov.io/v2/email-verification/result?task_hash=$hash");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $resResult = json_decode(curl_exec($ch), true);
+            curl_close($ch);
+
+            // Si el status de la respuesta no es in_progress, salimos
+            $topStatus = $resResult['status'] ?? '';
+            if ($topStatus !== 'in_progress') {
+                break;
+            }
+
+            error_log("[SNOV_POLL] Intento " . ($i + 1) . " aún in_progress para $email");
+        }
 
         return ['success' => true, 'verification' => $resResult];
     }

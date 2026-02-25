@@ -42,6 +42,34 @@
                             <span style="color: #eee; font-size: 0.85rem;"><?= htmlspecialchars($user['email_verificado']) ?></span>
                         </div>
                     </div>
+                    <?php if (!empty($user['ciudad']) || !empty($user['profesion']) || !empty($user['empresa']) || !empty($user['red_social'])): ?>
+                    <div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px;">
+                        <?php if (!empty($user['ciudad'])): ?>
+                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,168,232,0.07); border: 1px solid rgba(0,168,232,0.15); border-radius: 20px; padding: 5px 14px;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary-blue); font-size: 0.75rem;"></i>
+                            <span style="font-size: 0.82rem; color: #ccc;"><?= htmlspecialchars($user['ciudad']) ?></span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($user['profesion'])): ?>
+                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,168,232,0.07); border: 1px solid rgba(0,168,232,0.15); border-radius: 20px; padding: 5px 14px;">
+                            <i class="fas fa-briefcase" style="color: var(--primary-blue); font-size: 0.75rem;"></i>
+                            <span style="font-size: 0.82rem; color: #ccc;"><?= htmlspecialchars($user['profesion']) ?></span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($user['empresa'])): ?>
+                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,168,232,0.07); border: 1px solid rgba(0,168,232,0.15); border-radius: 20px; padding: 5px 14px;">
+                            <i class="fas fa-building" style="color: var(--primary-blue); font-size: 0.75rem;"></i>
+                            <span style="font-size: 0.82rem; color: #ccc;"><?= htmlspecialchars($user['empresa']) ?></span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (!empty($user['red_social'])): ?>
+                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,168,232,0.07); border: 1px solid rgba(0,168,232,0.15); border-radius: 20px; padding: 5px 14px;">
+                            <i class="fas fa-link" style="color: var(--primary-blue); font-size: 0.75rem;"></i>
+                            <a href="<?= htmlspecialchars($user['red_social']) ?>" target="_blank" rel="noopener" style="font-size: 0.82rem; color: var(--primary-blue); text-decoration: none;"><?= htmlspecialchars($user['red_social']) ?></a>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
