@@ -67,7 +67,7 @@ try {
                 // Insertamos en nodos_activos
                 $tipo_nodo_defaul = "Omega";
                 $sum_tipo_nodo = $db->row_sqlconector("SELECT COUNT(tipo_nodo) AS sum_tipo_nodo FROM nodos_activos WHERE tipo_nodo = 'Beta' AND estatus='Activado'")['sum_tipo_nodo'];
-                if ($sum_tipo_nodo < 100) {
+                if ($sum_tipo_nodo < 500) {
                     $tipo_nodo_defaul = "Beta";
                 }
                 $db->sqlconector(

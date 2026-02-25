@@ -270,7 +270,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         <div class="beta-container">
             <div class="beta-content">
                 <h2>Oferta Inicial: Nodos <span class="badge-beta">Beta</span></h2>
-                <p>Sé uno de los primeros 100 y obtén un <strong>2% de participación</strong> en EDU360 University.</p>
+                <p>Sé uno de los primeros 500 y obtén un <strong>2% de participación</strong> en EDU360 University.</p>
                 <div class="beta-perks">
                     <span><i class="fas fa-infinity"></i> Miembro Vitalicio</span>
                     <span><i class="fas fa-graduation-cap"></i> Todas las Carreras</span>
@@ -278,12 +278,12 @@ require_once __DIR__ . '/../../views/layouts/header.php';
             </div>
             <div class="beta-counter-box">
                 <div class="counter-display">
-                    <span id="beta-count"><?php echo $sum_tipo_nodo; ?></span><span class="total">/100</span>
+                    <span id="beta-count"><?php echo $sum_tipo_nodo; ?></span><span class="total">/500</span>
                 </div>
                 <div class="progress-container">
-                    <div class="progress-bar" style="width: 0%" data-target="<?php echo ($sum_tipo_nodo / 100) * 100; ?>%"></div>
+                    <div class="progress-bar" style="width: 0%" data-target="<?php echo ($sum_tipo_nodo / 500) * 100; ?>%"></div>
                 </div>
-                <p class="remaining">¡Solo quedan <?php echo 100 - $sum_tipo_nodo; ?> cupos!</p>
+                <p class="remaining">¡Solo quedan <?php echo 500 - $sum_tipo_nodo; ?> cupos!</p>
             </div>
         </div>
     </section>
@@ -379,7 +379,7 @@ if(isset($_SESSION['staging']) && $_SESSION['staging'] == true) {
 
         <div class="control-group">
             <label>4. Visualización de Nodos</label>
-            <a href="nodos_grid.php" class="btn-link">Abrir "The Grid" (100 Slots)</a>
+            <a href="nodos_grid.php" class="btn-link">Abrir "The Grid" (500 Slots)</a>
         </div>
 
         <div class="control-group">

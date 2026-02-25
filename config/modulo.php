@@ -301,6 +301,7 @@ class Modulo
                     `stripe_session_id` VARCHAR(255) NOT NULL,
                     `monto` DECIMAL(10,2) NOT NULL,
                     `estatus` VARCHAR(50) NOT NULL DEFAULT 'Activado',
+                    `tipo_nodo` VARCHAR(50) NOT NULL DEFAULT 'Omega',
                     `fecha_activacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     `fecha_expiracion` TIMESTAMP NULL DEFAULT NULL,
                     `id_artefacto` INT(11) DEFAULT 1,

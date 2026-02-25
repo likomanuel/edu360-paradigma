@@ -29,7 +29,7 @@ function sendEmail($to, $subject, $body) {
   try {
     $mail->isSMTP();
     //$mail->Host = 'server121.web-hosting.com';
-    $mail->Host = 'mail.privateemail.com';
+    $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'contacto@edu360global.org';
     $mail->Password = $_ENV['EMAIL_PASSWORD'];

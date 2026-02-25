@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'usd',
-                    'product_data' => ['name' => 'Acceso al Nodo Fundacional - EDU360'],
-                    'unit_amount' => 2000, // $20.00
+                    'product_data' => ['name' => 'Diplomado en Neuroeducación - EDU360'],
+                    'unit_amount' => 75000, // $750.00
                 ],
                 'quantity' => 1,
             ]],
@@ -305,9 +305,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <section class="checkout-card">
             <h2>Acceso al Nodo</h2>
-            <div class="price-tag">20.00 <span>USD</span></div>
+            <div class="price-tag">750.00 <span>USD</span></div>
             <p style="font-size: 0.8rem; color: #888; margin-bottom: 30px;">
-                Cuota única de activación para el Nodo Fundacional.
+                Cuota única de inscripción para el Diplomado en Neuroeducación.
             </p>
 
             <?php if (isset($error_mensaje)): ?>
@@ -318,7 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <form method="POST">
                 <button type="submit" id="checkout-button" style="width: 100%; padding: 15px; background: var(--primary-blue); color: white; border: none; border-radius: 5px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-bottom: 20px;">
-                    <i class="fab fa-stripe"></i> Pagar con Tarjeta ($20.00 USD)
+                    <i class="fab fa-stripe"></i> Pagar con Tarjeta ($750.00 USD)
                 </button>
             </form>
             <div class="secure-notice">
@@ -359,18 +359,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><strong>Paso 4:</strong> Confirma el pago</p>
             <p><strong>Paso 5:</strong> Serás redirigido automáticamente a tu panel de soberanía</p>
 
-            <h4><i class="fas fa-credit-card"></i> Tarjetas de Prueba (Modo Test)</h4>
-            <div class="test-card">
-                <strong>Número de tarjeta:</strong> 4242 4242 4242 4242<br>
-                <strong>Fecha de expiración:</strong> Cualquier fecha futura (ej: 12/34)<br>
-                <strong>CVC:</strong> Cualquier 3 dígitos (ej: 123)<br>
-                <strong>Código postal:</strong> Cualquier 5 dígitos (ej: 12345)
-            </div>
+
 
             <div class="warning-box">
-                <strong><i class="fas fa-exclamation-triangle"></i> Nota:</strong> 
-                Actualmente estamos en modo de prueba. Usa las tarjetas de prueba proporcionadas arriba. 
-                No se realizarán cargos reales a tu tarjeta.
+                <strong><i class="fas fa-exclamation-triangle"></i> Importante:</strong> 
+                Este es un proceso de pago real y seguro. Se realizará un cargo de $750.00 USD a tu tarjeta de crédito o débito. Asegúrate de contar con los fondos necesarios antes de continuar.
             </div>
 
             <h4><i class="fas fa-question"></i> ¿Problemas con el pago?</h4>
