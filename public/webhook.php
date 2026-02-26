@@ -70,9 +70,19 @@ switch ($event->type) {
         $session_id = $session->id;
         $monto = $session->amount_total / 100;
         $moneda = strtoupper($session->currency ?? 'USD');
+        $client_reference_id = $session->client_reference_id ?? null;
         
         if ($email_usuario) {
             activarNodoSoberano($db, $email_usuario, $session_id, $monto, $moneda);
+            
+            if ($client_reference_id) {
+                // Si viene de una tarjeta de regalo, marcarla como reclamada
+                $db->sqlconector(
+                    "UPDATE tarjetas_regalo SET estatus = 'Reclamada' WHERE codigo = ?",
+                    [$client_reference_id]
+                );
+                error_log("\n[WEBHOOK GIFT] Tarjeta $client_reference_id marcada como Reclamada", 3, Modulo::LOG_PATH);
+            }
         } else {
             error_log("\n[WEBHOOK ERROR] No se encontró email en la sesión: $session_id", 3, Modulo::LOG_PATH);
         }

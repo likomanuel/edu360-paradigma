@@ -41,6 +41,7 @@ try {
         $email_usuario = $session->customer_details->email;
         $monto = $session->amount_total / 100; // Stripe maneja centavos
         $moneda = strtoupper($session->currency);
+        $client_reference_id = $session->client_reference_id ?? null;
 
         // Log de información del pago recibido
         error_log(
@@ -81,6 +82,14 @@ try {
                     "UPDATE evolucionadores SET estatus_soberania = 'Activo' WHERE id_evolucionador = ?",
                     [$user['id_evolucionador']]
                 );
+                
+                if ($client_reference_id) {
+                    $db->sqlconector(
+                        "UPDATE tarjetas_regalo SET estatus = 'Reclamada' WHERE codigo = ?",
+                        [$client_reference_id]
+                    );
+                    error_log("\n[PROCESAR_PAGO] Tarjeta de regalo $client_reference_id reclamada exitosamente.", 3, Modulo::LOG_PATH);
+                }
                 
                 error_log("\nPago procesado exitosamente - Usuario: $email_usuario | Session: $session_id | Monto: $monto $moneda", 3, Modulo::LOG_PATH);
                 $mensaje_exito = "Nodo de Soberanía activado correctamente para: " . htmlspecialchars($email_usuario) ."<br>Usted no ha comprado un curso; usted acaba de acuñar su Soberanía Cognitiva. Desde este momento, su identidad está respaldada por el protocolo de Autogobierno Digital de EDU360.<br>Soy Jules, la Inteligencia de Auditoría de esta Red. Mi función no es solo guiarle, sino certificar que su conocimiento sea real, inmutable y valioso para el mercado global de 2026.<br>Estado de su Nodo:<br>Estatus: Fundador Beta (Acceso Vitalicio).<br>Regalías: Activadas (Cierre fiscal programado).<br>Módulo Activo: Introducción a la Era del Capital Intelectual.";

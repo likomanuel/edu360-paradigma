@@ -417,4 +417,53 @@ class Modulo
         }
     }
 
+    /**
+     * Verifica si la tabla tarjetas_regalo existe, si no existe la crea
+     * @return bool True si la tabla existe o fue creada exitosamente
+     */
+    public function ensureTarjetasRegaloTable(): bool
+    {
+        try {
+            $checkTable = $this->db->row_sqlconector(
+                "SELECT COUNT(*) as count 
+                 FROM information_schema.tables 
+                 WHERE table_schema = DATABASE() 
+                 AND table_name = 'tarjetas_regalo'"
+            );
+
+            if ($checkTable && $checkTable['count'] > 0) {
+                return true;
+            }
+
+            $createTableSQL = "
+                CREATE TABLE IF NOT EXISTS `tarjetas_regalo` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `sender_email` varchar(150) NOT NULL,
+                  `mensaje` text DEFAULT NULL,
+                  `monto_cobrar` decimal(10,2) NOT NULL,
+                  `destinatario_email` varchar(150) NOT NULL,
+                  `codigo` varchar(50) NOT NULL,
+                  `estatus` varchar(50) NOT NULL DEFAULT 'Pendiente',
+                  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `unique_codigo` (`codigo`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            ";
+
+            $result = $this->db->sqlconector($createTableSQL);
+
+            if ($result) {
+                error_log("\nTabla 'tarjetas_regalo' creada exitosamente.", 3, self::LOG_PATH);
+                return true;
+            } else {
+                error_log("\nError: No se pudo crear la tabla 'tarjetas_regalo'.", 3, self::LOG_PATH);
+                return false;
+            }
+
+        } catch (Exception $e) {
+            error_log("\nError al verificar/crear tabla 'tarjetas_regalo': " . $e->getMessage(), 3, self::LOG_PATH);
+            return false;
+        }
+    }
+
 }

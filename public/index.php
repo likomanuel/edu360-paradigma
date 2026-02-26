@@ -104,6 +104,31 @@ switch ($route) {
         $controller->buscar();
         break;
 
+    case '/regalo/generar':
+        $controller = new App\Controllers\RegaloController();
+        $controller->generar();
+        break;
+
+    case '/regalo/guardar':
+        $controller = new App\Controllers\RegaloController();
+        $controller->guardar();
+        break;
+
+    case '/regalo':
+        $controller = new App\Controllers\RegaloController();
+        $controller->ver();
+        break;
+
+    case '/regalo/registro':
+        $controller = new App\Controllers\RegaloController();
+        $controller->registro();
+        break;
+
+    case '/regalo/pago':
+        $controller = new App\Controllers\RegaloController();
+        $controller->pago();
+        break;
+
     default:
         http_response_code(404);
         echo "<h1>404 - Página no encontrada</h1>";
