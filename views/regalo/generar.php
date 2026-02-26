@@ -167,7 +167,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     <div class="gift-container">
         <div class="title-box">
             <h1><i class="fas fa-gift"></i> Regalar Soberanía</h1>
-            <p>Genera una tarjeta de regalo espectacular para compartir el acceso a EDU360.</p>
+            <p>Genera una tarjeta de regalo EDU360 University.</p>
         </div>
 
         <form id="giftForm">
@@ -191,7 +191,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                 <input type="number" name="monto_cobrar" class="form-control" placeholder="Ej. 750" value="750" required min="1" step="0.01">
             </div>
             
-            <button type="submit" class="btn-grad" id="btnSubmit">Generar Tarjeta Mágica <i class="fas fa-magic"></i></button>
+            <button type="submit" class="btn-grad" id="btnSubmit">Generar Tarjeta <i class="fas fa-magic"></i></button>
         </form>
 
         <div class="result-box" id="resultBox">
