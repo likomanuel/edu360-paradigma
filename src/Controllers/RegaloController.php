@@ -15,16 +15,46 @@ class RegaloController
         $this->db = new Database();
         $this->modulo = new Modulo();
         $this->modulo->ensureTarjetasRegaloTable();
+        $this->modulo->ensureEvolucionadoresProfileCols();
     }
 
     public function generar()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['email'])) {
+            header('Location: ' . base_url('iniciar_sesion'));
+            exit;
+        }
+
+        $user = $this->modulo->getUser($_SESSION['email']);
+        if (empty($user) || !isset($user['rol']) || $user['rol'] !== 'admin') {
+            die("<h2>Acceso Denegado</h2><p>Solo los administradores pueden generar tarjetas de regalo.</p>");
+        }
+
         // View for sender to create the gift card
         require_once __DIR__ . '/../../views/regalo/generar.php';
     }
 
     public function guardar()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['email'])) {
+            echo json_encode(['status' => false, 'message' => 'Sesión no iniciada']);
+            return;
+        }
+
+        $user = $this->modulo->getUser($_SESSION['email']);
+        if (empty($user) || !isset($user['rol']) || $user['rol'] !== 'admin') {
+            echo json_encode(['status' => false, 'message' => 'Acceso denegado: Se requieren permisos de administrador']);
+            return;
+        }
+
         // Endpoint to handle the creation from the form
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['status' => false, 'message' => 'Método no permitido']);

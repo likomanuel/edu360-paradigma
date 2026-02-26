@@ -393,6 +393,7 @@ class Modulo
             'profesion'  => "ALTER TABLE `evolucionadores` ADD COLUMN `profesion` VARCHAR(150) NULL DEFAULT NULL",
             'empresa'    => "ALTER TABLE `evolucionadores` ADD COLUMN `empresa` VARCHAR(150) NULL DEFAULT NULL",
             'red_social' => "ALTER TABLE `evolucionadores` ADD COLUMN `red_social` VARCHAR(255) NULL DEFAULT NULL",
+            'rol'        => "ALTER TABLE `evolucionadores` ADD COLUMN `rol` VARCHAR(50) NOT NULL DEFAULT 'usuario'",
         ];
 
         try {
