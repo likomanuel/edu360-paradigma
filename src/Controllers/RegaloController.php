@@ -99,10 +99,13 @@ class RegaloController
         }
 
         $tarjeta = $this->db->row_sqlconector("SELECT * FROM tarjetas_regalo WHERE codigo = ?", [$codigo]);
-
+        
         if (!$tarjeta) {
             die("Tarjeta de regalo no encontrada.");
         }
+
+        // Verificar si el destinatario ya existe en la plataforma
+        $usuario_existe = $this->modulo->ifUsuarioExist($tarjeta['destinatario_email']);
 
         // Si ya está reclamada, we show the view anyway but the view logic will disable the "Inicia Tu Evolución" button
         // Spectacular view for the recipient
@@ -124,6 +127,12 @@ class RegaloController
 
         if ($tarjeta['estatus'] === 'Reclamada') {
             die("Esta tarjeta de regalo ya ha sido reclamada. El enlace ya no es válido por motivos de seguridad.");
+        }
+
+        // SI EL USUARIO YA EXISTE, SALTAR EL REGISTRO E IR DIRECTO AL PAGO
+        if ($this->modulo->ifUsuarioExist($tarjeta['destinatario_email'])) {
+            header('Location: ' . base_url('regalo/pago?code=' . urlencode($codigo)));
+            exit;
         }
 
         // Registration form view

@@ -288,10 +288,18 @@ require_once __DIR__ . '/../../views/layouts/header.php';
         <a href="<?php echo base_url(); ?>" class="btn-next btn-disabled">Volver al Inicio</a>
     <?php else: ?>
         <h2>¡Felicidades, <?php echo htmlspecialchars(explode('@', $tarjeta['destinatario_email'])[0]); ?>!</h2>
-        <p>Has recibido una Beca o Regalo exclusivo para integrarte al Ecosistema EDU360 Paradigma. Al presionar "Iniciar", comenzarás tu proceso de registro y se activará tu Nodo con la inversión ya cubierta.</p>
-        <a href="<?php echo base_url('regalo/registro?code=' . urlencode($tarjeta['codigo'])); ?>" class="btn-next">
-            INICIAR MI EVOLUCIÓN <i class="fas fa-arrow-right"></i>
-        </a>
+        
+        <?php if (isset($usuario_existe) && $usuario_existe): ?>
+            <p>Ya eres parte de nuestra red. Presiona el botón para reclamar tu regalo y activar tu nuevo Nodo con la inversión ya cubierta.</p>
+            <a href="<?php echo base_url('regalo/pago?code=' . urlencode($tarjeta['codigo'])); ?>" class="btn-next">
+                RECLAMAR MI REGALO <i class="fas fa-arrow-right"></i>
+            </a>
+        <?php else: ?>
+            <p>Has recibido una Beca o Regalo exclusivo para integrarte al Ecosistema EDU360 Paradigma. Al presionar "Iniciar", comenzarás tu proceso de registro y se activará tu Nodo con la inversión ya cubierta.</p>
+            <a href="<?php echo base_url('regalo/registro?code=' . urlencode($tarjeta['codigo'])); ?>" class="btn-next">
+                INICIAR MI EVOLUCIÓN <i class="fas fa-arrow-right"></i>
+            </a>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
