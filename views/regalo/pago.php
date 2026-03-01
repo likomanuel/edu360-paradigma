@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]],
             'mode' => 'payment',
             'client_reference_id' => $codigo, // CRÍTICO: Para ligar el pago con la tarjeta de regalo
+            'customer_email' => $tarjeta['destinatario_email'], // OPCIONAL: Pero ayuda a que Stripe ya tenga el correo correcto
             'success_url' => base_url('procesar_pago.php') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => base_url('regalo/pago?code=' . urlencode($codigo)), 
         ]);

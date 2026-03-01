@@ -12,11 +12,13 @@ $neuroEducacionController = new NeuroEducacionController();
 
 $link = "pagos";
 $caption = "Activar el Nodo";
+$link_aula = "#";
 $verificado = 0;
 $user = $modulo->getUser($_SESSION['email']);
 if($user['estatus_soberania'] == 'Activo'){
     $link = "neuroeducacion";
     $caption = "IA & Neuroeducación";
+    $link_aula = "aula";
 }
 if($user['verificado'] == 1){
     $verificado = 100;
@@ -312,7 +314,7 @@ if($user['verificado'] == 1){
             <a  style="text-decoration: none; color: white;" href="<?php echo base_url($link); ?>"><?php echo $caption; ?></a>            
         </div>
         <div class="aula-counter">
-            <a  style="text-decoration: none; color: white;" href="<?php echo base_url('aula'); ?>">Aula Virtual</a>            
+            <a  style="text-decoration: none; color: white;" href="<?php echo base_url($link_aula); ?>">Aula Virtual</a>            
         </div>
         <div class="user-nav">
             <span class="udv-counter"><?php echo $user['total_udv_acumuladas']; ?> UDV</span>

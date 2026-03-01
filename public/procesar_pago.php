@@ -58,10 +58,23 @@ try {
         );
         
         if (!$check) {
-            // Buscamos al evolucionador por su email para obtener su ID
+                                                                                                                                                                                                                                                                                             // Buscamos al evolucionador por su email para obtener su ID
+            // PRIORIDAD: Si hay un client_reference_id (tarjeta de regalo), buscamos el email del destinatario original
+            $email_final = $email_usuario;
+            if ($client_reference_id) {
+                $tarjeta = $db->row_sqlconector(
+                    "SELECT destinatario_email FROM tarjetas_regalo WHERE codigo = ?",
+                    [$client_reference_id]
+                );
+                if ($tarjeta) {
+                    $email_final = $tarjeta['destinatario_email'];
+                    error_log("\n[PROCESAR_PAGO] Detectada tarjeta de regalo - Usando email destinatario: $email_final (Payer: $email_usuario)", 3, Modulo::LOG_PATH);
+                }
+            }
+
             $user = $db->row_sqlconector(
                 "SELECT id_evolucionador FROM evolucionadores WHERE email_verificado = ?", 
-                [$email_usuario]
+                [$email_final]
             );
 
             if ($user) {

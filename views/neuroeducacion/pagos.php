@@ -307,7 +307,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2>Acceso al Nodo</h2>
             <div class="price-tag">750.00 <span>USD</span></div>
             <p style="font-size: 0.8rem; color: #888; margin-bottom: 30px;">
-                Cuota única de inscripción para el Diplomado en Neuroeducación.
+                Pago Unico para ser parte de la Primera Universidad Digital 100% de Habla Hispana en el Mundo.
             </p>
 
             <?php if (isset($error_mensaje)): ?>

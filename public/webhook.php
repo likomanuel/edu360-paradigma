@@ -73,7 +73,7 @@ switch ($event->type) {
         $client_reference_id = $session->client_reference_id ?? null;
         
         if ($email_usuario) {
-            activarNodoSoberano($db, $email_usuario, $session_id, $monto, $moneda);
+            activarNodoSoberano($db, $email_usuario, $session_id, $monto, $moneda, $client_reference_id);
             
             if ($client_reference_id) {
                 // Si viene de una tarjeta de regalo, marcarla como reclamada
@@ -111,8 +111,9 @@ http_response_code(200);
  * @param string $session_id ID de sesión de Stripe
  * @param float $monto Monto del pago
  * @param string $moneda Moneda del pago
+ * @param string|null $client_reference_id Código de la tarjeta de regalo
  */
-function activarNodoSoberano($db, $email, $session_id, $monto, $moneda = 'USD') {
+function activarNodoSoberano($db, $email, $session_id, $monto, $moneda = 'USD', $client_reference_id = null) {
     try {
         // 1. Verificar si ya existe para evitar duplicados
         $check = $db->row_sqlconector(
@@ -122,9 +123,22 @@ function activarNodoSoberano($db, $email, $session_id, $monto, $moneda = 'USD') 
         
         if (!$check) {
             // 2. Buscar ID del Evolucionador
+            // PRIORIDAD: Si hay un client_reference_id, buscamos el email del destinatario en la tabla de tarjetas
+            $email_final = $email;
+            if ($client_reference_id) {
+                $tarjeta = $db->row_sqlconector(
+                    "SELECT destinatario_email FROM tarjetas_regalo WHERE codigo = ?",
+                    [$client_reference_id]
+                );
+                if ($tarjeta) {
+                    $email_final = $tarjeta['destinatario_email'];
+                    error_log("\n[WEBHOOK] Detectada tarjeta de regalo - Usando email destinatario: $email_final (Payer: $email)", 3, Modulo::LOG_PATH);
+                }
+            }
+
             $user = $db->row_sqlconector(
                 "SELECT id_evolucionador FROM evolucionadores WHERE email_verificado = ?",
-                [$email]
+                [$email_final]
             );
 
             if ($user) {
