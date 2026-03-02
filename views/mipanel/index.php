@@ -302,6 +302,52 @@ if($user['verificado'] == 1){
             font-weight: 800;
             text-transform: uppercase;
         }
+
+        /* --- BOTON VALIDATE ESPECTACULAR --- */
+        .btn-validate {
+            background: linear-gradient(135deg, #00a8e8 0%, #00ff88 100%);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0, 168, 232, 0.3);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-validate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-validate:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-validate:hover::before {
+            left: 100%;
+        }
+
+        .btn-validate i {
+            font-size: 1.1rem;
+        }
     </style>
 <body>
 
@@ -367,8 +413,10 @@ if($user['verificado'] == 1){
             <div class="evolution-item">
                 <div class="evolution-icon"><i class="fas fa-user-shield"></i></div>
                 <div class="evolution-info">
-                    <h4>Verificación de Identidad 
-                        <span style="color: var(--text-muted); font-size: 0.7rem; cursor: pointer; border-bottom: 1px solid var(--text-muted);" onclick="verificarIdentidad('<?php if($user['verificado'] == 0){ echo $user['hash_identidad']; }else{echo 'verificado';}?>')">Verificar</span></h4>
+                    <h4>Verificación de Identidad</h4>
+                    <button class="btn-validate" onclick="verificarIdentidad('<?php if($user['verificado'] == 0){ echo $user['hash_identidad']; }else{echo 'verificado';}?>')">
+                        <i class="ri-shield-check-fill"></i> VALIDATE AQUÍ...
+                    </button>
                     <div class="progress-bar"><div class="progress-fill" style="width: <?php echo $verificado; ?>%;"></div></div>
                     <small style="color: var(--text-muted); font-size: 0.7rem;"><?php echo $verificado; ?>% Completado - Próximo hito: Auditoría de Jules</small>
                 </div>

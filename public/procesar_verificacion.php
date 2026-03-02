@@ -122,7 +122,7 @@ try {
     if (isset($aiResponse['verificado']) && $aiResponse['verificado']) {
         $pdo = $modulo->getDb()->getConnection();
         $updateSql = "UPDATE evolucionadores 
-                      SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 3,
+                      SET verificado = 1, total_udv_acumuladas = total_udv_acumuladas + 0.2,
                           ciudad = :ciudad, profesion = :profesion, empresa = :empresa, red_social = :red_social
                       WHERE email_verificado = :email";
         $stmt = $pdo->prepare($updateSql);
@@ -136,7 +136,7 @@ try {
         
         echo json_encode([
             'success' => true,
-            'message' => 'Identidad verificada con éxito. Se han otorgado 3 UDV.',
+            'message' => 'Identidad verificada con éxito. Se han otorgado 0.2 UDV.',
             'ia_report' => $aiResponse
         ]);
     } else {
