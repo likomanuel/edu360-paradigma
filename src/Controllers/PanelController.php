@@ -28,6 +28,9 @@ class PanelController
 
     private function checkAndGenerateCertificate($user)
     {
+        // Solo generar si el usuario está verificado
+        if ((int)($user['verificado'] ?? 0) !== 1) return;
+
         $id_evolucionador = $user['id_evolucionador'];
         
         // 1. Obtener el nodo activo actual (incluyendo la nueva bandera)

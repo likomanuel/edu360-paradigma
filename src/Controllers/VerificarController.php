@@ -26,7 +26,7 @@ class VerificarController
 
         if (!empty($search)) {
             // Buscar por hash_identidad o email_verificado
-            $sql = "SELECT id_evolucionador, hash_identidad, nombre_completo, email_verificado, foto, ciudad, profesion, empresa, red_social
+            $sql = "SELECT id_evolucionador, hash_identidad, nombre_completo, email_verificado, foto, ciudad, profesion, empresa, red_social, verificado
                     FROM evolucionadores 
                     WHERE hash_identidad = '$search' OR email_verificado = '$search' 
                     LIMIT 1";

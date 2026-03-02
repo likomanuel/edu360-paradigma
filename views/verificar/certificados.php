@@ -31,7 +31,18 @@
                 </div>
 
                 <div class="user-details">
-                    <h3 style="margin: 0; font-size: clamp(1.2rem, 4vw, 2rem); color: #fff; font-weight: 700; letter-spacing: -0.5px;"><?= htmlspecialchars($user['nombre_completo']) ?></h3>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px;">
+                        <h3 style="margin: 0; font-size: clamp(1.2rem, 4vw, 2rem); color: #fff; font-weight: 700; letter-spacing: -0.5px;"><?= htmlspecialchars($user['nombre_completo']) ?></h3>
+                        <?php if ($user['verificado'] == 1): ?>
+                            <span style="background: rgba(0, 255, 136, 0.1); color: #0f8; font-size: 0.65rem; padding: 4px 10px; border: 1px solid rgba(0, 255, 136, 0.2); border-radius: 20px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-check-circle"></i> IDENTIDAD VERIFICADA
+                            </span>
+                        <?php else: ?>
+                            <span style="background: rgba(255, 71, 87, 0.1); color: #ff4757; font-size: 0.65rem; padding: 4px 10px; border: 1px solid rgba(255, 71, 87, 0.2); border-radius: 20px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-exclamation-triangle"></i> IDENTIDAD NO VERIFICADA
+                            </span>
+                        <?php endif; ?>
+                    </div>
                     <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 20px;">
                         <div style="display: flex; flex-direction: column;">
                             <span style="font-size: 0.7rem; color: #666; text-transform: uppercase; font-weight: 600; letter-spacing: 1px;">ID Hash Paradigma</span>
