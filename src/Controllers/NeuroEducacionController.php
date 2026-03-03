@@ -111,6 +111,7 @@ class NeuroEducacionController
             }
 
             $results[] = [
+                'id' => $meta['id'],
                 'meta' => $meta['meta'],
                 'descripcion' => $meta['descripcion'],
                 'objetivo' => $meta['objetivo'],
@@ -125,13 +126,31 @@ class NeuroEducacionController
         return $results;
     }
 
+    public function getFullHistorial($id_evolucionador, $id_meta = null)
+    {
+        $id_evolucionador = (int)$id_evolucionador;
+        $where = "WHERE id_evolucionador = $id_evolucionador";
+        
+        if ($id_meta) {
+            $id_meta = (int)$id_meta;
+            $where .= " AND id_artefacto_meta = $id_meta";
+        }
+
+        $sql = "SELECT c.*, m.meta as meta_nombre 
+                FROM chat_auditoria_log c
+                LEFT JOIN artefactos_metas m ON c.id_artefacto_meta = m.id
+                $where 
+                ORDER BY c.created_at ASC";
+        return $this->db->array_sqlconector($sql) ?? [];
+    }
+
     public function procesarAuditoria($id_evolucionador, $mensajeUsuario)
     {
         $gemini = new \App\Services\GeminiService();
         
         // 1. Obtener contexto de la meta activa
-        $sqlNodo = "SELECT id_artefacto FROM nodos_activos WHERE id_evolucionador = $id_evolucionador AND estatus = 'Activado' LIMIT 1";
-        $nodo = $this->db->row_sqlconector($sqlNodo);
+        $sqlCheck = "SELECT COALESCE(id_artefacto, 1) as id_artefacto FROM nodos_activos WHERE id_evolucionador = $id_evolucionador AND estatus = 'Activado' LIMIT 1";
+        $nodo = $this->db->row_sqlconector($sqlCheck);
         if (!$nodo) return ['error' => 'No hay nodo activo'];
         $id_artefacto = $nodo['id_artefacto'];
 
