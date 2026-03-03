@@ -45,13 +45,14 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="password" name="password" class="login-input" placeholder="Contraseña de acceso" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword" style="position: absolute; right: 15px !important; left: auto !important; top: 50% !important; transform: translateY(-50%) !important; cursor: pointer; color: #888; z-index: 10;"></i>
                     </div>
 
                     <div class="login-options">
                         <label class="remember-me">
                             <input type="checkbox" name="remember"> Recordar dispositivo
                         </label>
-                        <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
+                        <a href="javascript:void(0)" class="forgot-link" onclick="handleForgotPassword()">¿Olvidó su contraseña?</a>
                     </div>
 
                     <button type="submit" class="btn-login">
@@ -168,6 +169,163 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                     Swal.fire('Error', 'Fallo al verificar el código', 'error');
                 });
             }
+
+            async function handleForgotPassword() {
+                const { value: email } = await Swal.fire({
+                    title: 'Recuperar Acceso',
+                    text: 'Ingrese su correo electrónico vinculado',
+                    input: 'email',
+                    inputPlaceholder: 'correo@ejemplo.com',
+                    showCancelButton: true,
+                    confirmButtonText: 'Enviar Código',
+                    background: '#0a0a0a',
+                    color: '#fff',
+                    inputAttributes: {
+                        style: 'background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;'
+                    }
+                });
+
+                if (!email) return;
+
+                Swal.fire({
+                    title: 'Procesando Solicitud',
+                    didOpen: () => { Swal.showLoading(); }
+                });
+
+                // Paso 1: Enviar código
+                try {
+                    const response = await fetch('<?php echo base_url('/public/servermail.php'); ?>', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            'getcodemail': 1,
+                            'email': email,
+                            'type': 'forgot'
+                        })
+                    });
+                    const data = await response.json();
+
+                    if (data.status !== 1) {
+                        return Swal.fire('Error', data.message, 'error');
+                    }
+
+                    // Paso 2: Verificar código
+                    const { value: verificationCode } = await Swal.fire({
+                        title: 'Código de Seguridad',
+                        html: `
+                            <p style="color: #888;">Hemos enviado un código a <b>${email}</b></p>
+                            <input type="text" id="reset_code" class="swal2-input" placeholder="000000" maxlength="6" style="text-align: center; font-size: 2rem; letter-spacing: 10px; background: rgba(0,0,0,0.5); color: #00ff88; border: 1px solid #333;">
+                        `,
+                        confirmButtonText: 'Verificar Identidad',
+                        showCancelButton: true,
+                        background: '#0a0a0a',
+                        color: '#fff',
+                        preConfirm: () => {
+                            const code = document.getElementById('reset_code').value;
+                            if (code.length !== 6) Swal.showValidationMessage('Ingrese el código de 6 dígitos');
+                            return code;
+                        }
+                    });
+
+                    if (!verificationCode) return;
+
+                    Swal.fire({
+                        title: 'Verificando...',
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+
+                    const verifyRes = await fetch('<?php echo base_url('/public/servermail.php'); ?>', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            'verifycode': 1,
+                            'email': email,
+                            'codigo': verificationCode
+                        })
+                    });
+                    const verifyData = await verifyRes.json();
+
+                    if (verifyData.status !== 1) {
+                        return Swal.fire('Error', 'Código inválido o expirado', 'error');
+                    }
+
+                    // Paso 3: Nueva contraseña
+                    const { value: passwords } = await Swal.fire({
+                        title: 'Restablecer Contraseña',
+                        html: `
+                            <div style="position: relative; margin-bottom: 20px;">
+                                <input type="password" id="new_pw" class="swal2-input" placeholder="Nueva contraseña" style="width: 80%;">
+                                <i class="fas fa-eye" onclick="toggleResetPw('new_pw')" style="position: absolute; right: 15%; top: 25px; cursor: pointer; color: #888;"></i>
+                            </div>
+                            <div style="position: relative;">
+                                <input type="password" id="new_pw_rep" class="swal2-input" placeholder="Repetir contraseña" style="width: 80%;">
+                                <i class="fas fa-eye" onclick="toggleResetPw('new_pw_rep')" style="position: absolute; right: 15%; top: 25px; cursor: pointer; color: #888;"></i>
+                            </div>
+                        `,
+                        confirmButtonText: 'Actualizar Contraseña',
+                        showCancelButton: true,
+                        background: '#0a0a0a',
+                        color: '#fff',
+                        preConfirm: () => {
+                            const p1 = document.getElementById('new_pw').value;
+                            const p2 = document.getElementById('new_pw_rep').value;
+                            if (p1.length < 8) return Swal.showValidationMessage('Mínimo 8 caracteres');
+                            if (p1 !== p2) return Swal.showValidationMessage('Las contraseñas no coinciden');
+                            return p1;
+                        }
+                    });
+
+                    if (!passwords) return;
+
+                    Swal.fire({
+                        title: 'Actualizando...',
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+
+                    const resetRes = await fetch('<?php echo base_url('/public/servermail.php'); ?>', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            'resetpassword': 1,
+                            'email': email,
+                            'password': passwords,
+                            'codigo': verificationCode
+                        })
+                    });
+                    const resetData = await resetRes.json();
+
+                    if (resetData.status === 1) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Contraseña Actualizada',
+                            text: 'Ahora puede iniciar sesión con su nueva clave',
+                            background: '#0a0a0a',
+                            color: '#fff'
+                        });
+                    } else {
+                        Swal.fire('Error', resetData.message, 'error');
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire('Error', 'Fallo en la comunicación con el sistema', 'error');
+                }
+            }
+
+            function toggleResetPw(id) {
+                const input = document.getElementById(id);
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                event.target.classList.toggle('fa-eye-slash');
+            }
+
+            const togglePassword = document.querySelector('#togglePassword');
+            const password = document.querySelector('#password');
+
+            togglePassword.addEventListener('click', function (e) {
+                // toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                // toggle the eye slash icon
+                this.classList.toggle('fa-eye-slash');
+            });
         </script>
 
 

@@ -278,12 +278,12 @@ require_once __DIR__ . '/../../views/layouts/header.php';
             </div>
             <div class="beta-counter-box">
                 <div class="counter-display">
-                    <span id="beta-count"><?php echo $sum_tipo_nodo; ?></span><span class="total">/500</span>
+                    <span id="beta-count"><?php echo (int)($sum_tipo_nodo ?? 0); ?></span><span class="total">/500</span>
                 </div>
                 <div class="progress-container">
                     <div class="progress-bar" style="width: 0%" data-target="<?php echo ($sum_tipo_nodo / 500) * 100; ?>%"></div>
                 </div>
-                <p class="remaining">¡Solo quedan <?php echo 500 - $sum_tipo_nodo; ?> cupos!</p>
+                <p class="remaining">¡Solo quedan <?php echo 500 - (int)($sum_tipo_nodo ?? 0); ?> cupos!</p>
             </div>
         </div>
     </section>

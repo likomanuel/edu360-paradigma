@@ -206,6 +206,18 @@ class Modulo
         return true;
     }
 
+    public function updatePassword($email, $newPassword): bool
+    {
+        $encryptedPassword = $this->encryptApiKey($newPassword, self::ENCRYPTION_KEY);
+        $sql = "UPDATE evolucionadores SET password = '$encryptedPassword' WHERE email_verificado = '$email'";
+        $result = $this->db->sqlconector($sql);
+        if (!$result) {
+            error_log("\nError: Fallo al actualizar contraseña para usuario: " . $email, 3, self::LOG_PATH);
+            return false;
+        }
+        return true;
+    }
+
     public function getPassword($usuario):string
     {        
         $row = $this->db->row_sqlconector("select password from evolucionadores where email_verificado='$usuario'");

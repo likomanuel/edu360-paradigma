@@ -65,13 +65,15 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                         <label>Email Institucional / Soberano</label>
                     </div>
 
-                    <div class="input-box">
+                    <div class="input-box" style="position: relative;">
                         <input minlength="8" type="password" id="password" name="password" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword" style="position: absolute; right: 10px !important; top: 50% !important; transform: translateY(-50%) !important; cursor: pointer; color: #888; z-index: 10;"></i>
                         <label>Contraseña</label>
                     </div>
 
-                    <div class="input-box">
+                    <div class="input-box" style="position: relative;">
                         <input minlength="8" type="password" id="password_repeat" name="password_repeat" required onblur="validatePassword()">
+                        <i class="fas fa-eye toggle-password" id="togglePasswordRepeat" style="position: absolute; right: 10px !important; top: 50% !important; transform: translateY(-50%) !important; cursor: pointer; color: #888; z-index: 10;"></i>
                         <label>Repetir Contraseña</label>
                     </div>
 
@@ -231,6 +233,23 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
             });
         }
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordInput = document.querySelector('#password');
+        const togglePasswordRepeat = document.querySelector('#togglePasswordRepeat');
+        const passwordRepeatInput = document.querySelector('#password_repeat');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        togglePasswordRepeat.addEventListener('click', function() {
+            const type = passwordRepeatInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordRepeatInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
 
     </script>
 
